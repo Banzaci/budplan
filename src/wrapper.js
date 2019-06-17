@@ -1,18 +1,31 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { View, Text } from 'react-native';
 import styled from 'styled-components';
-import InputDayBalance from './modules/InputDayBalance'
+import { connect } from 'react-redux';
+import InputDayBalance from './modules/InputDayBalance';
+import { saveAmount } from './redux/actions/yesterday';
 
-export default function Wrapper() {
-  const onAmountSet = amount => {
-    console.log(amount)
+class Wrapper extends Component {
+  
+  state = {
+    amount: 0
+  }
+  onAmountSet = amount => {
+    // this.setState({ amount })
+    this.props.save( amount )
   };
-  return (
-    <Container>
-      <InputDayBalance
-        onAmountSet={ onAmountSet }
-      />
-    </Container>
-  );
+
+  render() {
+    console.log('props', this.props)
+    return (
+      <Container>
+        <View><Text>{ this.props.amount }</Text></View>
+        <InputDayBalance
+          onAmountSet={ this.onAmountSet }
+        />
+      </Container>
+    );
+  }
 }
 
 const Container = styled.View`
@@ -21,3 +34,21 @@ const Container = styled.View`
   padding: 20px;
   background-color: papayawhip;
 `;
+
+const mapStateToProps = ({ reducers }) => {
+  const { yesterday } = reducers
+  console.log('yesterday', yesterday)
+  return {
+    amount: yesterday.amount
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    save: (amount) => {
+      dispatch(saveAmount(amount))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Wrapper)
