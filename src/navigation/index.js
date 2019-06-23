@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Dimensions, StatusBar } from 'react-native';
 import { TabView, SceneMap, TabBar, Icon } from 'react-native-tab-view'; 
 
-import Wrapper from '../wrapper';
+import FirstPage from '../tabs/first-page';
 
 const FirstRoute = () => (
-  <Wrapper />
+  <FirstPage />
 );
 
 const SecondRoute = () => (

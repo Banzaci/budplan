@@ -3,33 +3,30 @@ import styled from 'styled-components';
 import Input from '../components/Input'
 import Button from '../components/Button'
 
-export default function InputDayBalance({ onAmountSet }) {
+export default function InputDayBalance({ onAmountSet, day, balance, currentDay }) {
 
   const [ amount, setAmount ] = useState(0);
 
   const onChange = ({ number }) => {
     setAmount(number)
   };
+
   const onPress = evt => {
     onAmountSet(amount)
   };
+
   return (
     <Container>
       <Input
+        currentDay={ currentDay }
+        labelText={ day }
         onChange={ onChange }
-        labelText="Gårdagens utgifter"
-        placeholder="Skriv in belopp"
-
-      />
-      <Button
-        title="Lägg till"
-        onPress={ onPress }
+        placeholder={ balance }
       />
     </Container>
   );
-  }
+}
 
-  const Container = styled.View`
-    height: 100%;
-    width: 100%;
-  `;
+const Container = styled.View`
+  margin-bottom: 10px;
+`;

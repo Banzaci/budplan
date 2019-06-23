@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import yesterday from './yesterday';
+import spendning from './spendning';
 
 export default combineReducers({
-    yesterday,
+    spendning,
   });
