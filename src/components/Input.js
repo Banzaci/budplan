@@ -5,7 +5,7 @@ export default function Input({ placeholder, labelText, onChange, disabled, curr
   const isBeforeCurrentDay = currentDay > labelText;
   const isCurrentDay = currentDay === labelText;
   const isAfterCurrentDay = currentDay < labelText;
-  const before = {...(isBeforeCurrentDay && { style: { height: 130, backgroundColor: 'red' }} )};
+  const before = {...(isBeforeCurrentDay && { style: { backgroundColor: 'red' }} )};
   const today = {...(isCurrentDay && { style: { height: 130, fontSize: 48 }} )};
   const after = {...(isAfterCurrentDay && { editable: false, style: { backgroundColor: 'grey' } } )};
   return (
