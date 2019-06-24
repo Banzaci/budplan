@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Block from '../components/Block'
 
-export default function TopBlock({ amount = 0 }) {
+export default function Vision({ amount = 0 }) {
   return (
     <Container>
       <Block

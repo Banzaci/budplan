@@ -4,20 +4,24 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import InputDayBalance from '../modules/InputDayBalance';
 import Information from '../modules/Information';
-import Goal from '../modules/Goal';
+import Vision from '../modules/Vision';
 import { saveAmount, getThisMonth } from '../redux/actions/spendning';
 
 class Wrapper extends Component {
 
   state = {
-    currentMonth: {}
+    currentMonth: {},
+    totalAmountSpent: 0,
+    averageAmountSpent: 0,
   }
 
   componentDidMount(){
     const { currentMonth, currentDay } = this.props.dispatch(getThisMonth())
     this.setState({
       currentMonth,
-      currentDay
+      currentDay,
+      totalAmountSpent: 1000,
+      averageAmountSpent: 120,
     })
   }
  
@@ -44,8 +48,12 @@ class Wrapper extends Component {
   render() {
     return (
       <Container>
-        <Information onClick={ this.onClick } />
-        <Goal />
+        <Information
+          totalAmountSpent={ this.state.totalAmountSpent }
+          averageAmountSpent={ this.state.averageAmountSpent }
+          onClick={ this.onClick }
+        />
+        <Vision />
         <ScrollView>
           { this.renderMonthlySpending() }
         </ScrollView>
