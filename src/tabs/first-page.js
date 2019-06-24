@@ -3,6 +3,8 @@ import { View, Text, ScrollView } from 'react-native';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import InputDayBalance from '../modules/InputDayBalance';
+import Information from '../modules/Information';
+import Goal from '../modules/Goal';
 import { saveAmount, getThisMonth } from '../redux/actions/spendning';
 
 class Wrapper extends Component {
@@ -35,13 +37,15 @@ class Wrapper extends Component {
     </View> )
   }
 
+  onClick = (action) => {
+    console.log(action)
+  }
+
   render() {
     return (
       <Container>
-        <View>+/- +200kr</View>
-        <View>Average day spending: 120kr</View>
-        <View>Spent so far: 2000kr</View>
-        <View>Money to goal: 23.500kr</View>
+        <Information onClick={ this.onClick } />
+        <Goal />
         <ScrollView>
           { this.renderMonthlySpending() }
         </ScrollView>
