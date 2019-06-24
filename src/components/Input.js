@@ -1,29 +1,44 @@
 import React from 'react';
 import styled from 'styled-components';
+import { View, StyleSheet, Dimensions, StatusBar } from 'react-native';
 
 export default function Input({ placeholder, labelText, onChange, disabled, currentDay }) {
   const isBeforeCurrentDay = currentDay > labelText;
   const isCurrentDay = currentDay === labelText;
   const isAfterCurrentDay = currentDay < labelText;
-  const before = {...(isBeforeCurrentDay && { style: { backgroundColor: 'red' }} )};
-  const today = {...(isCurrentDay && { style: { height: 130, fontSize: 48 }} )};
-  const after = {...(isAfterCurrentDay && { editable: false, style: { backgroundColor: 'grey' } } )};
+  
+  const boxShadow = {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+  }
+
   return (
     <Container
-      { ...before }
-      { ...after }
+      {...(isCurrentDay && { style: boxShadow } )}
     >
-      <Label>{ labelText }</Label>
+      <Label
+        {...(isBeforeCurrentDay && { style: { color: '#eee' }} )}
+        {...(isCurrentDay && { style: { fontSize: 48 }} )}
+      >
+        { labelText }
+      </Label>
       <TextInput
-        { ...today }
-        { ...after }
+        {...(isBeforeCurrentDay && { placeholderTextColor: '#eee' })}
+        {...(isCurrentDay && { style: { height: 130, fontSize: 48 }} )}
+        {...(isAfterCurrentDay && { editable: false, style: { color: '#fff', backgroundColor: '#eee' } } )}
         placeholder={ placeholder }
         onChangeText={ number => onChange({ number }) }
       />
     </Container>
   );
 }
-// style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+
 const Container = styled.View`
   display: flex;
   flex-direction: row;

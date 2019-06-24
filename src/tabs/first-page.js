@@ -18,12 +18,7 @@ class Wrapper extends Component {
       currentDay
     })
   }
-
-  forwardRef = () => React.forwardRef((props, ref) => {
-    return <InputDayBalance
-    {...props} forwardedRef={ ref } />;
-  });
-  
+ 
   onAmountSet = amount => {
     this.props.save( amount )
   };
@@ -40,14 +35,14 @@ class Wrapper extends Component {
     </View> )
   }
 
-  setScrollViewRef = element => {}
-
   render() {
     return (
       <Container>
-        <ScrollView
-          ref={ this.state.ref }
-        >
+        <View>+/- +200kr</View>
+        <View>Average day spending: 120kr</View>
+        <View>Spent so far: 2000kr</View>
+        <View>Money to goal: 23.500kr</View>
+        <ScrollView>
           { this.renderMonthlySpending() }
         </ScrollView>
       </Container>
@@ -58,8 +53,7 @@ class Wrapper extends Component {
 const Container = styled.SafeAreaView`
   height: 100%;
   width: 100%;
-  padding-top: 20px;
-  background-color: papayawhip;
+  padding: 20px 0;
 `;
 
 const mapStateToProps = ({ reducers }) => {
