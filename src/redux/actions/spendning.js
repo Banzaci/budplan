@@ -42,7 +42,7 @@ const dbMocked =
 
 const getData = month => dbMocked[month];
 
-export function saveAmount(amount) {
+export function saveAmount({ day, amount }) {
 
     return {
         type: SAVE,
