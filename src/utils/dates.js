@@ -1,8 +1,17 @@
 import moment from 'moment';
 
+const now = moment().format('YYYY-MM-DD');
+
 export const daysInMonth = () => moment().daysInMonth()
-export const currentDay = () => moment().format('DD')
-export const getCurrentYearAndMonth = () => moment().format('YYYY-MM')
+
+export const getCurrentYearAndMonth = () => {
+    const [yr, month, day] = now.split('-')
+    return {
+        yr,
+        month,
+        day
+    }
+}
 
 export const averagePricePerDayAMonth = amount => {
     const dim = daysInMonth();
