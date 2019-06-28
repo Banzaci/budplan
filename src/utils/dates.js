@@ -4,7 +4,7 @@ const now = moment().format('YYYY-MM-DD');
 
 export const daysInMonth = () => moment().daysInMonth()
 
-export const getCurrentYearAndMonth = () => {
+export const getCurrentDate = () => {
     const [yr, month, day] = now.split('-')
     return {
         yr,
