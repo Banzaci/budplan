@@ -5,11 +5,16 @@ const now = moment().format('YYYY-MM-DD');
 export const daysInMonth = () => moment().daysInMonth()
 
 export const getCurrentDate = () => {
-    const [yr, month, day] = now.split('-')
+    const [
+        currentYr,
+        currentMonth,
+        currentDay
+    ] = now.split('-')
+    
     return {
-        yr,
-        month,
-        day
+        currentYr,
+        currentMonth,
+        currentDay
     }
 }
 

@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { View, StyleSheet, Dimensions, StatusBar } from 'react-native';
 
-export default function Input({ placeholder, labelText, onChange, disabled, currentDay }) {
-  const isBeforeCurrentDay = currentDay > labelText;
-  const isCurrentDay = currentDay === labelText;
-  const isAfterCurrentDay = currentDay < labelText;
+export default function Input({ placeholder, day, onChange, disabled, currentDay }) {
+  const isBeforeCurrentDay = currentDay > day;
+  const isCurrentDay = currentDay === day;
+  const isAfterCurrentDay = currentDay < day;
   
   const boxShadow = {
     shadowColor: '#000',
@@ -26,14 +26,14 @@ export default function Input({ placeholder, labelText, onChange, disabled, curr
         {...(isBeforeCurrentDay && { style: { color: '#eee' }} )}
         {...(isCurrentDay && { style: { fontSize: 48 }} )}
       >
-        { labelText }
+        { day }
       </Label>
       <TextInput
         {...(isBeforeCurrentDay && { placeholderTextColor: '#eee' })}
         {...(isCurrentDay && { style: { height: 130, fontSize: 48 }} )}
         {...(isAfterCurrentDay && { editable: false, style: { color: '#fff', backgroundColor: '#eee' } } )}
         placeholder={ placeholder }
-        onChangeText={ number => onChange({ number }) }
+        onChangeText={ amount => onChange({ amount, day }) }
       />
     </Container>
   );

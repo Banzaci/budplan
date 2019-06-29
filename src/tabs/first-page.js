@@ -10,33 +10,37 @@ import { saveAmount, getThisMonth } from '../redux/actions/spendning';
 class Wrapper extends Component {
 
   state = {
-    currentMonth: {},
+    monthWithAmount: {},
     totalAmountSpent: 0,
     averageAmountSpent: 0,
   }
 
-  componentDidMount(){
-    const { currentMonth, currentDay } = this.props.dispatch(getThisMonth())
+  async componentDidMount(){
+    const { currentYr, currentMonth, currentDay, monthWithAmount } = await this.props.dispatch(getThisMonth())
     this.setState({
+      currentYr,
       currentMonth,
       currentDay,
+      monthWithAmount,
       totalAmountSpent: 1000,
       averageAmountSpent: 120,
     })
   }
  
-  onAmountSet = amount => {
-    this.props.save( amount )
+  onAmountChange = ({ day, amount }) => {
+    const { currentYr, currentMonth } = this.state;
+    this.props.save({ currentYr, currentMonth, day, amount })
   };
 
   renderMonthlySpending = () => {
-    const { currentMonth, currentDay } = this.state;
-    const days = Object.keys(currentMonth).sort();
+    const { monthWithAmount, currentDay } = this.state;
+    const days = Object.keys(monthWithAmount).sort();
     return days.map( (day, index) => <View key={ index }>
       <InputDayBalance
+        onAmountChange={ this.onAmountChange }
         currentDay={ currentDay }
         day={ day.toString() }
-        balance={ currentMonth[day].amountSpent.toString() }
+        amount={ monthWithAmount[day].amountSpent.toString() }
       />
     </View> )
   }
@@ -78,8 +82,8 @@ const mapStateToProps = ({ reducers }) => {
 const mapDispatchToProps = dispatch => {
   return {
     dispatch,
-    save: (amount) => {
-      dispatch(saveAmount(amount))
+    save: (data) => {
+      dispatch(saveAmount(data))
     }
   }
 }

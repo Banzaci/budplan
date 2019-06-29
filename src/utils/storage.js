@@ -1,29 +1,48 @@
 import { AsyncStorage } from 'react-native';
 
-export const save = async ({ yr, month, day, amount }) => {
+const dbMocked = {}
+
+const getDataByYr = async yr => await dbMocked[yr];
+const saveDataByYr = ( currentYr, data, month ) => {
+    dbMocked[currentYr] = { ...data, ...month }
+    return dbMocked
+};
+
+export const save = async ({ currentYr, currentMonth, day, amount }) => {
   try {
-    const key = {
-      [yr]: {
-        [month]: {
-          [day]: {
-            amount
-          }
-        }
+    const data = await getDataByYr(currentYr) || {};
+    const month = data[currentMonth] || {};
+    const a = {
+      
+      [currentMonth]: {
+        ...month,
+        [day]: amount
       }
-    }
-    return await AsyncStorage.setItem(key, JSON.stringify(item));
+    };
+    console.log(saveDataByYr(currentYr, data, a))
+    return {};
   } catch (error) {
-    console.log('Error')
+    console.log(error)
+    return {
+      data: [],
+      error
+    }
   }
 }
 
-export const get = async (key) => {
+export const get = async ({ currentYr, currentMonth, currentDay }) => {
   try {
-    const retrievedItem =  await AsyncStorage.getItem(key);
-      const item = JSON.parse(retrievedItem);
-    return item;
+    const data = await getDataByYr(currentYr);
+    return {
+      data: data ? data : [],
+      ...{ currentYr, currentMonth, currentDay }
+    };
+
   } catch (error) {
-    console.log('Error')
+    return {
+      data: [],
+      error
+    }
   }
 }
 

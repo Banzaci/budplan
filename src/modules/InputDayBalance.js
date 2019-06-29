@@ -2,25 +2,19 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Input from '../components/Input'
 
-export default function InputDayBalance({ onAmountSet, day, balance, currentDay }) {
+export default function InputDayBalance({ onAmountChange, amount, currentDay, day }) {
 
-  const [ amount, setAmount ] = useState(0);
-
-  const onChange = ({ number }) => {
-    setAmount(number)
-  };
-
-  const onPress = evt => {
-    onAmountSet(amount)
+  const onChange = ({ amount, day }) => {
+    onAmountChange({ amount, day })
   };
 
   return (
     <Container>
       <Input
-        currentDay={ currentDay }
-        labelText={ day }
         onChange={ onChange }
-        placeholder={ balance }
+        placeholder={ amount }
+        currentDay={ currentDay }
+        day={ day }
       />
     </Container>
   );

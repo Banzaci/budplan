@@ -1,4 +1,4 @@
-import { GET, SAVE } from '../actions/spendning';
+import { SAVE_AMOUNT, FETCH_SUCCESS } from '../actions/spendning';
 
 const INITIAL_STATE = {
     currentMonth: {},
@@ -7,9 +7,16 @@ const INITIAL_STATE = {
 
 export default function reducer(state = INITIAL_STATE, action) {
     switch ( action.type ) {
-        case GET:
-            return { ...state, currentMonth: action.currentMonth };
-        case SAVE:
+        case FETCH_SUCCESS:
+            const { yr, month, day, monthWithAmount } = action;
+            return {
+                ...state,
+                monthWithAmount,
+                yr,
+                day,
+                month
+            };
+        case SAVE_AMOUNT:
             return { ...state, amount: action.amount };
         default:
             return state;
