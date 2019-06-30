@@ -17,10 +17,3 @@ export const getCurrentDate = () => {
         currentDay
     }
 }
-
-export const averagePricePerDayAMonth = amount => {
-    const dim = daysInMonth();
-    const tdd = currentDay();
-    const leftDays = dim - tdd;
-    console.log(leftDays)
-}

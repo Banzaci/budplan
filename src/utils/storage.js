@@ -1,30 +1,46 @@
 import { AsyncStorage } from 'react-native';
 
-const dbMocked = {}
+const getDataByYr = async yr => {
+  try {
+    const data = await AsyncStorage.getItem(yr);
+    return data ? JSON.parse(data) : []
+  } catch (error) {
+    return error;
+  }
+};
 
-const getDataByYr = async yr => await dbMocked[yr];
-const saveDataByYr = ( currentYr, data, month ) => {
-    dbMocked[currentYr] = { ...data, ...month }
-    return dbMocked
+const getDataByMonth = (month, data) => {
+  const currentMonth = data[month]
+  if (!currentMonth) return {}
+  return currentMonth;
+}
+
+const saveDataByYr = async ( currentYr, data, month ) => {
+  try {
+    return await AsyncStorage.setItem(currentYr, JSON.stringify({ ...data, ...month }))
+  } catch (error) {
+    console.log(error)
+    return error;
+  }
 };
 
 export const save = async ({ currentYr, currentMonth, day, amount }) => {
   try {
-    const data = await getDataByYr(currentYr) || {};
-    const month = data[currentMonth] || {};
-    const a = {
-      
-      [currentMonth]: {
-        ...month,
-        [day]: amount
-      }
-    };
-    console.log(saveDataByYr(currentYr, data, a))
-    return {};
-  } catch (error) {
-    console.log(error)
+    const dataYr = await getDataByYr(currentYr);
+    const month = getDataByMonth(currentMonth, dataYr);
+    const data = { ...dataYr, ...{
+      ...month,
+      [day]: amount
+    } };
+    await saveDataByYr(currentYr, data);
     return {
-      data: [],
+      success: true,
+      data,
+    };
+  } catch (error) {
+    console.log('error', error)
+    return {
+      success: false,
       error
     }
   }
@@ -32,13 +48,15 @@ export const save = async ({ currentYr, currentMonth, day, amount }) => {
 
 export const get = async ({ currentYr, currentMonth, currentDay }) => {
   try {
+    // AsyncStorage.clear();
     const data = await getDataByYr(currentYr);
     return {
-      data: data ? data : [],
+      data,
       ...{ currentYr, currentMonth, currentDay }
     };
 
   } catch (error) {
+    console.log('error', error)
     return {
       data: [],
       error

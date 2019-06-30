@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import InputDayBalance from '../modules/InputDayBalance';
 import Information from '../modules/Information';
 import Vision from '../modules/Vision';
-import { saveAmount, getThisMonth } from '../redux/actions/spendning';
+import { saveAmount, getThisMonthAmount } from '../redux/actions/spendning';
 
 class Wrapper extends Component {
 
@@ -16,21 +16,32 @@ class Wrapper extends Component {
   }
 
   async componentDidMount(){
-    const { currentYr, currentMonth, currentDay, monthWithAmount } = await this.props.dispatch(getThisMonth())
+    const { currentYr, currentMonth, currentDay, monthWithAmount, totalAmountSpent, averageAmountSpent } = await this.props.dispatch(getThisMonthAmount())
     this.setState({
       currentYr,
       currentMonth,
       currentDay,
       monthWithAmount,
-      totalAmountSpent: 1000,
-      averageAmountSpent: 120,
+      totalAmountSpent,
+      averageAmountSpent,
     })
   }
  
   onAmountChange = ({ day, amount }) => {
     const { currentYr, currentMonth } = this.state;
     this.props.save({ currentYr, currentMonth, day, amount })
+      .then( ({ totalAmountSpent, averageAmountSpent }) => {
+        this.setState({
+          totalAmountSpent,
+          averageAmountSpent
+        })
+      })
   };
+
+  printAmount = (monthWithAmount, day) => {
+    const amount = monthWithAmount[day].amountSpent.toString()
+    return amount;
+  }
 
   renderMonthlySpending = () => {
     const { monthWithAmount, currentDay } = this.state;
@@ -40,7 +51,7 @@ class Wrapper extends Component {
         onAmountChange={ this.onAmountChange }
         currentDay={ currentDay }
         day={ day.toString() }
-        amount={ monthWithAmount[day].amountSpent.toString() }
+        amount={ this.printAmount(monthWithAmount, day) }
       />
     </View> )
   }
@@ -83,7 +94,7 @@ const mapDispatchToProps = dispatch => {
   return {
     dispatch,
     save: (data) => {
-      dispatch(saveAmount(data))
+      return dispatch(saveAmount(data))
     }
   }
 }

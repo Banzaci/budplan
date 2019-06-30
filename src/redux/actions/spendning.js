@@ -1,5 +1,6 @@
 import { daysInMonth, getCurrentDate } from '../../utils/dates'
 import { save, get } from '../../utils/storage'
+import { totalAmount } from '../../utils/amount'
 
 export const SAVE_AMOUNT = 'yesterday/SAVE_AMOUNT';
 export const GET_MONTH = 'yesterday/GET_MONTH';
@@ -27,7 +28,7 @@ function savedAmountError(error) {
 function savedAmountSuccess(data) {
     return {
         type: SAVED_AMOUNT_SUCCESS,
-        data
+        ...data
     }
 }
 
@@ -38,31 +39,27 @@ const addZeroIfNeeded = day => {
 
 const range = length => Array.from({ length }, (_, day) => addZeroIfNeeded(day + 1))
 
-const fetchMonthSuccess = ({ data, currentYr, currentMonth, currentDay }) => {
+const fetchMonthSuccess = month => {
+    const { data } = month;
     const monthWithAmount = range(daysInMonth()).reduce((acc, current) => {
-        const dayData = data[current];
-        if (dayData) {
-            return {...acc, ...{
-                [current]: dayData
-            }}
-        }
+        const dayData = data[current] || 0;
         return {...acc, ...{
             [current]: {
-                amountSpent: 0
+                amountSpent: dayData
             }
         }}
     }, []);
-    
     return {
-        type: FETCH_SUCCESS,
+        ...month,
         monthWithAmount,
-        currentYr,
-        currentMonth,
-        currentDay
+        type: FETCH_SUCCESS,
     }
 }
-
-
+function append(...args) {
+    return args.reduce((acc, current) => {
+        return { ...acc, ...current };
+    }, {});
+}
 
 export function saveAmount({ currentYr, currentMonth, day, amount }) {
     return function (dispatch){
@@ -70,20 +67,33 @@ export function saveAmount({ currentYr, currentMonth, day, amount }) {
         const request = save({ currentYr, currentMonth, day, amount });
 
         return request.then(
-            response => dispatch(savedAmountSuccess(response)),
+            response => dispatch(
+                savedAmountSuccess(
+                    append(
+                        totalAmount(response)
+                    ),
+                )
+            ),
             err => dispatch(savedAmountError(err))
         );
     }
 }
 
-export function getThisMonth() {
+export function getThisMonthAmount() {
     return function (dispatch){
         dispatch({ type: FETCH_AMOUNT })
         const { currentYr, currentMonth, currentDay } = getCurrentDate();
         const request = get({ currentYr, currentMonth, currentDay });
-
         return request.then(
-            response => dispatch(fetchMonthSuccess(response)),
+            response => {
+                return dispatch(
+                    fetchMonthSuccess(
+                        append(
+                            totalAmount(response)
+                        ),
+                    )
+                )
+            },
             err => dispatch(fetchMonthError(err))
         );
     }
