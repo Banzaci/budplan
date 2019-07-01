@@ -1,12 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export default function Information({ text='loading...' }) {
-  return (
-    <Container>
-      <Text>{ text }</Text>
-    </Container>
-  );
+
+class Loader extends Component {
+
+  state = {}
+
+  render() {
+    return (
+      <Container>
+        
+      </Container>
+    );
+  }
 }
 
 const Container = styled.View`
@@ -18,5 +24,12 @@ const Container = styled.View`
   margin: 0;
 `;
 
-const Text = styled.Text`
-`;
+const mapStateToProps = ({ reducers }) => {
+  const { profile } = reducers
+  return {
+    target: profile.target
+  }
+}
+
+
+export default connect(mapStateToProps)(Loader)
