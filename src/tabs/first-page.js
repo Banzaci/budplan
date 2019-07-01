@@ -7,7 +7,7 @@ import Information from '../modules/Information';
 import Vision from '../modules/Vision';
 import { saveAmount, getThisMonthAmount } from '../redux/actions/spendning';
 
-class Wrapper extends Component {
+class Home extends Component {
 
   state = {
     monthWithAmount: {},
@@ -99,4 +99,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Wrapper)
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

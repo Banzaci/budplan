@@ -1,4 +1,3 @@
-import { AppRegistry } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { Provider } from 'react-redux';
 import Navigation from './src/navigation/'
