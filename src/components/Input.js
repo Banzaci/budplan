@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { View, StyleSheet, Dimensions, StatusBar } from 'react-native';
 
-export default function Input({ placeholder, day, onChange, disabled, currentDay }) {
+export default function Input({ placeholder, day, onChange, currentDay, keyboardType }) {
   const isBeforeCurrentDay = currentDay > day;
   const isCurrentDay = currentDay === day;
   const isAfterCurrentDay = currentDay < day;
@@ -33,6 +32,7 @@ export default function Input({ placeholder, day, onChange, disabled, currentDay
         {...(isCurrentDay && { style: { height: 130, fontSize: 48 }} )}
         {...(isAfterCurrentDay && { editable: false, style: { color: '#fff', backgroundColor: '#eee' } } )}
         placeholder={ placeholder }
+        keyboardType={ keyboardType }
         onChangeText={ amount => onChange({ amount, day }) }
       />
     </Container>
