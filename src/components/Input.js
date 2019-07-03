@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-export default function Input({ placeholder, day, onChange, currentDay, keyboardType , error}) {
+export default function Input({ value, placeholder, day, onChange, currentDay, keyboardType , error}) {
   
   const [focus, setFocus] = useState(false)
   const isBeforeCurrentDay = currentDay > day;
@@ -44,7 +44,7 @@ export default function Input({ placeholder, day, onChange, currentDay, keyboard
         {...(isBeforeCurrentDay && { placeholderTextColor: '#eee' })}
         {...(isCurrentDay && { style: { height: 130, fontSize: 48 }} )}
         {...(isAfterCurrentDay && { editable: false, style: { color: '#fff', backgroundColor: '#eee' } } )}
-        placeholder={ placeholder }
+        {...(value ? { value } : placeholder )}
         keyboardType={ keyboardType }
         clearTextOnFocus={ true }
         onFocus={ onFocus }
@@ -61,7 +61,7 @@ const Container = styled.View`
   align-items: center;
   justify-content: center;
   background-color: white;
-  width: 50%;
+  width: 100%;
   margin: 0 auto;
   border-radius: 12px;
 `;

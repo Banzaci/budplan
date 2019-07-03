@@ -29,13 +29,16 @@ export const save = async ({ currentYr, currentMonth, day, amount }) => {
     const dataYr = await getDataByYr(currentYr);
     const month = getDataByMonth(currentMonth, dataYr);
     const data = { ...dataYr, ...{
-      ...month,
-      [day]: amount
+      [currentMonth]: {
+        ...month,
+        [day]: amount
+      }
     } };
     await saveDataByYr(currentYr, data);
     return {
       success: true,
-      data,
+      data: (data && data[currentMonth]) ? data[currentMonth] : [],
+      ...{ currentYr, currentMonth }
     };
   } catch (error) {
     console.log('error', error)
@@ -51,7 +54,7 @@ export const get = async ({ currentYr, currentMonth, currentDay }) => {
     // AsyncStorage.clear();
     const data = await getDataByYr(currentYr);
     return {
-      data,
+      data: (data && data[currentMonth]) ? data[currentMonth] : [],
       ...{ currentYr, currentMonth, currentDay }
     };
 

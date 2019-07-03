@@ -11,7 +11,8 @@ export default function App() {
   return (
     <Provider store = { store }>
       <Navigation />
-      <Loader />
     </Provider>
   );
 }
+
+// <Loader />

@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Block from '../components/Block'
 
-export default function Information({ averageAmountSpent = 0, totalAmountSpent = 0 }) {
+export default function Information({ averageAmountSpent, totalAmountSpent }) {
   return (
     <Container>
       <Block
         header="Average day spending"
-        text={ averageAmountSpent }
+        text={ averageAmountSpent.toFixed(2) }
         style={{
           marginLeft: 10,
           marginRight: 5

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
-
+import { connect } from 'react-redux';
 
 class Loader extends Component {
 
@@ -8,9 +8,7 @@ class Loader extends Component {
 
   render() {
     return (
-      <Container>
-        
-      </Container>
+      <Container></Container>
     );
   }
 }

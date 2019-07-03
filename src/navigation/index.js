@@ -3,18 +3,18 @@ import { View, StyleSheet, Dimensions, StatusBar } from 'react-native';
 import { TabView, SceneMap, TabBar, Icon } from 'react-native-tab-view'; 
 
 import Home from '../tabs/home';
-import Profile from '../tabs/Profile';
-import Statistics from '../tabs/Statistics';
+import Profile from '../tabs/profile';
+import Statistics from '../tabs/statistics';
 
-const Home = () => (
+const HomeTab = () => (
   <Home />
 );
 
-const Profile = () => (
+const ProfileTab = () => (
   <Profile />
 );
 
-const Statistics = () => (
+const StatisticsTab = () => (
   <Statistics />
 );
 
@@ -31,9 +31,9 @@ export default function Navigation() {
     <TabView
         navigationState={ state }
         renderScene={ SceneMap({
-          home: Home,
-          profile: Profile,
-          statistics: Statistics,
+          home: HomeTab,
+          profile: ProfileTab,
+          statistics: StatisticsTab,
         })}
         onIndexChange={ index => setState( {...state, index } )}
         initialLayout={{ width: Dimensions.get('window').width }}

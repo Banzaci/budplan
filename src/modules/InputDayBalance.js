@@ -4,16 +4,14 @@ import Input from '../components/Input'
 
 export default function InputDayBalance({ onAmountChange, amount, currentDay, day }) {
 
-  const [error, setError] = useState(false);
+  const [error, setError] = useState();
 
-  const numbersOnly = amount => {
-    return /^\d+$/.test(amount.toString())
-  }
-
-  const onChange = ({ amount, day }) => {
-    setError(numbersOnly(amount))
-    if (!error) {
-      onAmountChange({ amount, day })
+   const onChange = ({ amount, day }) => {
+    const isNumber = Number.isInteger(parseInt(amount));
+    if (isNumber) {
+      onAmountChange({ amount, day });
+    } else {
+      setError(false);
     }
   };
 
@@ -23,7 +21,7 @@ export default function InputDayBalance({ onAmountChange, amount, currentDay, da
         error={ error }
         keyboardType = 'numeric'
         onChange={ onChange }
-        placeholder={ amount }
+        value={ amount }
         currentDay={ currentDay }
         day={ day }
       />
@@ -32,5 +30,7 @@ export default function InputDayBalance({ onAmountChange, amount, currentDay, da
 }
 
 const Container = styled.View`
-  margin-bottom: 10px;
+width: 90%;
+margin: 0 auto;
+margin-bottom: 10px;
 `;

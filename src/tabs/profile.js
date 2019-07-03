@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { saveTarget } from '../redux/actions/profile';
 
 class Profile extends Component {
 
@@ -25,17 +24,17 @@ const Container = styled.SafeAreaView`
 `;
 
 const mapStateToProps = ({ reducers }) => {
-  const { profile } = reducers
   return {
-    target: profile.target
+    reducers
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     dispatch,
-    save: (data) => {
-      return dispatch(saveTarget(data))
+    save: data => {
+      console.log(data)
+      // return dispatch(saveTarget(data))
     }
   }
 }
