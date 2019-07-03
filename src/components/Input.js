@@ -3,7 +3,8 @@ import styled from 'styled-components';
 
 export default function Input({ value, placeholder, day, onChange, currentDay, keyboardType , error}) {
   
-  const [focus, setFocus] = useState(false)
+  const [focus, setFocus] = useState(false);
+  const [text, setText] = useState(value);
   const isBeforeCurrentDay = currentDay > day;
   const isCurrentDay = currentDay === day;
   const isAfterCurrentDay = currentDay < day;
@@ -27,9 +28,14 @@ export default function Input({ value, placeholder, day, onChange, currentDay, k
     setFocus(false)
   }
 
+  const onChangeHandler = ({ amount, day }) => {
+    setText(amount);
+    onChange({ amount, day })
+  }
+
   return (
     <Container
-      {...(focus && { placeholderTextColor: 'blue', boarderColor: 'blue' })}
+      {...(focus && { style: {...boxShadow, width: '70%' } } )}
       {...(isCurrentDay && { style: boxShadow } )}
     >
       <Label
@@ -40,16 +46,16 @@ export default function Input({ value, placeholder, day, onChange, currentDay, k
       </Label>
       <TextInput
         {...(error && { placeholderTextColor: 'red', boarderColor: 'red' })}
-        {...(focus && { placeholderTextColor: 'blue', boarderColor: 'blue' })}
+        {...(focus && { style: { height: 130, fontSize: 28 }} )}
         {...(isBeforeCurrentDay && { placeholderTextColor: '#eee' })}
         {...(isCurrentDay && { style: { height: 130, fontSize: 48 }} )}
         {...(isAfterCurrentDay && { editable: false, style: { color: '#fff', backgroundColor: '#eee' } } )}
-        {...(value ? { value } : placeholder )}
+        {...(text ? { value: text } : placeholder )}
         keyboardType={ keyboardType }
-        clearTextOnFocus={ true }
+        selectTextOnFocus={ true }
         onFocus={ onFocus }
         onBlur={ onBlur }
-        onChangeText={ amount => onChange({ amount, day }) }
+        onChangeText={ amount => onChangeHandler({ amount, day }) }
       />
     </Container>
   );
@@ -73,7 +79,7 @@ const Label = styled.Text`
 
 const TextInput = styled.TextInput`
   padding: 6px 12px;
-  font-size: 28px;
-  width: 40%;
+  font-size: 22px;
+  width: 60%;
   text-align: center;
 `;
