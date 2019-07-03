@@ -28,11 +28,4 @@ const mapStateToProps = ({ reducers }) => {
   return {}
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    dispatch,
-    save: (data) => {}
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Statistics)
+export default connect(mapStateToProps, null)(Statistics)

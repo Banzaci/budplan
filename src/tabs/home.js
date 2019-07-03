@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import InputDayBalance from '../modules/InputDayBalance';
 import Information from '../modules/Information';
-import Vision from '../modules/Vision';
+import LastMonthSpending from '../modules/LastMonthSpending';
 import { saveAmount, getThisMonthAmount } from '../redux/actions/spendning';
 
 class Home extends Component {
@@ -13,6 +13,7 @@ class Home extends Component {
     monthWithAmount: {},
     totalAmountSpent: 0,
     averageAmountSpent: 0,
+    lastMonthSpending: 0,
   }
 
   async componentDidMount(){
@@ -68,7 +69,9 @@ class Home extends Component {
           averageAmountSpent={ this.state.averageAmountSpent }
           onClick={ this.onClick }
         />
-        <Vision />
+        <LastMonthSpending
+          lastMonthSpending={ this.state.lastMonthSpending }
+        />
         <ScrollView>
           { this.renderMonthlySpending() }
         </ScrollView>

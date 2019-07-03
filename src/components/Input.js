@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
-export default function Input({ placeholder, day, onChange, currentDay, keyboardType }) {
+export default function Input({ placeholder, day, onChange, currentDay, keyboardType , error}) {
+  
+  const [focus, setFocus] = useState(false)
   const isBeforeCurrentDay = currentDay > day;
   const isCurrentDay = currentDay === day;
   const isAfterCurrentDay = currentDay < day;
@@ -17,8 +19,17 @@ export default function Input({ placeholder, day, onChange, currentDay, keyboard
     elevation: 3,
   }
 
+  const onFocus = () => {
+    setFocus(true)
+  }
+
+  const onBlur = () => {
+    setFocus(false)
+  }
+
   return (
     <Container
+      {...(focus && { placeholderTextColor: 'blue', boarderColor: 'blue' })}
       {...(isCurrentDay && { style: boxShadow } )}
     >
       <Label
@@ -28,11 +39,16 @@ export default function Input({ placeholder, day, onChange, currentDay, keyboard
         { day }
       </Label>
       <TextInput
+        {...(error && { placeholderTextColor: 'red', boarderColor: 'red' })}
+        {...(focus && { placeholderTextColor: 'blue', boarderColor: 'blue' })}
         {...(isBeforeCurrentDay && { placeholderTextColor: '#eee' })}
         {...(isCurrentDay && { style: { height: 130, fontSize: 48 }} )}
         {...(isAfterCurrentDay && { editable: false, style: { color: '#fff', backgroundColor: '#eee' } } )}
         placeholder={ placeholder }
         keyboardType={ keyboardType }
+        clearTextOnFocus={ true }
+        onFocus={ onFocus }
+        onBlur={ onBlur }
         onChangeText={ amount => onChange({ amount, day }) }
       />
     </Container>
