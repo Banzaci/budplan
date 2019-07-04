@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Input from '../components/Input'
+import InputAmount from '../components/InputAmount'
 
 export default function InputDayBalance({ onAmountChange, amount, currentDay, day }) {
 
@@ -17,7 +17,7 @@ export default function InputDayBalance({ onAmountChange, amount, currentDay, da
 
   return (
     <Container>
-      <Input
+      <InputAmount
         error={ error }
         keyboardType = 'numeric'
         onChange={ onChange }

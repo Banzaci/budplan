@@ -1,61 +1,31 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-export default function Input({ value, placeholder, day, onChange, currentDay, keyboardType , error}) {
+export default function Input({ onChange, value, key, label }) {
   
-  const [focus, setFocus] = useState(false);
   const [text, setText] = useState(value);
-  const isBeforeCurrentDay = currentDay > day;
-  const isCurrentDay = currentDay === day;
-  const isAfterCurrentDay = currentDay < day;
-  
-  const boxShadow = {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3,
-  }
 
-  const onFocus = () => {
-    setFocus(true)
-  }
-
-  const onBlur = () => {
-    setFocus(false)
-  }
-
-  const onChangeHandler = ({ amount, day }) => {
-    setText(amount);
-    onChange({ amount, day })
+  const onChangeHandler = (txt) => {
+    setText(txt);
+    onChange({ text, key })
   }
 
   return (
     <Container
       {...(focus && { style: {...boxShadow, width: '70%' } } )}
-      {...(isCurrentDay && { style: boxShadow } )}
     >
       <Label
-        {...(isBeforeCurrentDay && { style: { color: '#eee' }} )}
-        {...(isCurrentDay && { style: { fontSize: 48 }} )}
+        {...(focus && { style: { fontSize: 48 }} )}
       >
-        { day }
+        { label }
       </Label>
       <TextInput
-        {...(error && { placeholderTextColor: 'red', boarderColor: 'red' })}
-        {...(focus && { style: { height: 130, fontSize: 28 }} )}
-        {...(isBeforeCurrentDay && { placeholderTextColor: '#eee' })}
-        {...(isCurrentDay && { style: { height: 130, fontSize: 48 }} )}
-        {...(isAfterCurrentDay && { editable: false, style: { color: '#fff', backgroundColor: '#eee' } } )}
-        {...(text ? { value: text } : placeholder )}
+        { ...(focus && { style: { height: 130, fontSize: 28 }} )}
+        { ...(text && { value: text }) }
         keyboardType={ keyboardType }
         selectTextOnFocus={ true }
         onFocus={ onFocus }
-        onBlur={ onBlur }
-        onChangeText={ amount => onChangeHandler({ amount, day }) }
+        onChangeText={ txt => onChangeHandler({ txt, day }) }
       />
     </Container>
   );
