@@ -29,5 +29,4 @@ const Container = styled.View`
   display: flex;
   flex-direction: row;
   margin-bottom: 10px;
-  height: 100px;
 `;

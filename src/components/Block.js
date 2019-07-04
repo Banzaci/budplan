@@ -22,22 +22,21 @@ const Container = styled.View`
   display: flex;
   flex-direction: column;
   background: #333;
-  padding: 14px;
-  border-radius: 12px;
+  padding: 12px 8px;
 `;
 
 const Header = styled.Text`
   color: white;
   text-align: center;
-  font-size: 16px;
-  margin-bottom: 12px;
+  font-size: 14px;
+  margin-bottom: 6px;
   padding: 0;
 `;
 
 const P = styled.Text`
   text-align: center;
   color: white;
-  font-size: 22px;
+  font-size: 18px;
   margin: 0;
   padding: 0;
 `;

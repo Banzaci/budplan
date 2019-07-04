@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-export default function Input({ onChange, value, key, label }) {
+export default function Input({ onChange, value, key, label, keyboardType }) {
   
   const [text, setText] = useState(value);
+  const [focus, setFocus] = useState(false);
 
   const onChangeHandler = (txt) => {
     setText(txt);
     onChange({ text, key })
   }
+
+  const onFocus = (e) => {}
 
   return (
     <Container

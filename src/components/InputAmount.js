@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { Ionicons } from '@expo/vector-icons';
 
-export default function InputAmount({ value, placeholder, day, onChange, currentDay, keyboardType , error}) {
+export default function InputAmount({ averageAmountSpent, value, placeholder, day, onChange, currentDay, keyboardType , error}) {
   
   const [focus, setFocus] = useState(false);
   const [text, setText] = useState(value);
+
   const isBeforeCurrentDay = currentDay > day;
   const isCurrentDay = currentDay === day;
   const isAfterCurrentDay = currentDay < day;
@@ -33,30 +35,38 @@ export default function InputAmount({ value, placeholder, day, onChange, current
     onChange({ amount, day })
   }
 
+  const renderIcon = day => {// md-trending-down"
+    if (isBeforeCurrentDay && averageAmountSpent < value) return (<Ionicons name="md-thumbs-down" size={32} color="red" />)
+    if (isBeforeCurrentDay && averageAmountSpent > value) return (<Ionicons name="md-thumbs-up" size={32} color="green" />)
+    if (isCurrentDay) return (<Ionicons name="md-today" size={32} color="green" />)
+    return (<Ionicons name="md-lock" size={32} color="black" />)
+  }
+
   return (
     <Container
-      {...(focus && { style: {...boxShadow, width: '70%' } } )}
-      {...(isCurrentDay && { style: boxShadow } )}
+      {...(focus && { style: boxShadow } )}
+      {...(isCurrentDay && { style: {...boxShadow } } )}
+      {...(isAfterCurrentDay && { opacity: .2 })}
     >
-      <Label
-        {...(isBeforeCurrentDay && { style: { color: '#eee' }} )}
-        {...(isCurrentDay && { style: { fontSize: 48 }} )}
-      >
-        { day }
-      </Label>
+      <Icon>{ renderIcon(day) }</Icon>
       <TextInput
         {...(error && { placeholderTextColor: 'red', boarderColor: 'red' })}
         {...(focus && { style: { height: 130, fontSize: 28 }} )}
-        {...(isBeforeCurrentDay && { placeholderTextColor: '#eee' })}
-        {...(isCurrentDay && { style: { height: 130, fontSize: 48 }} )}
-        {...(isAfterCurrentDay && { editable: false, style: { color: '#fff', backgroundColor: '#eee' } } )}
-        {...(text ? { value: text } : placeholder )}
+        {...(isBeforeCurrentDay && { placeholderTextColor: '#eee', width: '70%' })}
+        {...(isCurrentDay && { style: { fontSize: 48, width: '80%' }} )}
+        {...(isAfterCurrentDay && { editable: false, width: '50%' } )}
+        {...(text ? { value: `${text}kr` } : placeholder )}
         keyboardType={ keyboardType }
         selectTextOnFocus={ true }
         onFocus={ onFocus }
         onBlur={ onBlur }
         onChangeText={ amount => onChangeHandler({ amount, day }) }
       />
+      <Label
+        {...(isBeforeCurrentDay && { style: { color: '#eee' }} )}
+      >
+        { day }
+      </Label>
     </Container>
   );
 }
@@ -67,19 +77,19 @@ const Container = styled.View`
   align-items: center;
   justify-content: center;
   background-color: white;
-  width: 100%;
   margin: 0 auto;
-  border-radius: 12px;
+  padding: 10px; 
 `;
 
 const Label = styled.Text`
   font-size: 18px;
-  padding: 6px 12px;
+  text-align: right;
+`;
+
+const Icon = styled.View`
 `;
 
 const TextInput = styled.TextInput`
-  padding: 6px 12px;
   font-size: 22px;
-  width: 60%;
   text-align: center;
 `;

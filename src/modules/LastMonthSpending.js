@@ -18,7 +18,5 @@ export default function LastMonthSpending({ lastMonthSpending = 0 }) {
 }
 
 const Container = styled.View`
-  margin-bottom: 20px;
-  display: flex;
-  height: 100px;
+  height: 80px;
 `;

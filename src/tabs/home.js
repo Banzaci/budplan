@@ -49,6 +49,7 @@ class Home extends Component {
     const days = Object.keys(monthWithAmount).sort();
     return days.map( (day, index) => <View key={ index }>
       <InputDayBalance
+        averageAmountSpent={ this.state.averageAmountSpent }
         onAmountChange={ this.onAmountChange }
         currentDay={ currentDay }
         day={ day.toString() }
@@ -81,6 +82,7 @@ class Home extends Component {
 }
 
 const Container = styled.SafeAreaView`
+  margin-top: 10px;
   height: 100%;
   width: 100%;
 `;

@@ -9,7 +9,7 @@ class Profile extends Component {
     averageDayTarget: 0,
   }
 
-  async componentDidMount(){}
+  // async componentDidMount(){}
 
   onChange = ({ text, key }) => {
     console.log(key, text)
@@ -19,13 +19,13 @@ class Profile extends Component {
     return (
       <Container>
         <Input
-          key="averageDayTarget"
+          id="averageDayTarget"
           label="Daily target"
           value={ this.state.averageDayTarget }
           onChange={ this.onChange }
         />
         <Input
-          key="averageDayTarget"
+          id="averageDayTarget"
           label="Daily target"
           value={ this.state.averageDayTarget }
           onChange={ this.onChange }
