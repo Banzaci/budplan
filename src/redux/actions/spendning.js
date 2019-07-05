@@ -59,11 +59,6 @@ const fetchMonthSuccess = month => {
     type: FETCH_SUCCESS
   };
 };
-function append(...args) {
-  return args.reduce((acc, current) => {
-    return { ...acc, ...current };
-  }, {});
-}
 
 export function saveAmount({ currentYear, currentMonth, day, amount }) {
   return function(dispatch) {
@@ -71,7 +66,7 @@ export function saveAmount({ currentYear, currentMonth, day, amount }) {
     const request = save({ currentYear, currentMonth, day, amount });
 
     return request.then(
-      response => dispatch(savedAmountSuccess(append(totalAmount(response)))),
+      response => dispatch(savedAmountSuccess(totalAmount(response))),
       err => dispatch(savedAmountError(err))
     );
   };
@@ -84,7 +79,7 @@ export function getThisMonthAmount() {
     const request = get({ currentYear, currentMonth, currentDay });
     return request.then(
       response => {
-        return dispatch(fetchMonthSuccess(append(totalAmount(response))));
+        return dispatch(fetchMonthSuccess(totalAmount(response)));
       },
       err => dispatch(fetchMonthError(err))
     );
