@@ -17,9 +17,9 @@ class Home extends Component {
   }
 
   async componentDidMount(){
-    const { currentYr, currentMonth, currentDay, monthWithAmount, totalAmountSpent, averageAmountSpent } = await this.props.dispatch(getThisMonthAmount())
+    const { currentYear, currentMonth, currentDay, monthWithAmount, totalAmountSpent, averageAmountSpent } = await this.props.dispatch(getThisMonthAmount())
     this.setState({
-      currentYr,
+      currentYear,
       currentMonth,
       currentDay,
       monthWithAmount,
@@ -29,8 +29,8 @@ class Home extends Component {
   }
  
   onAmountChange = ({ day, amount }) => {
-    const { currentYr, currentMonth } = this.state;
-    this.props.save({ currentYr, currentMonth, day, amount })
+    const { currentYear, currentMonth } = this.state;
+    this.props.save({ currentYear, currentMonth, day, amount })
       .then( ({ totalAmountSpent, averageAmountSpent }) => {
         this.setState({
           totalAmountSpent,

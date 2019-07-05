@@ -8,13 +8,13 @@ export const days = () => moment().days()
 
 export const getCurrentDate = () => {
     const [
-        currentYr,
+        currentYear,
         currentMonth,
         currentDay
     ] = now.split('-')
     
     return {
-        currentYr,
+        currentYear,
         currentMonth,
         currentDay
     }

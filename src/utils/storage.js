@@ -1,47 +1,47 @@
 import { AsyncStorage } from 'react-native';
 
-const getDataByYr = async yr => {
+const getSpendingByYear = async year => {
   try {
-    const data = await AsyncStorage.getItem(yr);
-    return data ? JSON.parse(data) : []
+    const spendingByYear = await AsyncStorage.getItem(year);
+    return spendingByYear ? JSON.parse(spendingByYear) : []
   } catch (error) {
     return error;
   }
 };
 
-const getDataByMonth = (month, data) => {
-  const currentMonth = data[month]
-  if (!currentMonth) return {}
-  return currentMonth;
+const getSpendingByMonth = (monthByIndex, spendingByYear) => {
+  const spendingMonth = spendingByYear[monthByIndex]
+  if (!spendingMonth) return {}
+  return spendingMonth;
 }
 
-const saveDataByYr = async ( currentYr, data, month ) => {
+const saveSpendingByYear = async ( spendingYear, spendingData, month ) => {// Kolla in month
   try {
-    return await AsyncStorage.setItem(currentYr, JSON.stringify({ ...data, ...month }))
+    return await AsyncStorage.setItem(spendingYear, JSON.stringify({ ...spendingData, ...month }))
   } catch (error) {
     console.log(error)
     return error;
   }
 };
 
-export const save = async ({ currentYr, currentMonth, day, amount }) => {
+export const saveSpending = async ({ currentYear, currentMonth, day, amount }) => {
   try {
-    const dataYr = await getDataByYr(currentYr);
-    const month = getDataByMonth(currentMonth, dataYr);
-    const data = { ...dataYr, ...{
+    const spendingByYear = await getSpendingByYear(currentYear);
+    const spendingMonth = getSpendingByMonth(currentMonth, spendingByYear);
+    const spending = { ...spendingByYear, ...{
       [currentMonth]: {
-        ...month,
+        ...spendingMonth,
         [day]: amount
       }
     } };
-    await saveDataByYr(currentYr, data);
+    await saveSpendingByYear(currentYear, spending);
     return {
       success: true,
-      data: (data && data[currentMonth]) ? data[currentMonth] : [],
-      ...{ currentYr, currentMonth }
+      data: (spending && spending[currentMonth]) ? spending[currentMonth] : [],
+      ...{ currentYear, currentMonth }
     };
   } catch (error) {
-    console.log('error', error)
+    console.error(error)
     return {
       success: false,
       error
@@ -49,19 +49,35 @@ export const save = async ({ currentYr, currentMonth, day, amount }) => {
   }
 }
 
-export const get = async ({ currentYr, currentMonth, currentDay }) => {
+export const getSpending = async ({ currentYear, currentMonth, currentDay }) => {
   try {
     // AsyncStorage.clear();
-    const data = await getDataByYr(currentYr);
+    const data = await getSpendingByYear(currentYear);
     return {
       data: (data && data[currentMonth]) ? data[currentMonth] : [],
-      ...{ currentYr, currentMonth, currentDay }
+      ...{ currentYear, currentMonth, currentDay }
     };
 
   } catch (error) {
-    console.log('error', error)
+    console.error(error)
     return {
       data: [],
+      error
+    }
+  }
+}
+
+export const getTarget = async () => {
+  try {
+    const data = await AsyncStorage.getItem('target');
+    return {
+      data
+    };
+
+  } catch (error) {
+    console.error(error)
+    return {
+      target: [],
       error
     }
   }
