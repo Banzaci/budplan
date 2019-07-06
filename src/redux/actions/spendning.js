@@ -1,6 +1,6 @@
 import { daysInMonth, getCurrentDate } from '../../utils/dates';
 import { saveSpending, getSpending } from '../../utils/storage';
-import { totalAmount } from '../../utils/amount';
+import Month from '../../utils/month';
 
 export const SAVE_AMOUNT = 'spending/SAVE_AMOUNT';
 export const GET_MONTH = 'spending/GET_MONTH';
@@ -40,8 +40,8 @@ const addZeroIfNeeded = day => {
 const range = length =>
   Array.from({ length }, (_, day) => addZeroIfNeeded(day + 1));
 
-const fetchMonthSuccess = month => {
-  const { data } = month;
+const fetchMonthSuccess = (dates, { items }) => {
+  const { data } = items;
   const monthWithAmount = range(daysInMonth()).reduce((acc, current) => {
     const dayData = data[current] || 0;
     return {
@@ -54,7 +54,8 @@ const fetchMonthSuccess = month => {
     };
   }, []);
   return {
-    ...month,
+    ...dates,
+    ...items,
     monthWithAmount,
     type: FETCH_SUCCESS
   };
@@ -66,7 +67,13 @@ export function saveAmount({ currentYear, currentMonth, day, amount }) {
     const request = saveSpending({ currentYear, currentMonth, day, amount });
 
     return request.then(
-      response => dispatch(savedAmountSuccess(totalAmount(response))),
+      response => dispatch(savedAmountSuccess(
+        { currentYear, currentMonth, currentDay: day },// Can produce error
+        new Month(response)
+          .total()
+          .average()
+          .totalByAverage()
+      )),
       err => dispatch(savedAmountError(err))
     );
   };
@@ -79,7 +86,13 @@ export function getThisMonthAmount() {
     const request = getSpending({ currentYear, currentMonth, currentDay });
     return request.then(
       response => {
-        return dispatch(fetchMonthSuccess(totalAmount(response)));
+        return dispatch(fetchMonthSuccess(
+          { currentYear, currentMonth, currentDay },
+          new Month(response)
+            .total()
+            .average()
+            .totalByAverage()
+        ));
       },
       err => dispatch(fetchMonthError(err))
     );

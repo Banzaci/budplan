@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import InputAmount from '../components/InputAmount'
 
-export default function InputDayBalance({ averageAmountSpent, onAmountChange, amount, currentDay, day }) {
+export default function InputDayBalance({ average, onAmountChange, amount, currentDay, day }) {
 
   const [error, setError] = useState();
 
@@ -18,7 +18,7 @@ export default function InputDayBalance({ averageAmountSpent, onAmountChange, am
   return (
     <Container>
       <InputAmount
-        averageAmountSpent={ averageAmountSpent }
+        average={ average }
         error={ error }
         keyboardType = 'numeric'
         onChange={ onChange }

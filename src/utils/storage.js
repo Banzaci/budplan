@@ -24,15 +24,24 @@ const saveDataByKey = async ( key, data ) => {
   }
 };
 
-export const saveTarget = async ({ amount, id }) => {
+export const saveTarget = async ({ amount, id, currentMonth }) => {
   try {
     const key = 'target';
+    const index = currentMonth;
     const data = await getDataByKey(key);
-    const targetData = data ? data : {};
-    const newData =  { ...targetData, [id]: amount }
+    const indexData = getDataByIndex(index, data);
+    const newIndexData = {
+      ...indexData,
+      [id]: amount
+    }
+    const newData =  { ...data, ...{
+        [index]: newIndexData
+      }
+    };
     await saveDataByKey(key, newData);
+
     return {
-      data: newData,
+      data: newIndexData
     };
 
   } catch (error) {
@@ -60,7 +69,7 @@ export const saveSpending = async ({ currentYear, currentMonth, day, amount }) =
     console.log('saveSpending', newData)
     return {
       success: true,
-      data: newData[index],
+      data: newData[index], // Kolla om 'indexData'
       ...{ currentYear: key, currentMonth: index }
     };
   } catch (error) {
@@ -92,14 +101,16 @@ export const getSpending = async ({ currentYear, currentMonth, currentDay }) => 
   }
 }
 
-export const getTarget = async () => {
+export const getTarget = async currentMonth => {
   try {
     const key = 'target';
+    const index = currentMonth;
     const data = await getDataByKey(key);
+    const indexData = getDataByIndex(index, data);
+    // removeItemValue(key)
     return {
-      data
+      data: indexData
     };
-
   } catch (error) {
     console.error(error)
     return {

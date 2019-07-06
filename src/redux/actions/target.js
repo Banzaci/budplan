@@ -1,4 +1,6 @@
 import { saveTarget, getTarget } from '../../utils/storage';
+import { getCurrentDate } from '../../utils/dates';
+import Target from '../../utils/target';
 
 export const FETCH_TARGET_ERROR = 'target/FETCH_TARGET_ERROR';
 export const FETCH_TARGET_SUCCESS = 'target/FETCH_TARGET_SUCCESS';
@@ -22,20 +24,28 @@ const fetchTargetSuccess = target => {
 export function getTargetData() {
   return function (dispatch) {
     dispatch({ type: FETCH_TARGET });
-    const request = getTarget();
-    return request.then(
-      response => dispatch(fetchTargetSuccess(response)),
-      err => dispatch(fetchTargetError(err))
-    );
+    const { currentMonth } = getCurrentDate();
+    return getTarget(currentMonth)
+      .then(
+        response => dispatch(fetchTargetSuccess(
+          new Target(response)
+            .average()
+        )),
+        err => dispatch(fetchTargetError(err))
+      );
   };
 }
 
 export function saveTargetData(target) {
   return function (dispatch) {
     dispatch({ type: SAVING_TARGET });
-    const request = saveTarget(target);
+    const { currentMonth } = getCurrentDate();
+    const request = saveTarget({ ...target, currentMonth });
     return request.then(
-      response => dispatch(fetchTargetSuccess(response)),
+      response => dispatch(fetchTargetSuccess(
+        new Target(response)
+          .average()
+      )),
       err => dispatch(fetchTargetError(err))
     );
   };

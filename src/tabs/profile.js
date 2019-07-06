@@ -7,31 +7,35 @@ import { saveTargetData, getTargetData } from '../redux/actions/target';
 class Profile extends Component {
 
   state = {
-    maxMonthlyExpense: null
+    monthlyBudget: 0
   }
 
   async componentDidMount(){
     const props = await this.props.dispatch(getTargetData());
     this.setState({
-      maxMonthlyExpense: props.data.maxMonthlyExpense
-    })
+      monthlyBudget: props.data.monthlyBudget
+    });
   }
 
   onChange = ({ amount, id }) => {
     this.props.save({ amount, id })
-      .then( (data) => {})// Show some feedback
+      .then(props => {
+        this.setState({
+          monthlyBudget: props.data.monthlyBudget
+        });
+      });
   }
 
   render() {
     return (
       <Container>
-        { this.state.maxMonthlyExpense && <Input
-          id="maxMonthlyExpense"
+        <Input
+          id="monthlyBudget"
           label="Monthly budget"
-          value={ this.state.maxMonthlyExpense }
+          value={ this.state.monthlyBudget }
           keyboardType='numeric'
           onChange={ this.onChange }
-        /> }
+        />
       </Container>
     );
   }
@@ -46,7 +50,7 @@ const Container = styled.SafeAreaView`
 const mapStateToProps = ({ reducers }) => {
   const { target } = reducers;
   return {
-    maxMonthlyExpense: target.maxMonthlyExpense
+    monthlyBudget: target.monthlyBudget
   }
 }
 

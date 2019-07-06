@@ -11,10 +11,8 @@ export default function reducer(state = INITIAL_STATE, action) {
       const { yr, month, day, monthWithAmount } = action;
       return {
         ...state,
-        monthWithAmount,
-        yr,
-        day,
-        month
+        ...action,
+        type: null
       };
     case SAVE_AMOUNT:
       return { ...state, amount: action.amount };

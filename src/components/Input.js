@@ -1,37 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { boxShadow } from '../style/common';
 
 export default function Input({ onChange, value, id, label, keyboardType }) {
   
-  const currency = 'kr';
-
   const [focus, setFocus] = useState(false);
-  const [text, setText] = useState(`${value}${currency}`);
-
-  const boxShadow = {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3,
-  }
+  const [firstRender, setFirstRender] = useState(false);
+  const [text, setText] = useState(value);
 
   const onFocus = () => {
     setFocus(true)
   }
 
   const onBlur = () => {
-    if(!text.includes(currency)) setText(`${text}${currency}`);
     setFocus(false)
   }
-
+  
   const onChangeHandler = amount => {
-    setText(amount);
+    console.log('onChangeHandler', amount)
     onChange({ amount, id })
+    setText(amount);
   }
+
+  useEffect(() => {
+    if (text !== value && !firstRender) {
+      setText(value);
+      setFirstRender(true)
+    }
+  })
 
   return (
     <Container
@@ -44,7 +40,7 @@ export default function Input({ onChange, value, id, label, keyboardType }) {
       </Label>
       <TextInput
         { ...(focus && { style: { fontSize: 18 }} )}
-        {...(text && { value: text.toString() })}
+        value={ text.toString() }
         keyboardType={ keyboardType }
         selectTextOnFocus={ true }
         onBlur={ onBlur }

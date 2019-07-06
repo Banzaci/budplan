@@ -11,8 +11,8 @@ class Home extends Component {
 
   state = {
     monthWithAmount: {},
-    totalAmountSpent: 0,
-    averageAmountSpent: 0,
+    total: 0,
+    average: 0,
     lastMonthSpending: 0,
   }
 
@@ -26,25 +26,22 @@ class Home extends Component {
   onAmountChange = ({ day, amount }) => {
     const { currentYear, currentMonth } = this.state;
     this.props.save({ currentYear, currentMonth, day, amount })
-      .then( ({ totalAmountSpent, averageAmountSpent }) => {
+      .then( ({ total, average }) => {
         this.setState({
-          totalAmountSpent,
-          averageAmountSpent
+          total,
+          average
         })
       })
   };
 
-  printAmount = (monthWithAmount, day) => {
-    const amount = monthWithAmount[day].amountSpent.toString()
-    return amount;
-  }
+  printAmount = (monthWithAmount, day) => monthWithAmount[day].amountSpent.toString();
 
   renderMonthlySpending = () => {
     const { monthWithAmount, currentDay } = this.state;
     const days = Object.keys(monthWithAmount).sort();
     return days.map( (day, index) => <View key={ index }>
       <InputDayBalance
-        averageAmountSpent={ this.state.averageAmountSpent }
+        average={ this.state.average }
         onAmountChange={ this.onAmountChange }
         currentDay={ currentDay }
         day={ day.toString() }
@@ -52,13 +49,14 @@ class Home extends Component {
       />
     </View> )
   }
-
   render() {
     return (
       <Container>
         <Information
-          totalAmountSpent={ this.state.totalAmountSpent }
-          averageAmountSpent={ this.state.averageAmountSpent }
+          total={ this.state.total }
+          average={ this.state.average }
+          targetAverage={ this.props.targetAverage }
+          totalByAverage={ this.props.totalByAverage }
         />
         <LastMonthSpending
           lastMonthSpending={ this.state.lastMonthSpending }
@@ -85,9 +83,11 @@ const Scroll = styled.View`
 
 const mapStateToProps = ({ reducers }) => {
   const { spendning, target } = reducers;
-
+  console.log('spendning', spendning)
   return {
-    maxMonthlyExpense: target.maxMonthlyExpense,
+    totalByAverage: spendning.totalByAverage,
+    targetAverage: target.average,
+    monthlyBudget: target.monthlyBudget,
     amount: spendning.amount
   }
 }

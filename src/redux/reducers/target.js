@@ -1,7 +1,7 @@
 import { SAVE_TARGET, FETCH_TARGET_SUCCESS } from "../actions/target";
 
 const INITIAL_STATE = {
-  maxMonthlyExpense: null,
+  monthlyBudget: 10,
   amountTarget: 10000,
 };
 

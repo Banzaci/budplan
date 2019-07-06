@@ -11,7 +11,7 @@ export default function Block({ header, text, style = {} }) {
         { header }
       </Header>
       <P>
-        { text }kr.
+        { text }
       </P>
     </Container>
   );

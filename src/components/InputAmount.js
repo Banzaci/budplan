@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Ionicons } from '@expo/vector-icons';
+import { boxShadow } from '../style/common';
 
-export default function InputAmount({ averageAmountSpent, value, placeholder, day, onChange, currentDay, keyboardType , error}) {
+export default function InputAmount({ average, value, placeholder, day, onChange, currentDay, keyboardType , error}) {
   
   const currency = 'kr';
   const [focus, setFocus] = useState(false);
@@ -11,17 +12,6 @@ export default function InputAmount({ averageAmountSpent, value, placeholder, da
   const isBeforeCurrentDay = currentDay > day;
   const isCurrentDay = currentDay === day;
   const isAfterCurrentDay = currentDay < day;
-  
-  const boxShadow = {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3,
-  }
 
   const onFocus = () => {
     setFocus(true)
@@ -38,8 +28,8 @@ export default function InputAmount({ averageAmountSpent, value, placeholder, da
   }
 
   const renderIcon = day => {// md-trending-down"
-    if (isBeforeCurrentDay && averageAmountSpent < value) return (<Ionicons name="md-thumbs-down" size={32} color="#eee" />)
-    if (isBeforeCurrentDay && averageAmountSpent > value) return (<Ionicons name="md-thumbs-up" size={32} color="#eee" />)
+    if (isBeforeCurrentDay && average < value) return (<Ionicons name="md-thumbs-down" size={32} color="#eee" />)
+    if (isBeforeCurrentDay && average > value) return (<Ionicons name="md-thumbs-up" size={32} color="#eee" />)
     if (isCurrentDay) return (<Ionicons name="md-today" size={32} color="#aaa" />)
     return (<Ionicons name="md-lock" size={32} color="black" />)
   }
