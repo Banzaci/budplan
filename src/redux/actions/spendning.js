@@ -1,5 +1,5 @@
 import { daysInMonth, getCurrentDate } from '../../utils/dates';
-import { save, get } from '../../utils/storage';
+import { saveSpending, getSpending } from '../../utils/storage';
 import { totalAmount } from '../../utils/amount';
 
 export const SAVE_AMOUNT = 'spending/SAVE_AMOUNT';
@@ -63,7 +63,7 @@ const fetchMonthSuccess = month => {
 export function saveAmount({ currentYear, currentMonth, day, amount }) {
   return function(dispatch) {
     dispatch({ type: SAVING_AMOUNT });
-    const request = save({ currentYear, currentMonth, day, amount });
+    const request = saveSpending({ currentYear, currentMonth, day, amount });
 
     return request.then(
       response => dispatch(savedAmountSuccess(totalAmount(response))),
@@ -76,7 +76,7 @@ export function getThisMonthAmount() {
   return function(dispatch) {
     dispatch({ type: FETCH_AMOUNT });
     const { currentYear, currentMonth, currentDay } = getCurrentDate();
-    const request = get({ currentYear, currentMonth, currentDay });
+    const request = getSpending({ currentYear, currentMonth, currentDay });
     return request.then(
       response => {
         return dispatch(fetchMonthSuccess(totalAmount(response)));

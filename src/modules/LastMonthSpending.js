@@ -9,8 +9,16 @@ export default function LastMonthSpending({ lastMonthSpending = 0 }) {
         header="Last month spending"
         text={ lastMonthSpending }
         style={{
-          marginLeft: 10,
-          marginRight: 10
+          marginLeft: 6,
+          marginRight: 3
+        }}
+      />
+      <Block
+        header="Last month spending"
+        text={ lastMonthSpending }
+        style={{
+          marginLeft: 3,
+          marginRight: 6
         }}
       />
     </Container>
@@ -18,5 +26,7 @@ export default function LastMonthSpending({ lastMonthSpending = 0 }) {
 }
 
 const Container = styled.View`
-  height: 80px;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 6px;
 `;

@@ -1,34 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-export default function Input({ onChange, value, key, label, keyboardType }) {
+export default function Input({ onChange, value, id, label, keyboardType }) {
   
-  const [text, setText] = useState(value);
-  const [focus, setFocus] = useState(false);
+  const currency = 'kr';
 
-  const onChangeHandler = (txt) => {
-    setText(txt);
-    onChange({ text, key })
+  const [focus, setFocus] = useState(false);
+  const [text, setText] = useState(`${value}${currency}`);
+
+  const boxShadow = {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
   }
 
-  const onFocus = (e) => {}
+  const onFocus = () => {
+    setFocus(true)
+  }
+
+  const onBlur = () => {
+    if(!text.includes(currency)) setText(`${text}${currency}`);
+    setFocus(false)
+  }
+
+  const onChangeHandler = amount => {
+    setText(amount);
+    onChange({ amount, id })
+  }
 
   return (
     <Container
-      {...(focus && { style: {...boxShadow, width: '70%' } } )}
+      {...(focus && { style: {...boxShadow } } )}
     >
       <Label
-        {...(focus && { style: { fontSize: 48 }} )}
+        {...(focus && { style: { fontSize: 18 }} )}
       >
         { label }
       </Label>
       <TextInput
-        { ...(focus && { style: { height: 130, fontSize: 28 }} )}
-        { ...(text && { value: text }) }
+        { ...(focus && { style: { fontSize: 18 }} )}
+        {...(text && { value: text.toString() })}
         keyboardType={ keyboardType }
         selectTextOnFocus={ true }
+        onBlur={ onBlur }
         onFocus={ onFocus }
-        onChangeText={ txt => onChangeHandler({ txt, day }) }
+        onChangeText={ amount => onChangeHandler(amount) }
       />
     </Container>
   );

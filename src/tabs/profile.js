@@ -2,34 +2,36 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import Input from '../components/Input'
+import { saveTargetData, getTargetData } from '../redux/actions/target';
 
 class Profile extends Component {
 
   state = {
-    averageDayTarget: 0,
+    maxMonthlyExpense: null
   }
 
-  // async componentDidMount(){}
+  async componentDidMount(){
+    const props = await this.props.dispatch(getTargetData());
+    this.setState({
+      maxMonthlyExpense: props.data.maxMonthlyExpense
+    })
+  }
 
-  onChange = ({ text, key }) => {
-    console.log(key, text)
+  onChange = ({ amount, id }) => {
+    this.props.save({ amount, id })
+      .then( (data) => {})// Show some feedback
   }
 
   render() {
     return (
       <Container>
-        <Input
-          id="averageDayTarget"
-          label="Daily target"
-          value={ this.state.averageDayTarget }
+        { this.state.maxMonthlyExpense && <Input
+          id="maxMonthlyExpense"
+          label="Monthly budget"
+          value={ this.state.maxMonthlyExpense }
+          keyboardType='numeric'
           onChange={ this.onChange }
-        />
-        <Input
-          id="averageDayTarget"
-          label="Daily target"
-          value={ this.state.averageDayTarget }
-          onChange={ this.onChange }
-        />
+        /> }
       </Container>
     );
   }
@@ -42,8 +44,9 @@ const Container = styled.SafeAreaView`
 `;
 
 const mapStateToProps = ({ reducers }) => {
+  const { target } = reducers;
   return {
-    reducers
+    maxMonthlyExpense: target.maxMonthlyExpense
   }
 }
 
@@ -51,8 +54,7 @@ const mapDispatchToProps = dispatch => {
   return {
     dispatch,
     save: data => {
-      console.log(data)
-      // return dispatch(saveTarget(data))
+      return dispatch(saveTargetData(data))
     }
   }
 }

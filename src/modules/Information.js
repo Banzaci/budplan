@@ -9,16 +9,16 @@ export default function Information({ averageAmountSpent, totalAmountSpent }) {
         header="Average day spending"
         text={ averageAmountSpent.toFixed(2) }
         style={{
-          marginLeft: 10,
-          marginRight: 5
+          marginLeft: 6,
+          marginRight: 3
         }}
       />
       <Block
         header="Spent so far"
         text={ totalAmountSpent }
         style={{
-          marginLeft: 5,
-          marginRight: 10
+          marginLeft: 3,
+          marginRight: 6
         }}
       />
     </Container>
@@ -28,5 +28,5 @@ export default function Information({ averageAmountSpent, totalAmountSpent }) {
 const Container = styled.View`
   display: flex;
   flex-direction: row;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 `;

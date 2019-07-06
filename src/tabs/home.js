@@ -17,14 +17,9 @@ class Home extends Component {
   }
 
   async componentDidMount(){
-    const { currentYear, currentMonth, currentDay, monthWithAmount, totalAmountSpent, averageAmountSpent } = await this.props.dispatch(getThisMonthAmount())
+    const props = await this.props.dispatch(getThisMonthAmount())
     this.setState({
-      currentYear,
-      currentMonth,
-      currentDay,
-      monthWithAmount,
-      totalAmountSpent,
-      averageAmountSpent,
+      ...props
     })
   }
  
@@ -58,38 +53,41 @@ class Home extends Component {
     </View> )
   }
 
-  onClick = (action) => {
-    console.log(action)
-  }
-
   render() {
     return (
       <Container>
         <Information
           totalAmountSpent={ this.state.totalAmountSpent }
           averageAmountSpent={ this.state.averageAmountSpent }
-          onClick={ this.onClick }
         />
         <LastMonthSpending
           lastMonthSpending={ this.state.lastMonthSpending }
         />
-        <ScrollView>
-          { this.renderMonthlySpending() }
-        </ScrollView>
+        <Scroll>
+          <ScrollView>
+            { this.renderMonthlySpending() }
+          </ScrollView>
+        </Scroll>
       </Container>
     );
   }
 }
 
 const Container = styled.SafeAreaView`
-  margin-top: 10px;
+  margin-top: 6px;
   height: 100%;
   width: 100%;
 `;
 
+const Scroll = styled.View`
+  margin-top: 6px;
+`;
+
 const mapStateToProps = ({ reducers }) => {
-  const { spendning } = reducers
+  const { spendning, target } = reducers;
+
   return {
+    maxMonthlyExpense: target.maxMonthlyExpense,
     amount: spendning.amount
   }
 }
