@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import InformationBlock from '../components/InformationBlock';
+import { boxShadow } from '../style/common';
 
 export default function Information({ list }) {
 
   const ListGenerator = ({ header, text }, index) => (
     <InformationBlock
+      index={ index }
       key={ index }
       header={ header }
       text={ `${text}kr` }
     />
   )
-
+  
   return (
-    <Container>
+    <Container
+      style={ boxShadow }
+    >
       { list.map(ListGenerator) }
     </Container>
   );
@@ -21,7 +25,8 @@ export default function Information({ list }) {
 
 const Container = styled.View`
   display: flex;
-  padding: 0;
+  padding: 10px;
   flex-direction: column;
-  margin-bottom: 6px;
+  margin: 10px 10px 0;
+  background-color: white;
 `;

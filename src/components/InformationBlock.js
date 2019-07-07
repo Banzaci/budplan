@@ -1,9 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export default function InformationBlock({ header, text, style = {} }) {
+export default function InformationBlock({ header, text, index }) {
   return (
-    <Container { ...style } >
+    <Container
+      {...(index === 0 && { style: { marginBottom: 20 } } )}
+    >
       <Header>
         { header }
       </Header>
@@ -14,12 +16,11 @@ export default function InformationBlock({ header, text, style = {} }) {
   );
 }
 
+// borderBottomColor: #eee;
+// borderBottomWidth: 2;
+
 const Container = styled.View`
   flex-direction: column;
-  margin: 0 10px;
-  padding: 20px 0;
-  borderBottomColor: #eee;
-  borderBottomWidth: 2;
 `;
 
 const Header = styled.Text`

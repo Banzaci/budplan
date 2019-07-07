@@ -63,7 +63,11 @@ class Home extends Component {
             {
               header:"Målättning per day",
               text: this.props.targetAverage,
-            },
+            }
+          ]}
+        />
+        <Information
+          list={[
             {
               header:"Spenderat hittills",
               text: total,

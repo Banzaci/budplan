@@ -21,7 +21,7 @@ export default function Chart({ data, weekNumber }) {
 
   return (
     <Container>
-      <Week>{ `Vecka nr ${weekNumber}` }</Week>
+      <Week>{ `v.${weekNumber}` }</Week>
       <LineChart
         data={ chartData }
         width={ screenWidth }
