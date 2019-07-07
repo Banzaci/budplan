@@ -3,9 +3,10 @@ import styled from 'styled-components';
 import { Ionicons } from '@expo/vector-icons';
 import { boxShadow } from '../style/common';
 
-export default function InputAmount({ average, value, placeholder, day, onChange, currentDay, keyboardType , error}) {
+export default function InputAmount({ average, value, placeholder, day, onChange, currentDay, keyboardType}) {
   
   const currency = 'kr';
+  const [error, setError] = useState();
   const [focus, setFocus] = useState(false);
   const [text, setText] = useState(`${value}${currency}`);
 
@@ -23,8 +24,13 @@ export default function InputAmount({ average, value, placeholder, day, onChange
   }
 
   const onChangeHandler = ({ amount, day }) => {
-    setText(amount);
-    onChange({ amount, day })
+    const isNumber = Number.isInteger(parseInt(amount));
+    if (isNumber) {
+      setText(amount);
+      onChange({ amount, day })
+    } else {
+      setError(false);
+    }
   }
 
   const renderIcon = day => {// md-trending-down"
@@ -48,7 +54,7 @@ export default function InputAmount({ average, value, placeholder, day, onChange
         {...(error && { placeholderTextColor: 'red' })}
         {...(focus && { style: { padding: 10, fontSize: 28 }} )}
         {...(isBeforeCurrentDay && { placeholderTextColor: '#eee', width: '80%' })}
-        {...(isCurrentDay && { style: { fontSize: 48, width: '60%' }} )}
+        {...(isCurrentDay && { style: { fontSize: 28, width: '50%' }} )}
         {...(isAfterCurrentDay && { editable: false, width: '40%' } )}
         {...(text ? { value: text } : placeholder )}
         keyboardType={ keyboardType }
@@ -57,10 +63,12 @@ export default function InputAmount({ average, value, placeholder, day, onChange
         onBlur={ onBlur }
         onChangeText={ amount => onChangeHandler({ amount, day }) }
       />
-      <Icon>{ renderIcon(day) }</Icon>
     </Container>
   );
 }
+
+// borderBottomColor: #eee;
+// borderBottomWidth: 2;
 
 const Container = styled.View`
   display: flex;
@@ -70,8 +78,6 @@ const Container = styled.View`
   background-color: white;
   width: 100%;
   padding: 10px;
-  borderBottomColor: #eee;
-  borderBottomWidth: 2;
 `;
 
 const Label = styled.Text`

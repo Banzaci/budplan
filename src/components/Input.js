@@ -17,7 +17,6 @@ export default function Input({ onChange, value, id, label, keyboardType }) {
   }
   
   const onChangeHandler = amount => {
-    console.log('onChangeHandler', amount)
     onChange({ amount, id })
     setText(amount);
   }
@@ -40,7 +39,7 @@ export default function Input({ onChange, value, id, label, keyboardType }) {
       </Label>
       <TextInput
         { ...(focus && { style: { fontSize: 18 }} )}
-        value={ text.toString() }
+        { ...(value && { value: text.toString() })}
         keyboardType={ keyboardType }
         selectTextOnFocus={ true }
         onBlur={ onBlur }

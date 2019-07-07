@@ -1,17 +1,17 @@
+
 import React, { Component } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import TodayInput from '../components/TodayInput';
+import InputDayBalance from '../modules/InputDayBalance';
 import Information from '../modules/Information';
 import LastMonthSpending from '../modules/LastMonthSpending';
 import { saveAmount, getThisMonthAmount } from '../redux/actions/spendning';
-import LineChart from '../modules/LineChart';
-import PieChart from '../modules/PieChart';
 
 class Home extends Component {
 
   state = {
+    monthWithAmount: {},
     total: 0,
     average: 0,
     lastMonthSpending: 0,
@@ -24,9 +24,9 @@ class Home extends Component {
     })
   }
  
-  onAmountChange = ({ currentDay, amount }) => {
+  onAmountChange = ({ day, amount }) => {
     const { currentYear, currentMonth } = this.state;
-    this.props.save({ currentYear, currentMonth, day: currentDay, amount })
+    this.props.save({ currentYear, currentMonth, day, amount })
       .then( ({ total, average }) => {
         this.setState({
           total,
@@ -35,41 +35,27 @@ class Home extends Component {
       })
   };
 
-  renderToday = todayAmount => {
-    const { average, currentDay } = this.state;
-    return (
-      <TodayInput
-        onChange={ this.onAmountChange }
-        value={ todayAmount }
+  printAmount = (monthWithAmount, day) => monthWithAmount[day].amountSpent.toString();
+
+  renderMonthlySpending = () => {
+    const { monthWithAmount, currentDay } = this.state;
+    const days = Object.keys(monthWithAmount).sort();
+    return days.map( (day, index) => <View key={ index }>
+      <InputDayBalance
+        average={ this.state.average }
+        onAmountChange={ this.onAmountChange }
         currentDay={ currentDay }
+        day={ day.toString() }
+        amount={ this.printAmount(monthWithAmount, day) }
       />
-    )
+    </View> )
   }
   render() {
-    const { total, average, lastMonthSpending, todayAmount } = this.state;
     return (
       <Container>
-        <Information
-          list={[
-            {
-              header:"Genomsnitt per day",
-              pre1: average,
-              pre2: this.props.targetAverage
-            },
-            {
-              header:"Spenderat hittills",
-              pre1: total,
-              pre2: this.props.totalByAverage
-            }
-          ]}
-        />
-        <LastMonthSpending
-          lastMonthSpending={ lastMonthSpending }
-        />
-        <Today>
-          { todayAmount && this.renderToday(todayAmount) }
-        </Today>
-        <LineChart />
+        <ScrollView>
+          { this.renderMonthlySpending() }
+        </ScrollView>
       </Container>
     );
   }
@@ -80,8 +66,6 @@ const Container = styled.SafeAreaView`
   height: 100%;
   width: 100%;
 `;
-
-const Today = styled.View``;
 
 const mapStateToProps = ({ reducers }) => {
   const { spendning, target } = reducers;
