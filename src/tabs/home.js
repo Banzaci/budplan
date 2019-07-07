@@ -83,7 +83,6 @@ const Scroll = styled.View`
 
 const mapStateToProps = ({ reducers }) => {
   const { spendning, target } = reducers;
-  console.log('spendning', spendning)
   return {
     totalByAverage: spendning.totalByAverage,
     targetAverage: target.average,

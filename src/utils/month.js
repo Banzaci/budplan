@@ -1,4 +1,4 @@
-import { days, daysInMonth } from './dates';
+import { daysInMonth, getCurrentDate } from './dates';
 
 export default class Month {
   constructor({ data }) {
@@ -14,7 +14,8 @@ export default class Month {
 
   average() {
     const { total } = this.items;
-    this.items = { ...this.items, average: (total / days()).toFixed(2) }
+    const { currentDay } = getCurrentDate()
+    this.items = { ...this.items, average: (total / currentDay).toFixed(2) }
     return this;
   }
 
