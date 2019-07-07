@@ -31,7 +31,7 @@ export default function InputDayBalance({ average, onAmountChange, amount, curre
 }
 
 const Container = styled.View`
-width: 90%;
-margin: 0 auto;
-margin-bottom: 10px;
+  width: 90%;
+  margin: 0 auto;
+  margin-bottom: 10px;
 `;

@@ -65,8 +65,13 @@ export const saveSpending = async ({ currentYear, currentMonth, day, amount }) =
         [day]: amount
       }
     } };
+    // const rm = Object.keys(newData[index]).reduce((acc, a) => {
+    //   if (a !== 'undefined') {
+    //     acc = { ...acc, [a]: newData[index][a]}
+    //   }
+    //   return acc;
+    // }, {})
     const result = await saveDataByKey(key, newData);
-    console.log('saveSpending', newData)
     return {
       success: true,
       data: newData[index], // Kolla om 'indexData'

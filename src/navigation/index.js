@@ -4,7 +4,7 @@ import { TabView, SceneMap, TabBar, Icon } from 'react-native-tab-view';
 
 import Home from '../tabs/home';
 import Profile from '../tabs/profile';
-import Statistics from '../tabs/statistics';
+import Month from '../tabs/month';
 
 const HomeTab = () => (
   <Home />
@@ -14,8 +14,8 @@ const ProfileTab = () => (
   <Profile />
 );
 
-const StatisticsTab = () => (
-  <Statistics />
+const MonthTab = () => (
+  <Month />
 );
 
 const getTabWidth = props => props.layout.width / props.navigationState.routes.length;
@@ -26,7 +26,7 @@ export default function Navigation() {
     routes: [
       { key: 'home', title: 'Home' },
       { key: 'profile', title: 'Profile' },
-      { key: 'statistics', title: 'Statistics' },
+      { key: 'month', title: 'Month' },
     ],
   });
   return (
@@ -35,7 +35,7 @@ export default function Navigation() {
         renderScene={ SceneMap({
           home: HomeTab,
           profile: ProfileTab,
-          statistics: StatisticsTab,
+          month: MonthTab,
         })}
         onIndexChange={ index => setState( {...state, index } )}
         initialLayout={{ width: Dimensions.get('window').width }}
