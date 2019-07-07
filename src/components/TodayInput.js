@@ -8,7 +8,7 @@ export default function TodayInput({ value, onChange, currentDay }) {
   const currency = 'kr';
   const [error, setError] = useState();
   const [focus, setFocus] = useState(false);
-  const [text, setText] = useState(`Idag ${value}${currency}`);
+  const [text, setText] = useState(`Dagens utgifter ${value}${currency}`);
 
   const onFocus = () => {
     setFocus(true)
@@ -16,7 +16,7 @@ export default function TodayInput({ value, onChange, currentDay }) {
   }
 
   const onBlur = () => {
-    if(!text.includes(currency)) setText(`Idag ${text}${currency}`)
+    if(!text.includes(currency)) setText(`Dagens utgifter ${text}${currency}`)
     setFocus(false)
   }
 
@@ -56,8 +56,8 @@ const Container = styled.View`
   align-items: center;
   justify-content: center;
   background-color: white;
-  width: 100%;
-  padding: 10px;
+  margin: 0 10px;
+  padding: 20px 10px;
 `;
 
 const Label = styled.Text`
@@ -70,7 +70,8 @@ const Label = styled.Text`
 `;
 
 const TextInput = styled.TextInput`
-  font-size: 22px;
+  font-size: 14px;
+  font-weight: bold;
   text-align: center;
   width: 70%;
   margin: 0 auto;

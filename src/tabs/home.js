@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import TodayInput from '../components/TodayInput';
 import Information from '../modules/Information';
-import LastMonthSpending from '../modules/LastMonthSpending';
 import { saveAmount, getThisMonthAmount } from '../redux/actions/spendning';
 import LineChart from '../modules/LineChart';
 import PieChart from '../modules/PieChart';
@@ -27,11 +26,12 @@ class Home extends Component {
   onAmountChange = ({ currentDay, amount }) => {
     const { currentYear, currentMonth } = this.state;
     this.props.save({ currentYear, currentMonth, day: currentDay, amount })
-      .then( ({ total, average, week }) => {
+      .then( ({ total, average, week, weekNumber }) => {
         this.setState({
           total,
           average,
-          week
+          week,
+          weekNumber
         })
       })
   };
@@ -47,30 +47,33 @@ class Home extends Component {
     )
   }
   render() {
-    const { total, average, lastMonthSpending, todayAmount, week } = this.state;
+    const { total, average, lastMonthSpending, todayAmount, week, weekNumber } = this.state;
     return (
       <Container>
+        <Today>
+          { todayAmount && this.renderToday(todayAmount) }
+        </Today>
+        { week && <LineChart data={ week } weekNumber={ weekNumber }/> }
         <Information
           list={[
             {
               header:"Genomsnitt per day",
-              pre1: average,
-              pre2: this.props.targetAverage
+              text: average,
+            },
+            {
+              header:"Målättning per day",
+              text: this.props.targetAverage,
             },
             {
               header:"Spenderat hittills",
-              pre1: total,
-              pre2: this.props.totalByAverage
+              text: total,
+            },
+            {
+              header:"Om samma takt som nu",
+              text: this.props.totalByAverage
             }
           ]}
         />
-        <LastMonthSpending
-          lastMonthSpending={ lastMonthSpending }
-        />
-        <Today>
-          { todayAmount && this.renderToday(todayAmount) }
-        </Today>
-        { week && <LineChart data={ week }/> }
       </Container>
     );
   }
@@ -82,7 +85,9 @@ const Container = styled.SafeAreaView`
   width: 100%;
 `;
 
-const Today = styled.View``;
+const Today = styled.View`
+  padding: 20px 0;
+`;
 
 const mapStateToProps = ({ reducers }) => {
   const { spendning, target } = reducers;

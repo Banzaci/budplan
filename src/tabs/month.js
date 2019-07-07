@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import InputDayBalance from '../modules/InputDayBalance';
 import Information from '../modules/Information';
-import LastMonthSpending from '../modules/LastMonthSpending';
 import { saveAmount, getThisMonthAmount } from '../redux/actions/spendning';
 
 class Home extends Component {
@@ -47,7 +46,7 @@ class Home extends Component {
         currentDay={ currentDay }
         day={ day.toString() }
         amount={ this.printAmount(monthWithAmount, day) }
-      />
+      />  
     </View> )
   }
   render() {

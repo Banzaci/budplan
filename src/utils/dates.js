@@ -5,7 +5,9 @@ const now = moment().format('YYYY-MM-DD');
 
 export const daysInMonth = () => moment().daysInMonth()
 
-export const days = () => moment().days()
+export const days = () => moment().days();
+
+export const getCurrentWeekNumber = () => moment().isoWeek()
 
 export const getCurrentDate = () => {
     const [

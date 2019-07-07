@@ -1,4 +1,4 @@
-import { daysInMonth, getCurrentDate, getCurrentWeek } from './dates';
+import { daysInMonth, getCurrentDate, getCurrentWeek, getCurrentWeekNumber } from './dates';
 
 export default class Month {
   constructor({ data }) {
@@ -18,6 +18,11 @@ export default class Month {
       ];
     }, []);
     return this;
+  }
+
+  weekNumber() {
+    this.weekNumber = getCurrentWeekNumber();
+    return this; 
   }
 
   today(){

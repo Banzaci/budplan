@@ -1,19 +1,15 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Block from '../components/Block';
-import BlockComponent from '../components/BlockComponent';
+import InformationBlock from '../components/InformationBlock';
 
 export default function Information({ list }) {
 
-  const generatePrice = (a, b) => `${a}kr / (${b}kr)`;
-
-  const ListGenerator = ({ header, pre1, pre2 }, index) => (
-    <BlockComponent key={ index } style={{ backgroundColor:"#ddd", color: 'black' } } >
-      <Block
-        header={ header }
-        text={ generatePrice(pre1, pre2) }
-      />
-    </BlockComponent>
+  const ListGenerator = ({ header, text }, index) => (
+    <InformationBlock
+      key={ index }
+      header={ header }
+      text={ `${text}kr` }
+    />
   )
 
   return (
@@ -25,6 +21,7 @@ export default function Information({ list }) {
 
 const Container = styled.View`
   display: flex;
-  flex-direction: row;
+  padding: 0;
+  flex-direction: column;
   margin-bottom: 6px;
 `;
