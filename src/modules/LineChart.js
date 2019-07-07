@@ -5,14 +5,17 @@ import styled from 'styled-components';
 
 const screenWidth = Dimensions.get('window').width
 
-export default function Chart({ list }) {
+export default function Chart({ data }) {
 
-  const data = {
-    labels: ['mån', 'tis', 'ons', 'tors', 'fre', 'lör', 'sön'],
+  const days = data.map(([day, _]) => day);
+  const amount = data.map(([_, amount]) => amount);
+
+  const chartData = {
+    labels: [ ...days ],
     datasets: [{
-      data: [ 20, 45, 28, 80, 99, 43, 0],
-      color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
-      strokeWidth: 2 // optional
+      data: [ ...amount ],
+      color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`,
+      strokeWidth: 2
     }]
   }
 
@@ -20,8 +23,8 @@ export default function Chart({ list }) {
     <Container>
       <Text>Denna vecka</Text>
       <LineChart
-        data={data}
-        width={screenWidth}
+        data={ chartData }
+        width={ screenWidth }
         height={220}
         chartConfig={{
           backgroundColor: '#e26a00',

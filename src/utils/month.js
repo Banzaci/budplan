@@ -1,9 +1,23 @@
-import { daysInMonth, getCurrentDate } from './dates';
+import { daysInMonth, getCurrentDate, getCurrentWeek } from './dates';
 
 export default class Month {
   constructor({ data }) {
     this.items = data
     this.currentDay = getCurrentDate().currentDay
+  }
+
+  week(){
+    const temp = getCurrentWeek();
+    const items = this.items;
+    this.week = temp.reduce((acc, current) => {
+      const dayDate = current.format('DD');
+      const dayName = current.format('dd');
+      const amount = items[dayDate];
+      return [...acc, 
+        [dayName, amount ? amount : 0]
+      ];
+    }, []);
+    return this;
   }
 
   today(){

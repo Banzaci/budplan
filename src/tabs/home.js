@@ -27,10 +27,11 @@ class Home extends Component {
   onAmountChange = ({ currentDay, amount }) => {
     const { currentYear, currentMonth } = this.state;
     this.props.save({ currentYear, currentMonth, day: currentDay, amount })
-      .then( ({ total, average }) => {
+      .then( ({ total, average, week }) => {
         this.setState({
           total,
-          average
+          average,
+          week
         })
       })
   };
@@ -46,7 +47,7 @@ class Home extends Component {
     )
   }
   render() {
-    const { total, average, lastMonthSpending, todayAmount } = this.state;
+    const { total, average, lastMonthSpending, todayAmount, week } = this.state;
     return (
       <Container>
         <Information
@@ -69,7 +70,7 @@ class Home extends Component {
         <Today>
           { todayAmount && this.renderToday(todayAmount) }
         </Today>
-        <LineChart />
+        { week && <LineChart data={ week }/> }
       </Container>
     );
   }

@@ -75,6 +75,7 @@ export function saveAmount({ currentYear, currentMonth, day, amount }) {
           .total()
           .average()
           .totalByAverage()
+          .week()
       )),
       err => dispatch(savedAmountError(err))
     );
@@ -95,6 +96,7 @@ export function getThisMonthAmount() {
             .total()
             .average()
             .totalByAverage()
+            .week()
         ));
       },
       err => dispatch(fetchMonthError(err))
