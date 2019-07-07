@@ -1,26 +1,24 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Block from '../components/Block'
+import Block from '../components/Block';
+import BlockComponent from '../components/BlockComponent';
 
-export default function Information({ average, total, targetAverage, totalByAverage }) {
+export default function Information({ list }) {
+
+  const generatePrice = (a, b) => `${a}kr / (${b}kr)`;
+
+  const ListGenerator = ({ header, pre1, pre2 }, index) => (
+    <BlockComponent key={ index } style={{ backgroundColor:"#ddd", color: 'black' } } >
+      <Block
+        header={ header }
+        text={ generatePrice(pre1, pre2) }
+      />
+    </BlockComponent>
+  )
+
   return (
     <Container>
-      <Block
-        header="Average day spending"
-        text={ `${average}kr / (${targetAverage}kr)` }
-        style={{
-          marginLeft: 6,
-          marginRight: 3
-        }}
-      />
-      <Block
-        header="Spent so far"
-        text={ `${total}kr / (${totalByAverage}kr)` }
-        style={{
-          marginLeft: 3,
-          marginRight: 6
-        }}
-      />
+      { list.map(ListGenerator) }
     </Container>
   );
 }

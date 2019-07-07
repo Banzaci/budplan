@@ -2,26 +2,27 @@ import { daysInMonth, getCurrentDate } from './dates';
 
 export default class Month {
   constructor({ data }) {
-    this.items = { data }
+    this.items = data
+    this.currentDay = getCurrentDate().currentDay
+  }
+
+  today(){
+    this.todayAmount = (this.items[this.currentDay] || 0).toString()
+    return this;
   }
 
   total() {
-    const { data } = this.items;
-    const total = Object.keys(data).reduce((acc, key) => acc + parseInt(data[key]), 0)
-    this.items = { ...this.items, total }
+    this.total = Object.keys(this.items).reduce((acc, key) => acc + parseInt(this.items[key]), 0)
     return this;
   }
 
   average() {
-    const { total } = this.items;
-    const { currentDay } = getCurrentDate()
-    this.items = { ...this.items, average: (total / currentDay).toFixed(2) }
+    this.average = (this.total / this.currentDay).toFixed(2)
     return this;
   }
 
   totalByAverage() {
-    const { average } = this.items;
-    this.items = { ...this.items, totalByAverage: (average * daysInMonth()).toFixed(2) }
+    this.totalByAverage = (this.average * daysInMonth()).toFixed(2)
     return this;
   }
 }

@@ -25,10 +25,11 @@ function savedAmountError(error) {
   };
 }
 
-function savedAmountSuccess(data) {
+function savedAmountSuccess(dates, month) {
   return {
+    ...dates,
+    ...month,
     type: SAVED_AMOUNT_SUCCESS,
-    ...data
   };
 }
 
@@ -40,10 +41,10 @@ const addZeroIfNeeded = day => {
 const range = length =>
   Array.from({ length }, (_, day) => addZeroIfNeeded(day + 1));
 
-const fetchMonthSuccess = (dates, { items }) => {
-  const { data } = items;
+const fetchMonthSuccess = (dates, month) => {
+  const { items } = month;
   const monthWithAmount = range(daysInMonth()).reduce((acc, current) => {
-    const dayData = data[current] || 0;
+    const dayData = items[current] || 0;
     return {
       ...acc,
       ...{
@@ -55,7 +56,7 @@ const fetchMonthSuccess = (dates, { items }) => {
   }, []);
   return {
     ...dates,
-    ...items,
+    ...month,
     monthWithAmount,
     type: FETCH_SUCCESS
   };
@@ -70,6 +71,7 @@ export function saveAmount({ currentYear, currentMonth, day, amount }) {
       response => dispatch(savedAmountSuccess(
         { currentYear, currentMonth, currentDay: day },// Can produce error
         new Month(response)
+          .today()
           .total()
           .average()
           .totalByAverage()
@@ -89,6 +91,7 @@ export function getThisMonthAmount() {
         return dispatch(fetchMonthSuccess(
           { currentYear, currentMonth, currentDay },
           new Month(response)
+            .today()
             .total()
             .average()
             .totalByAverage()
