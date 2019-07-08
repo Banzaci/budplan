@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import Input from '../components/Input'
+import Input from '../components/Input';
+import Categories from '../modules/categories';
 import { saveTargetData, getTargetData } from '../redux/actions/target';
 
 class Profile extends Component {
@@ -26,6 +27,9 @@ class Profile extends Component {
       });
   }
 
+  onDeleteCategory = () => {}
+  onAddategory = () => {}
+
   render() {
     return (
       <Container>
@@ -36,20 +40,27 @@ class Profile extends Component {
           keyboardType='numeric'
           onChange={ this.onChange }
         />
+        <Categories
+          list={ this.props.categories }
+          onDelete={ this.onDeleteCategory }
+          onClick={ this.onAddCategory }
+        />
       </Container>
     );
   }
 }
 
 const Container = styled.SafeAreaView`
-  height: 100%;
+  display: flex;
   width: 100%;
   padding: 20px 0;
+  flex-direction: row;
 `;
 
 const mapStateToProps = ({ reducers }) => {
-  const { target } = reducers;
+  const { target, category } = reducers;
   return {
+    categories: category.categories,
     monthlyBudget: target.monthlyBudget
   }
 }

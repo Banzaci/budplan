@@ -12,15 +12,6 @@ export default function Button({ title, onPress }) {
   );
 }
 
-const Container = styled.View`
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-`;
+const Container = styled.View``;
 
-const ActionButton = styled.Button`
-  width: 50px;
-  background: red;
-`;
+const ActionButton = styled.Button``;

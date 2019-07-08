@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { boxShadow } from '../style/common';
 
-export default function Input({ onChange, value, id, label, keyboardType }) {
+export default function Input({ onChange, value, id, label, keyboardType, error }) {
   
   const [focus, setFocus] = useState(false);
   const [firstRender, setFirstRender] = useState(false);
@@ -32,11 +32,12 @@ export default function Input({ onChange, value, id, label, keyboardType }) {
     <Container
       {...(focus && { style: {...boxShadow } } )}
     >
-      <Label
-        {...(focus && { style: { fontSize: 18 }} )}
-      >
-        { label }
-      </Label>
+      { label && <Label
+          {...(focus && { style: { fontSize: 18 }} )}
+        >
+          { label }
+        </Label>
+      }
       <TextInput
         { ...(focus && { style: { fontSize: 18 }} )}
         { ...(value && { value: text.toString() })}
