@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Ionicons } from '@expo/vector-icons';
 import { boxShadow } from '../style/common';
 
-export default function InputAmount({ average, value, placeholder, day, onChange, currentDay, keyboardType}) {
+export default function InputAmount({ value, placeholder, day, onChange, currentDay, keyboardType}) {
   
   const currency = 'kr';
   const [error, setError] = useState();
@@ -33,12 +32,6 @@ export default function InputAmount({ average, value, placeholder, day, onChange
     }
   }
 
-  const renderIcon = day => {// md-trending-down"
-    if (isBeforeCurrentDay && average < value) return (<Ionicons name="md-thumbs-down" size={32} color="#eee" />)
-    if (isBeforeCurrentDay && average > value) return (<Ionicons name="md-thumbs-up" size={32} color="#eee" />)
-    if (isCurrentDay) return (<Ionicons name="md-today" size={32} color="#aaa" />)
-    return (<Ionicons name="md-lock" size={32} color="black" />)
-  }
   return (
     <Container
       {...(focus && { style: boxShadow } )}

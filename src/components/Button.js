@@ -1,20 +1,12 @@
 import React from 'react';
-import styled from 'styled-components';
 import Icon from '../utils/button-icon';
+import { Container, ActionButton } from './button-style';
 
-export default function Button({ type, onPress }) {
-  
-  const icon = Icon(type);
-
-  return (
-    <Container>
-      <ActionButton
-        onPress={ onPress }
-      />
-    </Container>
-  );
-}
-
-const Container = styled.View``;
-
-const ActionButton = styled.Button``;
+export default function Button({ type, onPress }) {(
+  <Container>
+    <ActionButton
+      icon={ Icon(type) }
+      onPress={ onPress }
+    />
+  </Container>
+)}

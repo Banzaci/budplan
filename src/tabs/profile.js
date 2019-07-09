@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import Input from '../components/Input';
-import Categories from '../modules/categories';
+import Categories from '../modules/Categories';
 import { saveTargetData, getTargetData } from '../redux/actions/target';
 
 class Profile extends Component {

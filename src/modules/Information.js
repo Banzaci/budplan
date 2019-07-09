@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import InformationBlock from '../components/InformationBlock';
+import InformationBlock from '../components/Information-block';
 import { boxShadow } from '../style/common';
 
 export default function Information({ list }) {

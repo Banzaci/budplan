@@ -1,26 +1,13 @@
 import React from 'react';
-import styled from 'styled-components';
+import { Container, Label } from './label-style';
 
-export default function Input({ label, warning = {}, style = {} }) {
-  
-  return (
-    <Container
-      { ...warning }
-      { ...style }
-    >
-      <Label>
-        { label }
-      </Label>
-    </Container>
-  );
-}
-
-const Container = styled.View`
-  width: 100%;
-  margin: 0 auto;
-`;
-
-const Label = styled.Text`
-  font-size: 18px;
-  padding: 6px 12px;
-`;
+export default function Label({ label, warning, error }) {(
+  <Container
+    {...(warning && { style: { fontSize: 18 }} )}
+    {...(error && { style: { fontSize: 18 }} )}
+  >
+    <Label>
+      { label }
+    </Label>
+  </Container>
+)}
