@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import Category from "../components/Category";
 import { boxShadow } from "../style/common";
 import Button from "../components/Button";
@@ -9,7 +9,7 @@ import { saveAmount, getThisMonthAmount } from '../redux/actions/spendning';
 
 class Toggle extends Component {
   state = {
-    isOpen: false,
+    isOpen: true,
     categories: []
   };
 
@@ -27,8 +27,8 @@ class Toggle extends Component {
     });
   };
 
-  renderList = (catetory, index) => (
-    <Category index={index} key={index} {...catetory} />
+  renderList = (catetory, index) => console.log(catetory)||(
+    <Category key={index} catetory={catetory} />
   );
 
   onAmountChange = ({ currentDay, amount }) => {
@@ -46,14 +46,14 @@ class Toggle extends Component {
   };
 
   render() {
-    const { categories, isOpen } = this.props;
-    const icon = isOpen ? "add" : "delete";
+    const { categories } = this.props;
+    const { isOpen } = this.state;
+    const icon = isOpen ? 'add' : 'delete';
+    const title = isOpen ? 'Stäng' : 'Öppna';
     return (
-      <Container style={boxShadow}>
-        <Button type={icon} onPress={ this.onToggle } />
-        <View {...(isOpen && { style: { display: "flex" } })}>
-          { this.props.categories.map(this.renderList)}
-        </View>
+      <Container style={ boxShadow }>
+        <Button title={ title } type={ icon } onPress={ this.onToggle } />
+        { isOpen && this.props.categories.map(this.renderList) }
       </Container>
     );
   }

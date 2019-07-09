@@ -24,8 +24,8 @@ export default function Navigation() {
   const [ state, setState ] = useState({
     index: 0,
     routes: [
-      { key: 'profile', title: 'Profile' },
       { key: 'home', title: 'Home' },
+      { key: 'profile', title: 'Profile' },
       { key: 'month', title: 'Month' },
     ],
   });

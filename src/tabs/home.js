@@ -4,12 +4,22 @@ import styled from 'styled-components';
 import Information from '../modules/Information';
 import LineChart from '../modules/LineChart';
 import Toggle from '../modules/Toggle';
+import { getThisMonthAmount } from '../redux/actions/spendning';
 
 class Home extends Component {
 
   state = {
     total: 0,
     average: 0,
+    week: [],
+    weekNumber: '0'
+  }
+
+  async componentDidMount() {
+    const props = await this.props.dispatch(getThisMonthAmount());
+    this.setState({
+      ...props
+    });
   }
 
   render() {
@@ -17,7 +27,7 @@ class Home extends Component {
     return (
       <Container>
         <Toggle />
-        { week && <LineChart data={ week } weekNumber={ weekNumber }/> }
+        <LineChart data={ week } weekNumber={ weekNumber }/>
         <Information
           list={[
             {

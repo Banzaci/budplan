@@ -6,6 +6,8 @@ import styled from 'styled-components';
 const screenWidth = Dimensions.get('window').width - 20;
 
 export default function Chart({ data, weekNumber }) {
+  
+  if (data.length < 1) return null;
 
   const days = data.map(([day, _]) => day);
   const amount = data.map(([_, amount]) => amount);
