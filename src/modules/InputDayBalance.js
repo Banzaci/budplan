@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import InputAmount from '../components/InputAmount'
+import InputAmount from '../components/Input-amount';
 
 export default function InputDayBalance({ average, onAmountChange, amount, currentDay, day }) {
 

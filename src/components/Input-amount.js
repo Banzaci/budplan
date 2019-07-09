@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { boxShadow } from '../style/common';
 
-export default function InputAmount({ value, placeholder, day, onChange, currentDay, keyboardType}) {
+export default function InputAmount({ day, onChange, currentDay }) {
   
   const currency = 'kr';
   const [error, setError] = useState();
@@ -22,9 +22,8 @@ export default function InputAmount({ value, placeholder, day, onChange, current
     setFocus(false)
   }
 
-  const onChangeHandler = ({ amount, day }) => {
-    const isNumber = Number.isInteger(parseInt(amount));
-    if (isNumber) {
+  const onChangeHandler = (amount) => {
+    if (Number.isInteger(parseInt(amount))) {
       setText(amount);
       onChange({ amount, day })
     } else {
@@ -50,11 +49,11 @@ export default function InputAmount({ value, placeholder, day, onChange, current
         {...(isCurrentDay && { style: { fontSize: 28, width: '50%' }} )}
         {...(isAfterCurrentDay && { editable: false, width: '40%' } )}
         {...(text ? { value: text } : placeholder )}
-        keyboardType={ keyboardType }
+        keyboardType="numeric"
         selectTextOnFocus={ true }
         onFocus={ onFocus }
         onBlur={ onBlur }
-        onChangeText={ amount => onChangeHandler({ amount, day }) }
+        onChangeText={ onChangeHandler }
       />
     </Container>
   );
