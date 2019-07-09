@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { boxShadow } from '../style/common';
 
-export default function InputAmount({ day, onChange, currentDay }) {
+export default function InputAmount({ day, onChange, currentDay, value }) {
   
   const currency = 'kr';
   const [error, setError] = useState();

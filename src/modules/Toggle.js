@@ -30,6 +30,7 @@ class Toggle extends Component {
   renderList = (catetory, index) => (
     <Category index={index} key={index} {...catetory} />
   );
+
   onAmountChange = ({ currentDay, amount }) => {
     const { currentYear, currentMonth } = this.state;
     this.props
@@ -45,13 +46,13 @@ class Toggle extends Component {
   };
 
   render() {
-    const { categories } = this.props;
-    const icon = this.state.isOpen ? "add" : "delete";
+    const { categories, isOpen } = this.props;
+    const icon = isOpen ? "add" : "delete";
     return (
       <Container style={boxShadow}>
-        <Button type={icon} onPress={onToggle} />
-        <View {...isOpen && { style: { display: "flex" } }}>
-          { this.props.categories.map(renderList)}
+        <Button type={icon} onPress={ this.onToggle } />
+        <View {...(isOpen && { style: { display: "flex" } })}>
+          { this.props.categories.map(this.renderList)}
         </View>
       </Container>
     );
