@@ -3,7 +3,7 @@ import { boxShadow } from '../style/common';
 import Button from './Button';
 import { Container, TextInput, Text, Label } from './input-style';
 
-export default function Input({ button, onChange, value, id, label, keyboardType, error, border }) {
+export default function Input({ placeholder, button, onChange, value, id, labelRight, labelLeft, keyboardType, error, border }) {
   
   const [focus, setFocus] = useState(false);
   const [firstRender, setFirstRender] = useState(false);
@@ -32,31 +32,35 @@ export default function Input({ button, onChange, value, id, label, keyboardType
   })
 
   return (
-    <Container>
-      { label && <Label
+    <Container
+      {...(border && { style: { ...boxShadow } } )}
+    >
+      { labelLeft && <Label
           {...(focus && { style: { fontSize: 18 }} )}
         >
-          { label }
+          { labelLeft }
         </Label>
       }
-      <Text
-        {...(border && { style: { ...boxShadow, ...borderFocusStyle } } )}
+      <TextInput
+        { ...(value && { value: text.toString() })}
+        { ...(placeholder && { placeholder })}
+        keyboardType={ keyboardType }
+        selectTextOnFocus={ true }
+        onBlur={ onBlur }
+        onFocus={ onFocus }
+        onChangeText={ onChangeHandler }
+      />
+    { labelRight && <Label
+        {...(focus && { style: { fontSize: 18 }} )}
       >
-        <TextInput
-          { ...(focus && { style: { fontSize: 18 }} )}
-          { ...(value && { value: text.toString() })}
-          keyboardType={ keyboardType }
-          selectTextOnFocus={ true }
-          onBlur={ onBlur }
-          onFocus={ onFocus }
-          onChangeText={ onChangeHandler }
-        />
-      </Text>
-      
+        { labelRight }
+      </Label>
+      }
+      { button && <Button
+        title="add"
+        onPress={ onChangeHandler }
+        { ...button }
+      />}
     </Container>
   );
 }
-// { button && <Button
-//   onPress={ onChangeHandler }
-//   { ...button }
-// />}

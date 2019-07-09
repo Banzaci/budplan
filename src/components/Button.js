@@ -8,6 +8,7 @@ export default function Button({ title, type, onPress }) {
       <ActionButton
         title={ title }
         onPress={ onPress }
+        type="clear"
       />
     </Container>
   )
