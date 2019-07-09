@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { boxShadow } from '../style/common';
 import Button from './Button';
-import { Container, TextInput, Text, Label } from './Imput-style';
+import { Container, TextInput, Text, Label } from './input-style';
 
 export default function Input({ button, onChange, value, id, label, keyboardType, error, border }) {
   
@@ -52,10 +52,11 @@ export default function Input({ button, onChange, value, id, label, keyboardType
           onChangeText={ onChangeHandler }
         />
       </Text>
-      { button && <Button
-        onPress={ onChangeHandler }
-        { ...button }
-      />}
+      
     </Container>
   );
 }
+// { button && <Button
+//   onPress={ onChangeHandler }
+//   { ...button }
+// />}

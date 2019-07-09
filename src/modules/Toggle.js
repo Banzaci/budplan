@@ -4,9 +4,8 @@ import { View } from "react-native";
 import Category from "../components/Category";
 import { boxShadow } from "../style/common";
 import Button from "../components/Button";
+import { Container } from './toggle-style';
 import { saveAmount, getThisMonthAmount } from '../redux/actions/spendning';
-
-import React, { Component } from "react";
 
 class Toggle extends Component {
   state = {
