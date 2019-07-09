@@ -1,11 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
+import Icon from '../utils/button-icon';
 
-export default function Button({ title, onPress }) {
+export default function Button({ type, onPress }) {
+  
+  const icon = Icon(type);
+
   return (
     <Container>
       <ActionButton
-        title={ title }
         onPress={ onPress }
       />
     </Container>

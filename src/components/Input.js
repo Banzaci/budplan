@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import { boxShadow } from '../style/common';
+import Button from './Button';
+import { Container, TextInput, Text, Label } from './Imput-style';
 
-export default function Input({ onChange, value, id, label, keyboardType, error }) {
+export default function Input({ button, onChange, value, id, label, keyboardType, error, border }) {
   
   const [focus, setFocus] = useState(false);
   const [firstRender, setFirstRender] = useState(false);
   const [text, setText] = useState(value);
+
+  const borderFocusStyle = focus ? { borderColor: 'blue' } : {};
 
   const onFocus = () => {
     setFocus(true)
@@ -29,47 +32,30 @@ export default function Input({ onChange, value, id, label, keyboardType, error 
   })
 
   return (
-    <Container
-      {...(focus && { style: {...boxShadow } } )}
-    >
+    <Container>
       { label && <Label
           {...(focus && { style: { fontSize: 18 }} )}
         >
           { label }
         </Label>
       }
-      <TextInput
-        { ...(focus && { style: { fontSize: 18 }} )}
-        { ...(value && { value: text.toString() })}
-        keyboardType={ keyboardType }
-        selectTextOnFocus={ true }
-        onBlur={ onBlur }
-        onFocus={ onFocus }
-        onChangeText={ amount => onChangeHandler(amount) }
-      />
+      <Text
+        {...(border && { style: { ...boxShadow, ...borderFocusStyle } } )}
+      >
+        <TextInput
+          { ...(focus && { style: { fontSize: 18 }} )}
+          { ...(value && { value: text.toString() })}
+          keyboardType={ keyboardType }
+          selectTextOnFocus={ true }
+          onBlur={ onBlur }
+          onFocus={ onFocus }
+          onChangeText={ onChangeHandler }
+        />
+      </Text>
+      { button && <Button
+        onPress={ onChangeHandler }
+        { ...button }
+      />}
     </Container>
   );
 }
-
-const Container = styled.View`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  background-color: white;
-  width: 100%;
-  margin: 0 auto;
-  border-radius: 12px;
-`;
-
-const Label = styled.Text`
-  font-size: 18px;
-  padding: 6px 12px;
-`;
-
-const TextInput = styled.TextInput`
-  padding: 6px 12px;
-  font-size: 22px;
-  width: 60%;
-  text-align: center;
-`;

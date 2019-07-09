@@ -17,15 +17,22 @@ export default function Categories({ list, onDelete, onClick }) {
   )
 
   const addNewCategory = category => {
-    if (list.includes(category)) return;// error
+    if (list.includes(category)) {
+      setError(true);
+      return;
+    }
     onClick(category);
+    setError(false);
   }
   
   return (
     <Container
       style={ boxShadow }
+      { ...(error && { style: { backgroundColor: 'red'}})}
     >
     <Input
+      border
+      button={ { type: 'add' } }
       onChange={ addNewCategory }
     />
       { list.map(CategoryGenerator) }
