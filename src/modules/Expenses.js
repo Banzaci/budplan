@@ -16,21 +16,12 @@ export default class VariableCost extends Component {
   };
 
   renderList = (expense, index) => (
-    <Category onClick={ this.onAmountChange } key={index} category={expense} />
+    <Category onClick={ this.onAmountChange } key={index} category={ expense } />
   );
 
-  onAmountChange = ({ day, amount, category }) => {
-    const { currentYear, currentMonth, type, category } = this.state;
-    this.props
-      .save({ currentYear, currentMonth, day, amount, type, category })
-      .then(({ total, average, week, weekNumber }) => {
-        this.setState({
-          total,
-          average,
-          week,
-          weekNumber
-        });
-      });
+  onAmountChange = ({ amount, category }) => {
+    const { typeOfCostype, category, day } = this.props;
+    this.props.onAmountChange({ day, amount, typeOfCostype, category })
   };
 
   render() {

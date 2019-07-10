@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Information from '../modules/Information';
 import LineChart from '../modules/LineChart';
 import Expenses from '../modules/Expenses';
-import { getThisMonthAmount } from '../redux/actions/spendning';
+import { saveAmount, getThisMonthAmount } from '../redux/actions/spendning';
 
 class Home extends Component {
 
@@ -23,10 +23,10 @@ class Home extends Component {
     });
   }
 
-  onAmountChange = ({ day, amount, category }) => {
-    const { currentYear, currentMonth, type, category } = this.state;
+  onAmountChange = ({ day, amount, typeOfCost, category }) => {
+    const { currentYear, currentMonth } = this.state;
     this.props
-      .save({ currentYear, currentMonth, day, amount, type, category })
+      .save({ currentYear, currentMonth, day, amount, typeOfCost, category })
       .then(({ total, average, week, weekNumber }) => {
         this.setState({
           total,
@@ -43,9 +43,10 @@ class Home extends Component {
     return (
       <Container>
         <Expenses
-          type="variable"
+          typeOfCost="variable"
           day={ currentDay }
           expenses={ this.state.expenses }
+          onAmountChange={ this.onAmountChange }
         />
         <LineChart data={ week } weekNumber={ weekNumber }/>
         <Information

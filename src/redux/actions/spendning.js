@@ -62,10 +62,10 @@ const fetchMonthSuccess = (dates, month) => {
   };
 };
 
-export function saveAmount({ currentYear, currentMonth, day, amount }) {
+export function saveAmount(data) {
   return function(dispatch) {
     dispatch({ type: SAVING_AMOUNT });
-    const request = saveSpending({ currentYear, currentMonth, day, amount });
+    const request = saveSpending(data);
 
     return request.then(
       response => dispatch(savedAmountSuccess(

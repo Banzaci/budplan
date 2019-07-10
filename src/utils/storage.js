@@ -53,7 +53,7 @@ export const saveTarget = async ({ amount, id, currentMonth }) => {
   }
 }
 
-export const saveSpending = async ({ currentYear, currentMonth, day, amount }) => {
+export const saveSpending = async ({ currentYear, currentMonth, day, amount, typeOfCost, category }) => {
   try {
     const key = currentYear;
     const index = currentMonth;
@@ -62,7 +62,11 @@ export const saveSpending = async ({ currentYear, currentMonth, day, amount }) =
     const newData = { ...data, ...{
       [index]: {
         ...indexData,
-        [day]: amount
+        [day]: {
+          [typeOfCost]: {
+            [category]: amount
+          }
+        }
       }
     } };
     // const rm = Object.keys(newData[index]).reduce((acc, a) => {
