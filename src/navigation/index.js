@@ -25,8 +25,8 @@ export default function Navigation() {
     index: 0,
     routes: [
       { key: 'home', title: 'Home' },
-      { key: 'profile', title: 'Profile' },
-      { key: 'month', title: 'Month' },
+      // { key: 'profile', title: 'Profile' },
+      // { key: 'month', title: 'Month' },
     ],
   });
   return (

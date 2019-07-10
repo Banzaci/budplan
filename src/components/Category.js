@@ -7,7 +7,7 @@ export default function Category({ category, onClick, value }) {
 
   const [amount, setAmount] = useState(value);
 
-  const onPress = () => onClick({ amount, category })
+  const onPress = () => onClick({ amount })
 
   return (
     <Container>

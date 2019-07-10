@@ -2,6 +2,7 @@ import { daysInMonth, getCurrentDate, getCurrentWeek, getCurrentWeekNumber } fro
 
 export default class Month {
   constructor({ data }) {
+    console.log(data)
     this.items = data
     this.currentDay = getCurrentDate().currentDay
   }

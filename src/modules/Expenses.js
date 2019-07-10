@@ -19,7 +19,7 @@ export default class VariableCost extends Component {
     <Category onClick={ this.onAmountChange } key={index} category={ expense } />
   );
 
-  onAmountChange = ({ amount, category }) => {
+  onAmountChange = ({ amount }) => {
     const { typeOfCostype, category, day } = this.props;
     this.props.onAmountChange({ day, amount, typeOfCostype, category })
   };
@@ -32,7 +32,7 @@ export default class VariableCost extends Component {
     return (
       <Container>
         <Button title={ title } type={ icon } onPress={ this.onToggle } />
-        { isOpen &&  variable }
+        { false &&  variable }
       </Container>
     );
   }
