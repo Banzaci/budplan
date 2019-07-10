@@ -93,4 +93,13 @@ const mapStateToProps = ({ reducers }) => {
   }
 }
 
-export default connect(mapStateToProps)(Home)
+const mapDispatchToProps = dispatch => {
+  return {
+    dispatch,
+    save: data => {
+      return dispatch(saveAmount(data))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
