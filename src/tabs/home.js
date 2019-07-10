@@ -45,7 +45,7 @@ class Home extends Component {
         <Expenses
           typeOfCost="variable"
           day={ currentDay }
-          expenses={ this.state.expenses }
+          expenses={ this.props.expenses }
           onAmountChange={ this.onAmountChange }
         />
         <LineChart data={ week } weekNumber={ weekNumber }/>
@@ -88,12 +88,10 @@ const mapStateToProps = ({ reducers }) => {
   const { spendning, target, category } = reducers;
   const { categories } = category;
 
-  console.log('categories', categories);
-
   return {
     totalByAverage: spendning.totalByAverage,
     targetAverage: target.average,
-    expenses: categories.variable,
+    expenses: categories,
   }
 }
 

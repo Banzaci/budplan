@@ -29,7 +29,6 @@ export default class Expenses extends Component {
     const icon = isOpen ? 'add' : 'delete';
     const title = isOpen ? 'Stäng' : 'Öppna';
     const expenses = this.props.expenses.map(this.renderList);
-    console.log(this.props.expenses)
     return (
       <Container>
         <Button title={ title } type={ icon } onPress={ this.onToggle } />

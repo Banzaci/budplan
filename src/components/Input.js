@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { boxShadow } from '../style/common';
 import Button from './Button';
-import { Container, TextInput, Text, Label } from './input-style';
+import { Container, TextInput, Label } from './input-style';
 
-export default function Input({ placeholder, button, onChange, value, id, labelRight, labelLeft, keyboardType, error, border }) {
+export default function Input({ placeholder, onChange, value, id, labelRight, labelLeft, keyboardType, error, border }) {
   
   const [focus, setFocus] = useState(false);
   const [firstRender, setFirstRender] = useState(false);
@@ -56,11 +56,6 @@ export default function Input({ placeholder, button, onChange, value, id, labelR
         { labelRight }
       </Label>
       }
-      { button && <Button
-        title="add"
-        onPress={ onChangeHandler }
-        { ...button }
-      />}
     </Container>
   );
 }
