@@ -3,7 +3,7 @@ import Category from "../components/Category";
 import Button from "../components/Button";
 import { Container } from './expenses-style';
 
-export default class VariableCost extends Component {
+export default class Expenses extends Component {
   state = {
     isOpen: true,
   };
@@ -28,11 +28,12 @@ export default class VariableCost extends Component {
     const { isOpen } = this.state;
     const icon = isOpen ? 'add' : 'delete';
     const title = isOpen ? 'Stäng' : 'Öppna';
-    const variable = this.props.expenses.map(this.renderList);
+    const expenses = this.props.expenses.map(this.renderList);
+    console.log(this.props.expenses)
     return (
       <Container>
         <Button title={ title } type={ icon } onPress={ this.onToggle } />
-        { false &&  variable }
+        { isOpen &&  expenses }
       </Container>
     );
   }

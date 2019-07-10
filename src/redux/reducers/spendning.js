@@ -8,7 +8,6 @@ const INITIAL_STATE = {
 export default function reducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case FETCH_SUCCESS:
-      const { yr, month, day, monthWithAmount } = action;
       return {
         ...state,
         ...action,

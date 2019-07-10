@@ -9,7 +9,6 @@ const INITIAL_STATE = {
 export default function reducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case FETCH_CATEGORY_SUCCESS:
-      console.log(action.data)
       return {
         ...state,
         ...action.data

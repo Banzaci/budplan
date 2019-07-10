@@ -57,26 +57,37 @@ export const saveSpending = async ({ currentYear, currentMonth, day, amount, typ
   try {
     const key = currentYear;
     const index = currentMonth;
-    const data = await getDataByKey(key);
-    const monthData = getDataByIndex(index, data);
-    const dayData = getDataByIndex(day, monthData);
-    const newData = { ...data, ...{
-      [index]: {
-        ...monthData,
-        [day]: {
-          [typeOfCost]: {
-            [category]: amount
-          }
-        }
-      }
-    } };
+    const year = await getDataByKey(key);
+    const month = getDataByIndex(index, year);
+    console.log(month)
+    // const day = getDataByIndex(category, month)
+    // const d = getDataByIndex(month, day)
+    // const c = [ ...get(d, category), amount ]
+    // const v = {
+    //   ...m,
+    //   [day]: {
+    //     ...d,
+    //     [category]: c
+    //   }
+    // }
+    // const dayData = getDataByIndex(day, monthData);
+    // const newData = { ...data, ...{
+    //   [index]: {
+    //     ...monthData,
+    //     [day]: {
+    //       [typeOfCost]: {
+    //         [category]: amount
+    //       }
+    //     }
+    //   }
+    // } };
     // const rm = Object.keys(newData[index]).reduce((acc, a) => {
     //   if (a !== 'undefined') {
     //     acc = { ...acc, [a]: newData[index][a]}
     //   }
     //   return acc;
     // }, {})
-    const result = await saveDataByKey(key, newData);
+    // const result = await saveDataByKey(key, newData);
     return {
       success: true,
       data: newData[index], // Kolla om 'monthData'
@@ -97,6 +108,7 @@ export const getSpending = async ({ currentYear, currentMonth, currentDay }) => 
     const index = currentMonth;
     const data = await getDataByKey(key);
     const indexData = getDataByIndex(index, data);
+    console.log(data)
     return {
       data: indexData,
       ...{ currentYear, currentMonth, currentDay }
