@@ -1,28 +1,34 @@
 import React, { useState } from 'react';
 import Button from './Button';
 import Input from './Input';
-import { Container } from './category-style';
+import { Container, View } from './category-style';
 
-export default function Category({ category, onClick, value }) {
+export default function Category({ id, name, onClick }) {
 
-  const [amount, setAmount] = useState(value);
+  const [amount, setAmount] = useState({});
 
-  const onPress = () => onClick({ amount })
+  const onPress = () => onClick(amount);
 
   return (
     <Container>
-      <Input
-        keyboardType='numeric'
-        border
-        placeholder={ category }
-        label={ category }
-        onChange={ setAmount }
-      />
-      <Button
-        title="+"
-        type="add"
-        onPress={ onPress }
-      />
+      <View>
+        <Input
+          keyboardType='numeric'
+          border
+          placeholder={ name }
+          label={ name }
+          id={ id }
+          value=''
+          onChange={ setAmount }
+        />
+      </View>
+      <View>
+        <Button
+          title="+"
+          type="add"
+          onPress={ onPress }
+        />
+      </View>
     </Container>
   );
 }

@@ -66,10 +66,10 @@ export function saveAmount(data) {
   return function(dispatch) {
     dispatch({ type: SAVING_AMOUNT });
     const request = saveSpending(data);
-
+    const { currentYear, currentMonth, currentDay } = getCurrentDate();
     return request.then(
       response => dispatch(savedAmountSuccess(
-        { currentYear, currentMonth, currentDay: day },// Can produce error
+        { currentYear, currentMonth, currentDay },// Can produce error
         new Month(response)
           .today()
           .total()

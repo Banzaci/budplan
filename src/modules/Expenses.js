@@ -15,13 +15,20 @@ export default class Expenses extends Component {
     });
   };
 
-  renderList = (expense, index) => (
-    <Category onClick={ this.onAmountChange } key={index} category={ expense } />
-  );
+  renderList = (expense, index) =>  {
+    const [id, name] = Object.entries(expense)[0];
+    return (<Category
+      onClick={ this.onAmountChange }
+      key={ index }
+      id={ id }
+      name={ name }
+      />
+    )
+  }
 
-  onAmountChange = ({ amount }) => {
-    const { typeOfCostype, category, day } = this.props;
-    this.props.onAmountChange({ day, amount, typeOfCostype, category })
+  onAmountChange = ({ amount, id }) => {
+    const { typeOfCost, day } = this.props;
+    this.props.onAmountChange({ typeOfCost, amount, id, day })
   };
 
   render() {

@@ -1,8 +1,8 @@
 import { SAVE_TARGET, FETCH_TARGET_SUCCESS } from "../actions/target";
 
 const INITIAL_STATE = {
-  monthlyBudget: 10,
-  amountTarget: 10000,
+  monthlyBudget: '-',
+  average: '-',
 };
 
 export default function reducer(state = INITIAL_STATE, action) {

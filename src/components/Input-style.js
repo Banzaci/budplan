@@ -22,6 +22,6 @@ export const Label = styled.Text`
 
 export const TextInput = styled.TextInput`
   padding: 6px 12px;
-  font-size: 22px;
+  font-size: 16px;
   width: 100%;
 `;

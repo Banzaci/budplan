@@ -8,10 +8,7 @@ export default class Target {
 
   average() {
     const { monthlyBudget } = this.data;
-    this.data = {
-      ...this.data,
-      average: Math.round((monthlyBudget / daysInMonth())).toFixed(2)
-    };
+    this.average = Math.round((monthlyBudget / daysInMonth())).toFixed(2)
     return this;
   }
 }

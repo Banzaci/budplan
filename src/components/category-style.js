@@ -6,4 +6,9 @@ export const Container = styled.View`
   display: flex;
   flex-direction: row;
   width: 100%;
+  justify-content: center;
+`;
+
+export const View = styled.View`
+  flex: 1;
 `;

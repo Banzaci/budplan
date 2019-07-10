@@ -23,10 +23,10 @@ class Home extends Component {
     });
   }
 
-  onAmountChange = ({ day, amount, typeOfCost, category }) => {
+  onAmountChange = ({ typeOfCost, amount, id, day }) => {
     const { currentYear, currentMonth } = this.state;
     this.props
-      .save({ currentYear, currentMonth, day, amount, typeOfCost, category })
+      .save({ currentYear, currentMonth, typeOfCost, amount, id, day })
       .then(({ total, average, week, weekNumber }) => {
         this.setState({
           total,
@@ -87,7 +87,6 @@ const Container = styled.SafeAreaView`
 const mapStateToProps = ({ reducers }) => {
   const { spendning, target, category } = reducers;
   const { categories } = category;
-
   return {
     totalByAverage: spendning.totalByAverage,
     targetAverage: target.average,

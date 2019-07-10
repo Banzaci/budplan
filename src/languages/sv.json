@@ -1,6 +1,26 @@
 {
   "categories": {
-    "variable": ["Mat", "Nöje", "Kläder", "Teknik", "Skönhetsprodukter"],
-    "fixed": ["Hyra", "El", "Försäkring"]
+    "variable": [
+      {
+        "food": "Mat"
+      },
+      {
+        "entertainment": "Nöje"
+      },
+      {
+        "cloths":"Kläder"
+      },
+      {
+        "technique": "Teknik"
+      },
+      {
+        "accessories": "Skönhetsprodukter"
+      }
+    ],
+    "fixed": [
+      {
+        "rent": "Hyra"
+      }
+    ]
   }
 }
