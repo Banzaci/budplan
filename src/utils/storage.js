@@ -58,10 +58,11 @@ export const saveSpending = async ({ currentYear, currentMonth, day, amount, typ
     const key = currentYear;
     const index = currentMonth;
     const data = await getDataByKey(key);
-    const indexData = getDataByIndex(index, data);
+    const monthData = getDataByIndex(index, data);
+    const dayData = getDataByIndex(day, monthData);
     const newData = { ...data, ...{
       [index]: {
-        ...indexData,
+        ...monthData,
         [day]: {
           [typeOfCost]: {
             [category]: amount
@@ -78,7 +79,7 @@ export const saveSpending = async ({ currentYear, currentMonth, day, amount, typ
     const result = await saveDataByKey(key, newData);
     return {
       success: true,
-      data: newData[index], // Kolla om 'indexData'
+      data: newData[index], // Kolla om 'monthData'
       ...{ currentYear: key, currentMonth: index }
     };
   } catch (error) {
