@@ -1,3 +1,6 @@
 {
-  "categories": ["Fasta utgifter", "Mat", "Nöje"]
+  "categories": {
+    "variable": ["Mat", "Nöje", "Kläder", "Teknik", "Skönhetsprodukter"],
+    "fixed": ["Hyra", "El", "Försäkring"]
+  }
 }

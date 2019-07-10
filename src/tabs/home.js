@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Information from '../modules/Information';
 import LineChart from '../modules/LineChart';
-import Toggle from '../modules/Toggle';
+import Expenses from '../modules/Expenses';
 import { getThisMonthAmount } from '../redux/actions/spendning';
 
 class Home extends Component {
@@ -11,6 +11,7 @@ class Home extends Component {
   state = {
     total: 0,
     average: 0,
+    expenses: [],
     week: [],
     weekNumber: '0'
   }
@@ -22,11 +23,30 @@ class Home extends Component {
     });
   }
 
+  onAmountChange = ({ day, amount, category }) => {
+    const { currentYear, currentMonth, type, category } = this.state;
+    this.props
+      .save({ currentYear, currentMonth, day, amount, type, category })
+      .then(({ total, average, week, weekNumber }) => {
+        this.setState({
+          total,
+          average,
+          week,
+          weekNumber
+        });
+      });
+  };
+
+
   render() {
-    const { total, average, week, weekNumber } = this.state;
+    const { total, average, week, weekNumber, currentDay } = this.state;
     return (
       <Container>
-        <Toggle />
+        <Expenses
+          type="variable"
+          day={ currentDay }
+          expenses={ this.state.expenses }
+        />
         <LineChart data={ week } weekNumber={ weekNumber }/>
         <Information
           list={[
@@ -64,10 +84,12 @@ const Container = styled.SafeAreaView`
 `;
 
 const mapStateToProps = ({ reducers }) => {
-  const { spendning, target } = reducers;
+  const { spendning, target, category } = reducers;
+  const { categories } = category;
   return {
     totalByAverage: spendning.totalByAverage,
     targetAverage: target.average,
+    expenses: categories.variable,
   }
 }
 

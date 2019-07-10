@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from './Button';
 import Input from './Input';
-import { Container, Label } from './category-style';
+import { Container } from './category-style';
 
-export default function Category({ category, onPress, show }) {
+export default function Category({ category, onClick, day, value }) {
+
+  const [amount, setAmount] = useState(value);
+
+  const onPress = () => onClick({ amount, category, day })
+
   return (
     <Container>
       <Input
@@ -11,12 +16,13 @@ export default function Category({ category, onPress, show }) {
         border
         placeholder={ category }
         label={ category }
+        onChange={ setAmount }
       />
-      { show && <Button
-        title="-"
-        type="delete"
+      <Button
+        title="+"
+        type="add"
         onPress={ onPress }
-      /> }
+      />
     </Container>
   );
 }
