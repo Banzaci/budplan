@@ -1,12 +1,12 @@
 import { AsyncStorage } from 'react-native';
 
-const getDataByIndex = (index, data) => {
+const getByIndex = (index, data) => {
   const result = data[index]
   if (!result) return {}
   return result;
 }
 
-const getDataByKey = async key => {
+const getByKey = async key => {
   try {
     const data = await AsyncStorage.getItem(key);
     return data ? JSON.parse(data) : {}
@@ -28,8 +28,8 @@ export const saveTarget = async ({ amount, id, currentMonth }) => {
   try {
     const key = 'target';
     const index = currentMonth;
-    const data = await getDataByKey(key);
-    const indexData = getDataByIndex(index, data);
+    const data = await getByKey(key);
+    const indexData = getByIndex(index, data);
     const newIndexData = {
       ...indexData,
       [id]: amount
@@ -57,11 +57,11 @@ export const saveSpending = async ({ currentYear, currentMonth, day, amount, typ
   try {
     const key = currentYear;
     const index = currentMonth;
-    const year = await getDataByKey(key);
-    const month = getDataByIndex(index, year);
+    const year = await getByKey(key);
+    const month = getByIndex(index, year);
     console.log(month)
-    // const day = getDataByIndex(category, month)
-    // const d = getDataByIndex(month, day)
+    // const day = getByIndex(category, month)
+    // const d = getByIndex(month, day)
     // const c = [ ...get(d, category), amount ]
     // const v = {
     //   ...m,
@@ -70,7 +70,7 @@ export const saveSpending = async ({ currentYear, currentMonth, day, amount, typ
     //     [category]: c
     //   }
     // }
-    // const dayData = getDataByIndex(day, monthData);
+    // const dayData = getByIndex(day, monthData);
     // const newData = { ...data, ...{
     //   [index]: {
     //     ...monthData,
@@ -102,16 +102,16 @@ export const saveSpending = async ({ currentYear, currentMonth, day, amount, typ
   }
 }
 
-export const getSpending = async ({ currentYear, currentMonth, currentDay }) => {
+export const getSpending = async ({ currentYear, currentMonth }) => {
   try {
     const key = currentYear;
     const index = currentMonth;
-    const data = await getDataByKey(key);
-    const indexData = getDataByIndex(index, data);
+    const data = await getByKey(key);
+    const indexData = getByIndex(index, data);
     console.log(data)
     return {
       data: indexData,
-      ...{ currentYear, currentMonth, currentDay }
+      ...{ currentYear, currentMonth }
     };
 
   } catch (error) {
@@ -127,8 +127,8 @@ export const getTarget = async currentMonth => {
   try {
     const key = 'target';
     const index = currentMonth;
-    const data = await getDataByKey(key);
-    const indexData = getDataByIndex(index, data);
+    const data = await getByKey(key);
+    const indexData = getByIndex(index, data);
     // removeItemValue(key)
     return {
       data: indexData

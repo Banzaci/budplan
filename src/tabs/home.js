@@ -87,6 +87,9 @@ const Container = styled.SafeAreaView`
 const mapStateToProps = ({ reducers }) => {
   const { spendning, target, category } = reducers;
   const { categories } = category;
+
+  console.log('categories', categories);
+
   return {
     totalByAverage: spendning.totalByAverage,
     targetAverage: target.average,
