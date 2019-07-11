@@ -36,7 +36,6 @@ export function getCategoryData() {
 export function saveCategoryData(category) {
   return function (dispatch) {
     dispatch({ type: SAVING_CATEGORY });
-    const { currentMonth } = getCurrentDate();
     const request = saveCategory(category);
     return request.then(
       response => dispatch(fetchCategorySuccess(
