@@ -1,12 +1,6 @@
-import { daysInMonth, getCurrentDate, getWeekByDate, getWeekByDateNumber } from './dates';
+import { daysInMonth } from './dates';
 import Week from './week';
-
-const getTotalAmountByCostType = (daily, type) => {
-  if(!daily) return {}
-  const expenses = daily[type];
-  const total = Object.values(expenses).reduce((acc, current) => acc + parseInt(current, 10), 0)
-  return total;
-}
+import Day from './day';
 
 export default class Month {
   constructor(items) {
@@ -18,20 +12,17 @@ export default class Month {
     return this;
   }
 
-  today(){// change name
-    const { currentDay, items } = this;
-    const amounts = items[currentDay];
-    this.todayAmount = getTotalAmountByCostType(amounts, 'variable');
+  today(){
+    if (this.today) this.today = new Day();
     return this;
   }
 
   total() {
-    this.total = 0;//Object.keys(this.items).reduce((acc, key) => acc + parseInt(this.items[key]), 0)
     return this;
   }
 
   average() {
-    this.average = (this.total / this.currentDay).toFixed(2)
+    this.average = (this.total / this.today.today()).toFixed(2)
     return this;
   }
 

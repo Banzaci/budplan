@@ -65,13 +65,11 @@ export const saveSpending = async ({ currentYear, currentMonth, typeOfCost, amou
     const newData = {
       ...year,
       [currentYear]: {
-        ...months,
         [currentMonth]: {
-          ...today,
           [day]: {
             [typeOfCost]: {
               ...costs,
-              [id]: amount//[ ...costs[id] || [], amount ]
+              [id]: [ ...costs[id] || [], amount ]
             }
           }
         }
@@ -141,5 +139,3 @@ const removeItemValue = async (key) => { //removeItemValue(key)
     return false;
   }
 }
-
-//https://medium.com/@richardzhanguw/storing-and-retrieving-objects-using-asyncstorage-in-react-native-6bb1745fdcdd
