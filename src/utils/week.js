@@ -1,27 +1,22 @@
-import { getWeekByDateNumber } from './dates';
+import { weekNumber, getWeekByDate } from './dates';
+import Day from './day';
 
 export default class Week {
-  constructor(days) {
-    this.days = days
-    this.week = week
-  }
+  
+  constructor() {}
 
-  weekTotal(){
-    const { days, week } = this;
-    this.week = week.reduce((acc, current) => {
+  weekDays(days){
+    return getWeekByDate().reduce((acc, current) => {
       const dayDate = current.format('DD');
       const dayName = current.format('dd');
-      const amounts = days[dayDate];// new Day()
-      const expenses = getTotalAmountByCostType(amounts, 'variable');
+      const { amountSpent } = days[dayDate];
       return [...acc, 
-        [dayName, expenses ? expenses : 0]
+        [dayName, amountSpent]
       ];
     }, []);
-    return this;
   }
 
   weekNumber() {
-    this.weekNumber = getWeekByDateNumber();
-    return this; 
+    return weekNumber();
   }
 }

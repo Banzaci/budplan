@@ -17,9 +17,17 @@ class Home extends Component {
   }
 
   async componentDidMount() {
-    const { currentDay } = await this.props.dispatch(getThisMonthAmount());
+    const props = await this.props.dispatch(getThisMonthAmount());
+    const { currentDay, days, month } = props;
+    const currentWeek = month.currentWeek();
+    const average = month.average();
+
     this.setState({
-      currentDay
+      average,
+      currentDay,
+      days,
+      weekNumber: currentWeek.weekNumber(),
+      week: currentWeek.weekDays(days)
     });
   }
 
