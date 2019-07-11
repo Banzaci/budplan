@@ -62,8 +62,7 @@ export const saveSpending = async ({ currentYear, currentMonth, typeOfCost, amou
     const month = getByIndex(index, months);
     const today = getByIndex(day, month);
     const costs = getByIndex(typeOfCost, today);
-    console.log(key)
-    console.log('year')
+    console.log(currentYear, currentMonth, typeOfCost, amount, id, day)
     const newData = {
       ...year,
       [currentYear]: {
@@ -77,12 +76,11 @@ export const saveSpending = async ({ currentYear, currentMonth, typeOfCost, amou
         }
       }
     }
-    const result = await saveByKey(key, newData);
-    console.log(await getByKey(key))
+    await saveByKey(key, newData);
     return {
       success: true,
       data: newData[index], // Kolla om 'monthData'
-      ...{ currentYear, currentMonth }
+      day
     };
   } catch (error) {
     console.error(error)
@@ -102,7 +100,7 @@ export const getSpending = async ({ currentYear, currentMonth }) => {
     const month = getByIndex(index, months);
     console.log(month)
     return {
-      data: [],
+      data: month,
       ...{ currentYear, currentMonth }
     };
 

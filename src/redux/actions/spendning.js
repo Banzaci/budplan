@@ -65,8 +65,9 @@ const fetchMonthSuccess = (dates, month) => {
 export function saveAmount(data) {
   return function(dispatch) {
     dispatch({ type: SAVING_AMOUNT });
-    const request = saveSpending(data);
     const { currentYear, currentMonth, currentDay } = getCurrentDate();
+    console.log('action spending.js', { ...data, currentYear, currentMonth })
+    const request = saveSpending({ ...data, currentYear, currentMonth });
     return request.then(
       response => dispatch(savedAmountSuccess(
         { currentYear, currentMonth, currentDay },// Can produce error

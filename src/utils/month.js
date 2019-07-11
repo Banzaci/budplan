@@ -1,9 +1,17 @@
 import { daysInMonth, getCurrentDate, getCurrentWeek, getCurrentWeekNumber } from './dates';
 
+const getTotalAmountByCostType = (daily, type) => {
+  if(!daily) return {}
+  const expenses = daily[type];
+  const total = Object.values(expenses).reduce((acc, current) => acc + parseInt(current, 10), 0)
+  return total;
+}
+
 export default class Month {
-  constructor({ data }) {
+  constructor({ data, day }) {
     this.items = data
-    this.currentDay = getCurrentDate().currentDay
+    this.day = day;
+    this.currentDay = getCurrentDate().currentDay;
   }
 
   week(){
@@ -12,9 +20,10 @@ export default class Month {
     this.week = temp.reduce((acc, current) => {
       const dayDate = current.format('DD');
       const dayName = current.format('dd');
-      const amount = items[dayDate];
+      const amounts = items[dayDate];
+      const expenses = getTotalAmountByCostType(amounts, 'variable');
       return [...acc, 
-        [dayName, amount ? amount : 0]
+        [dayName, expenses ? expenses : 0]
       ];
     }, []);
     return this;
@@ -25,13 +34,15 @@ export default class Month {
     return this; 
   }
 
-  today(){
-    this.todayAmount = (this.items[this.currentDay] || 0).toString()
+  today(){// change name
+    const { currentDay, items } = this;
+    const amounts = items[currentDay];
+    this.todayAmount = getTotalAmountByCostType(amounts, 'variable');
     return this;
   }
 
   total() {
-    this.total = Object.keys(this.items).reduce((acc, key) => acc + parseInt(this.items[key]), 0)
+    this.total = 0;//Object.keys(this.items).reduce((acc, key) => acc + parseInt(this.items[key]), 0)
     return this;
   }
 

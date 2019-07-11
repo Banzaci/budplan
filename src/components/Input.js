@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { boxShadow } from '../style/common';
-import Button from './Button';
-import { Container, TextInput, Label } from './input-style';
+// import { Container, TextInput, Label } from './input-style';
+import styled from 'styled-components';
 
 export default function Input({ placeholder, onChange, value, id, labelRight, labelLeft, keyboardType, error, border }) {
   
   const [focus, setFocus] = useState(false);
   const [firstRender, setFirstRender] = useState(false);
   const [text, setText] = useState(value);
-
-  const borderFocusStyle = focus ? { borderColor: 'blue' } : {};
 
   const onFocus = () => {
     setFocus(true)
@@ -59,3 +57,30 @@ export default function Input({ placeholder, onChange, value, id, labelRight, la
     </Container>
   );
 }
+
+
+export const Text = styled.View`
+  width: 100%;
+`;
+
+export const Container = styled.View`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  background-color: white;
+  width: 100%;
+  border-radius: 12px;
+  margin: 0;
+`;
+
+export const Label = styled.Text`
+  font-size: 18px;
+  padding: 6px 12px;
+`;
+
+export const TextInput = styled.TextInput`
+  padding: 6px 12px;
+  font-size: 16px;
+  width: 100%;
+`;

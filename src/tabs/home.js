@@ -17,9 +17,9 @@ class Home extends Component {
   }
 
   async componentDidMount() {
-    const props = await this.props.dispatch(getThisMonthAmount());
+    const { currentDay } = await this.props.dispatch(getThisMonthAmount());
     this.setState({
-      ...props
+      currentDay
     });
   }
 
