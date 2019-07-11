@@ -1,4 +1,5 @@
-import { daysInMonth, getCurrentDate, getCurrentWeek, getCurrentWeekNumber } from './dates';
+import { daysInMonth, getCurrentDate, getWeekByDate, getWeekByDateNumber } from './dates';
+import Week from './week';
 
 const getTotalAmountByCostType = (daily, type) => {
   if(!daily) return {}
@@ -8,30 +9,13 @@ const getTotalAmountByCostType = (daily, type) => {
 }
 
 export default class Month {
-  constructor({ data, day }) {
-    this.items = data
-    this.day = day;
-    this.currentDay = getCurrentDate().currentDay;
+  constructor(items) {
+    this.items = items;
   }
 
-  week(){
-    const temp = getCurrentWeek();
-    const items = this.items;
-    this.week = temp.reduce((acc, current) => {
-      const dayDate = current.format('DD');
-      const dayName = current.format('dd');
-      const amounts = items[dayDate];
-      const expenses = getTotalAmountByCostType(amounts, 'variable');
-      return [...acc, 
-        [dayName, expenses ? expenses : 0]
-      ];
-    }, []);
+  currentWeek(){
+    if (this.currentWeek) this.currentWeek = new Week().current();
     return this;
-  }
-
-  weekNumber() {
-    this.weekNumber = getCurrentWeekNumber();
-    return this; 
   }
 
   today(){// change name

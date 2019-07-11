@@ -66,18 +66,11 @@ export function saveAmount(data) {
   return function(dispatch) {
     dispatch({ type: SAVING_AMOUNT });
     const { currentYear, currentMonth, currentDay } = getCurrentDate();
-    console.log('action spending.js', { ...data, currentYear, currentMonth })
     const request = saveSpending({ ...data, currentYear, currentMonth });
     return request.then(
       response => dispatch(savedAmountSuccess(
         { currentYear, currentMonth, currentDay },// Can produce error
         new Month(response)
-          .today()
-          .total()
-          .average()
-          .totalByAverage()
-          .week()
-          .weekNumber()
       )),
       err => dispatch(savedAmountError(err))
     );
@@ -94,12 +87,6 @@ export function getThisMonthAmount() {
         return dispatch(fetchMonthSuccess(
           { currentYear, currentMonth, currentDay },
           new Month(response)
-            .today()
-            .total()
-            .average()
-            .totalByAverage()
-            .week()
-            .weekNumber()
         ));
       },
       err => dispatch(fetchMonthError(err))

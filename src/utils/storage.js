@@ -62,15 +62,16 @@ export const saveSpending = async ({ currentYear, currentMonth, typeOfCost, amou
     const month = getByIndex(index, months);
     const today = getByIndex(day, month);
     const costs = getByIndex(typeOfCost, today);
-    console.log(currentYear, currentMonth, typeOfCost, amount, id, day)
     const newData = {
       ...year,
       [currentYear]: {
+        ...months,
         [currentMonth]: {
+          ...today,
           [day]: {
             [typeOfCost]: {
               ...costs,
-              [id]: [ ...costs[id] || [], amount ]
+              [id]: amount//[ ...costs[id] || [], amount ]
             }
           }
         }
@@ -98,7 +99,6 @@ export const getSpending = async ({ currentYear, currentMonth }) => {
     const year = await getByKey(key);
     const months = getByIndex(key, year);
     const month = getByIndex(index, months);
-    console.log(month)
     return {
       data: month,
       ...{ currentYear, currentMonth }

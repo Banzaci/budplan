@@ -7,7 +7,7 @@ export const daysInMonth = () => moment().daysInMonth()
 
 export const days = () => moment().days();
 
-export const getCurrentWeekNumber = () => moment().isoWeek()
+export const getWeekByDateNumber = () => moment().isoWeek()
 
 export const getCurrentDate = () => {
     const [
@@ -26,8 +26,8 @@ export const getCurrentDate = () => {
 const range = length =>
     Array.from({ length }, (_, day) => day);
 
-export const getCurrentWeek = () => {
-    const startOfWeek = moment().startOf('isoWeek');
+export const getWeekByDate = (date = new Data()) => {
+    const startOfWeek = moment(date).startOf('isoWeek');
     return range(7).map( i => moment(startOfWeek).add(i, 'days'));
 }
 
