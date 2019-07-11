@@ -8,29 +8,12 @@ export const GET_MONTH = 'spending/GET_MONTH';
 export const FETCH_AMOUNT = 'spending/FETCH_AMOUNT';
 export const FETCH_SUCCESS = 'spending/FETCH_SUCCESS';
 export const FETCH_ERROR = 'spending/FETCH_ERROR';
-export const SAVED_MONTH_ERROR = 'spending/SAVED_MONTH_ERROR';
 export const SAVING_AMOUNT = 'spending/SAVING_AMOUNT';
-export const SAVED_AMOUNT_SUCCESS = 'spending/SAVED_AMOUNT_SUCCESS';
 
 function fetchMonthError(error) {
   return {
     type: FETCH_ERROR,
     error
-  };
-}
-
-function savedAmountError(error) {
-  return {
-    type: SAVED_MONTH_ERROR,
-    error
-  };
-}
-
-function savedAmountSuccess(dates, month) {
-  return {
-    ...dates,
-    ...month,
-    type: SAVED_AMOUNT_SUCCESS,
   };
 }
 
@@ -68,10 +51,10 @@ export function saveAmount(data) {
     const { currentYear, currentMonth, currentDay } = getCurrentDate();
     const request = saveSpending({ ...data, currentYear, currentMonth });
     return request.then(
-      response => dispatch(savedAmountSuccess(
+      response => dispatch(fetchMonthSuccess(
         new Month({ ...response, currentYear, currentMonth, currentDay })
       )),
-      err => dispatch(savedAmountError(err))
+      err => dispatch(fetchMonthError(err))
     );
   };
 }

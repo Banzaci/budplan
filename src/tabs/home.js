@@ -17,17 +17,18 @@ class Home extends Component {
   }
 
   async componentDidMount() {
-    const props = await this.props.dispatch(getThisMonthAmount());
-    const { currentDay, days, month } = props;
+    const { days, month } = await this.props.dispatch(getThisMonthAmount());
     const currentWeek = month.currentWeek();
     const average = month.average();
-
+    const week = currentWeek.weekDays(days);
+    const currentDay = month.currentDay();
+    const weekNumber = currentWeek.weekNumber();
     this.setState({
       average,
       currentDay,
       days,
-      weekNumber: currentWeek.weekNumber(),
-      week: currentWeek.weekDays(days)
+      weekNumber,
+      week
     });
   }
 
@@ -35,12 +36,18 @@ class Home extends Component {
     const { currentYear, currentMonth } = this.state;
     this.props
       .save({ currentYear, currentMonth, typeOfCost, amount, id, day })
-      .then(({ total, average, week, weekNumber }) => {
+      .then(({ days, month }) => {
+        const currentWeek = month.currentWeek();
+        const average = month.average();
+        const week = currentWeek.weekDays(days);
+        const currentDay = month.currentDay();
+        const weekNumber = currentWeek.weekNumber();
         this.setState({
-          total,
           average,
-          week,
-          weekNumber
+          currentDay,
+          days,
+          weekNumber,
+          week
         });
       });
   };

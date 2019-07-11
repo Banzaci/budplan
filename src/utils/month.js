@@ -5,11 +5,14 @@ import Day from './day';
 export default class Month {
   constructor({ month }) {
     this.month = month;
-    console.log('this.month', this.month)
   }
 
   currentWeek(){
     return new Week();
+  }
+
+  currentDay(){
+    return getCurrentDate().currentDay;
   }
 
   total() {
@@ -17,8 +20,7 @@ export default class Month {
   }
 
   average() {
-    const { currentDay } = getCurrentDate();
-    return (150 / currentDay).toFixed(2)
+    return (150 / this.currentDay).toFixed(2)
   }
 
   totalByAverage() {

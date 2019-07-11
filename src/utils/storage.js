@@ -1,4 +1,5 @@
 import { AsyncStorage } from 'react-native';
+import mergeDeep from './deep-merge';
 
 const getByIndex = (index, data) => {
   const result = data[index]
@@ -57,29 +58,13 @@ export const saveSpending = async ({ currentYear, currentMonth, typeOfCost, amou
   try {
     const key = currentYear;
     const index = currentMonth;
+    const source = { [currentYear]: { [currentMonth]: { [day]:{ [typeOfCost]:{ [id]: amount } } }}};
     const year = await getByKey(key);
-    const months = getByIndex(key, year);
-    const month = getByIndex(index, months);
-    const today = getByIndex(day, month);
-    const costs = getByIndex(typeOfCost, today);
-    const newData = {
-      ...year,
-      [currentYear]: {
-        [currentMonth]: {
-          [day]: {
-            [typeOfCost]: {
-              ...costs,
-              [id]: [ ...costs[id] || [], amount ]
-            }
-          }
-        }
-      }
-    }
-    console.log(newData)
-    // await saveByKey(key, newData);
+    const newData = mergeDeep(year, source);
+    await saveByKey(key, newData);
     return {
       success: true,
-      month: newData[index]
+      month: newData[key][index]
     };
   } catch (error) {
     console.error(error)
@@ -97,7 +82,7 @@ export const getSpending = async ({ currentYear, currentMonth }) => {
     const year = await getByKey(key);
     const months = getByIndex(key, year);
     const month = getByIndex(index, months);
-    // console.log('storage', month)
+    console.log('storage', month)
     return {
       success: true,
       month
