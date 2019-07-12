@@ -19,3 +19,32 @@ export default function App() {
 // <Loader />
 // https://ml5js.org/
 // https://www.tensorflow.org/js/tutorials
+
+/*
+const str = '2019.07.10.variable.food:200';
+
+console.clear()
+
+const objHandler = (input) => {
+  const [namespace, value] = input.split(':');
+  const arr = namespace.split('.').reverse()
+
+  
+  let output = {}
+  
+  for(let i = 0; i < arr.length; i++) {
+    output = {
+      [arr[i]]: { ...output }
+    }
+  }
+  
+  console.log(JSON.stringify(output))
+  
+  return output;
+}
+objHandler(str)
+
+
+
+
+*/
