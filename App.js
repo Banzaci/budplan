@@ -33,8 +33,10 @@ const objHandler = (input) => {
   let output = {}
   
   for(let i = 0; i < arr.length; i++) {
+    const v = (i+1 === arr.length) ? { ...output,[arr[0]]:value} : { ...output }
+    console.log(v)
     output = {
-      [arr[i]]: { ...output }
+      [arr[i]]: v
     }
   }
   
@@ -43,8 +45,4 @@ const objHandler = (input) => {
   return output;
 }
 objHandler(str)
-
-
-
-
 */
