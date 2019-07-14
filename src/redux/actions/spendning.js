@@ -26,6 +26,8 @@ const range = length =>
   Array.from({ length }, (_, day) => addZeroIfNeeded(day + 1));
 
 const generateProps = (month) => {
+  const currentYear = month.currentYear;
+  const currentMonth = month.currentMonth;
   const days = month.days()
   const currentWeek = month.currentWeek(days);
   const average = month.average();
@@ -40,6 +42,8 @@ const generateProps = (month) => {
 
   return {
     currentWeek,
+    currentMonth,
+    currentYear,
     average,
     currentDay,
     days,

@@ -16,7 +16,7 @@ class Home extends Component {
     const { month } = await this.props.dispatch(getThisMonthAmount());
     const { days } = month;
     this.setState({
-      days,
+      ...month,
     })
   }
  
@@ -46,7 +46,7 @@ class Home extends Component {
             typeOfCost="variable"
             day={ days[date] }
             date={ date }
-            expenses={ this.props.expenses }
+            expenses={ this.props.expenses.variable }
             onAmountChange={ this.onAmountChange }
             value={ value }
           />

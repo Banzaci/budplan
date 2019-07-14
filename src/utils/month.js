@@ -2,8 +2,10 @@ import { daysInMonth, getCurrentDate } from './dates';
 import Week from './week';
 
 export default class Month {
-  constructor({ month }) {
+  constructor({ month, currentMonth, currentYear }) {
     this.month = month;
+    this.currentMonth = currentMonth;
+    this.currentYear = currentYear;
   }
 
   days(days) {
@@ -14,7 +16,7 @@ export default class Month {
   }
 
   currentWeek(){
-    return new Week(this.days());
+    return new Week(this.days());// days är 2ggr
   }
 
   currentDay(){
