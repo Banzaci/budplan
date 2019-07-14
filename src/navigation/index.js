@@ -3,15 +3,15 @@ import { View, Animated, Text, StyleSheet, Dimensions, StatusBar } from 'react-n
 import { TabView, SceneMap, TabBar, Icon } from 'react-native-tab-view'; 
 
 import Home from '../tabs/home';
-import Profile from '../tabs/profile';
+import Budget from '../tabs/budget';
 import Month from '../tabs/month';
 
 const HomeTab = () => (
   <Home />
 );
 
-const ProfileTab = () => (
-  <Profile />
+const BudgetTab = () => (
+  <Budget />
 );
 
 const MonthTab = () => (
@@ -25,8 +25,8 @@ export default function Navigation() {
     index: 0,
     routes: [
       { key: 'home', title: 'Home' },
-      // { key: 'profile', title: 'Profile' },
-      // { key: 'month', title: 'Month' },
+      { key: 'month', title: 'Month' },
+      { key: 'budget', title: 'Budget' },
     ],
   });
   return (
@@ -34,7 +34,7 @@ export default function Navigation() {
         navigationState={ state }
         renderScene={ SceneMap({
           home: HomeTab,
-          profile: ProfileTab,
+          budget: BudgetTab,
           month: MonthTab,
         })}
         onIndexChange={ index => setState( {...state, index } )}

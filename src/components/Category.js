@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Button from './Button';
 import Input from './Input';
-import { Container, View } from './category-style';
+import { Container, TextView, ButtonView } from './category-style';
 
 export default function Category({ id, name, onClick }) {
 
@@ -11,7 +11,7 @@ export default function Category({ id, name, onClick }) {
 
   return (
     <Container>
-      <View>
+      <TextView>
         <Input
           keyboardType='numeric'
           border
@@ -21,14 +21,14 @@ export default function Category({ id, name, onClick }) {
           value=''
           onChange={ setAmount }
         />
-      </View>
-      <View>
+      </TextView>
+      <ButtonView>
         <Button
           title="+"
           type="add"
           onPress={ onPress }
         />
-      </View>
+      </ButtonView>
     </Container>
   );
 }

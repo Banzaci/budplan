@@ -3,13 +3,15 @@ import Day from './day';
 
 export default class Week {
   
-  constructor() {}
+  constructor(days) {
+    this.days = days;
+  }
 
-  weekDays(days){
+  weekDays(){
     return getWeekByDate().reduce((acc, current) => {
       const dayDate = current.format('DD');
       const dayName = current.format('dd');
-      const { amountSpent } = days[dayDate];
+      const { amountSpent } = this.days[dayDate];
       return [...acc, 
         [dayName, amountSpent]
       ];

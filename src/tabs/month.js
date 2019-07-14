@@ -3,29 +3,26 @@ import React, { Component } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import InputDayBalance from '../modules/InputDayBalance';
-import Information from '../modules/Information';
+import Expenses from '../modules/Expenses';
 import { saveAmount, getThisMonthAmount } from '../redux/actions/spendning';
 
 class Home extends Component {
 
   state = {
-    monthWithAmount: {},
-    total: 0,
-    average: 0,
-    lastMonthSpending: 0,
+    days: {}
   }
 
   async componentDidMount(){
-    const props = await this.props.dispatch(getThisMonthAmount())
+    const { month } = await this.props.dispatch(getThisMonthAmount());
+    const { days } = month;
     this.setState({
-      ...props
+      days,
     })
   }
  
-  onAmountChange = ({ day, amount }) => {
+  onAmountChange = ({ day, amount, id, typeOfCost }) => {
     const { currentYear, currentMonth } = this.state;
-    this.props.save({ currentYear, currentMonth, day, amount })
+    this.props.save({ currentYear, currentMonth, day, amount, id, typeOfCost })
       .then( ({ total, average }) => {
         this.setState({
           total,
@@ -34,20 +31,26 @@ class Home extends Component {
       })
   };
 
-  printAmount = (monthWithAmount, day) => monthWithAmount[day].amountSpent.toString();
+  printAmount = ({ amountSpent }) => {
+    if (!amountSpent) return 0;
+    return amountSpent;
+  };
 
   renderMonthlySpending = () => {
-    const { monthWithAmount, currentDay } = this.state;
-    const days = Object.keys(monthWithAmount).sort();
-    return days.map( (day, index) => <View key={ index }>
-      <InputDayBalance
-        average={ this.state.average }
-        onAmountChange={ this.onAmountChange }
-        currentDay={ currentDay }
-        day={ day.toString() }
-        amount={ this.printAmount(monthWithAmount, day) }
-      />  
-    </View> )
+    const { days, currentDay } = this.state;
+    const sortedDays = Object.keys(days).sort();
+    return sortedDays.map((date, index) => {
+      const value = this.printAmount(days[date]);
+      return (<View key={ index }>
+        <Expenses
+            typeOfCost="variable"
+            day={ days[date] }
+            date={ date }
+            expenses={ this.props.expenses }
+            onAmountChange={ this.onAmountChange }
+            value={ value }
+          />
+      </View> )});
   }
   render() {
     return (
@@ -67,12 +70,9 @@ const Container = styled.SafeAreaView`
 `;
 
 const mapStateToProps = ({ reducers }) => {
-  const { spendning, target } = reducers;
+  const { category } = reducers;
   return {
-    totalByAverage: spendning.totalByAverage,
-    targetAverage: target.average,
-    monthlyBudget: target.monthlyBudget,
-    amount: spendning.amount
+    expenses: category.categories,
   }
 }
 

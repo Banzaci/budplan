@@ -6,9 +6,12 @@ export const Container = styled.View`
   display: flex;
   flex-direction: row;
   width: 100%;
-  justify-content: center;
 `;
 
-export const View = styled.View`
-  flex: 1;
+export const TextView = styled.View`
+  flex: 2;
+`;
+
+export const ButtonView = styled.View`
+flex: 1;
 `;

@@ -3,7 +3,7 @@ import { boxShadow } from '../style/common';
 // import { Container, TextInput, Label } from './input-style';
 import styled from 'styled-components';
 
-export default function Input({ placeholder, onChange, value, id, labelRight, labelLeft, keyboardType, error, border }) {
+export default function Input({ placeholder, onChange, value, id, keyboardType, error, border }) {
   
   const [focus, setFocus] = useState(false);
   const [firstRender, setFirstRender] = useState(false);
@@ -33,12 +33,6 @@ export default function Input({ placeholder, onChange, value, id, labelRight, la
     <Container
       {...(border && { style: { ...boxShadow } } )}
     >
-      { labelLeft && <Label
-          {...(focus && { style: { fontSize: 18 }} )}
-        >
-          { labelLeft }
-        </Label>
-      }
       <TextInput
         { ...(value && { value: text.toString() })}
         { ...(placeholder && { placeholder })}
@@ -48,20 +42,9 @@ export default function Input({ placeholder, onChange, value, id, labelRight, la
         onFocus={ onFocus }
         onChangeText={ onChangeHandler }
       />
-    { labelRight && <Label
-        {...(focus && { style: { fontSize: 18 }} )}
-      >
-        { labelRight }
-      </Label>
-      }
     </Container>
   );
 }
-
-
-export const Text = styled.View`
-  width: 100%;
-`;
 
 export const Container = styled.View`
   display: flex;
@@ -72,10 +55,6 @@ export const Container = styled.View`
   width: 100%;
   border-radius: 12px;
   margin: 0;
-`;
-
-export const Label = styled.Text`
-  font-size: 18px;
   padding: 6px 12px;
 `;
 

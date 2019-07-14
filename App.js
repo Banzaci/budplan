@@ -31,18 +31,25 @@ const objHandler = (input) => {
 
   
   let output = {}
-  
+  const g = arr.reduce((acc, current, index) => {
+    const v = (i === 0) ? { value } : { ...acc }
+    return { ...acc, v }
+  })
   for(let i = 0; i < arr.length; i++) {
-    const v = (i+1 === arr.length) ? { ...output,[arr[0]]:value} : { ...output }
-    console.log(v)
+    const v = (i === 0) ? { value } : { ...output }
     output = {
-      [arr[i]]: v
+        [arr[i]]: v
     }
   }
+
+  const output = arr.reduce((acc, current, index) => {
+    const v = (index === 0) ? { value } : { ...acc }
+    return { [current]: v }
+  }, {})
   
   console.log(JSON.stringify(output))
   
   return output;
 }
-objHandler(str)
+objHandler(str) 
 */

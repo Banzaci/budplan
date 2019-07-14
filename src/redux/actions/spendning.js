@@ -25,22 +25,51 @@ const addZeroIfNeeded = day => {
 const range = length =>
   Array.from({ length }, (_, day) => addZeroIfNeeded(day + 1));
 
+const generateProps = (month) => {
+  const days = month.days()
+  const currentWeek = month.currentWeek(days);
+  const average = month.average();
+  const week = currentWeek.weekDays();
+  const currentDay = month.currentDay();
+  const weekNumber = currentWeek.weekNumber();
+  const total = month.total();
+  const totalByAverage = month.totalByAverage();
+  const currentDayAmount = month.currentDayAmount(days);
+  const currentDayDate = month.currentDayDate();
+
+  return {
+    currentWeek,
+    average,
+    currentDay,
+    days,
+    weekNumber,
+    week,
+    total,
+    totalByAverage,
+    currentDayAmount,
+    currentDayDate,
+  }
+}
+
 const fetchMonthSuccess = (monthData) => {
   const { month } = monthData;
-  const days = range(daysInMonth()).reduce((acc, current) => {
+  
+  monthData.days(range(daysInMonth()).reduce((acc, current) => {
     const dayData = new Day(current, month[current]);
+    
     return {
       ...acc,
       ...{
         [current]: {
+          variables: dayData.dayVariables(),
           amountSpent: dayData.dayAmountVar()
         }
       }
     };
-  }, []);
+  }, []));
+  
   return {
-    month: monthData,
-    days,
+    month: generateProps(monthData),
     type: FETCH_SUCCESS
   };
 };

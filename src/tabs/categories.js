@@ -5,24 +5,24 @@ import Input from '../components/Input';
 import Categories from '../modules/Categories';
 import { saveTargetData, getTargetData } from '../redux/actions/target';
 
-class Profile extends Component {
+class Category extends Component {
 
   state = {
     monthlyBudget: 0
   }
 
   async componentDidMount(){
-    const props = await this.props.dispatch(getTargetData());
+    const { monthlyBudget } = await this.props.dispatch(getTargetData());
     this.setState({
-      monthlyBudget: props.data.monthlyBudget
+      monthlyBudget
     });
   }
 
   onChange = ({ amount, id }) => {
     this.props.save({ amount, id })
-      .then(props => {
+      .then(({ monthlyBudget }) => {
         this.setState({
-          monthlyBudget: props.data.monthlyBudget
+          monthlyBudget
         });
       });
   }
@@ -58,10 +58,9 @@ const Container = styled.SafeAreaView`
 `;
 
 const mapStateToProps = ({ reducers }) => {
-  const { target, category } = reducers;
+  const { category } = reducers;
   return {
-    categories: category.categories,
-    monthlyBudget: target.monthlyBudget
+    categories: [],
   }
 }
 
@@ -74,4 +73,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile)
+export default connect(mapStateToProps, mapDispatchToProps)(Category)

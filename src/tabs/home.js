@@ -13,55 +13,34 @@ class Home extends Component {
     average: 0,
     expenses: [],
     week: [],
-    weekNumber: '0'
+    weekNumber: '0',
+    currentDayAmount: '0'
   }
 
   async componentDidMount() {
-    const { days, month } = await this.props.dispatch(getThisMonthAmount());
-    const currentWeek = month.currentWeek();
-    const average = month.average();
-    const week = currentWeek.weekDays(days);
-    const currentDay = month.currentDay();
-    const weekNumber = currentWeek.weekNumber();
-    this.setState({
-      average,
-      currentDay,
-      days,
-      weekNumber,
-      week
-    });
+    const { month } = await this.props.dispatch(getThisMonthAmount());
+    this.setState({ ...month });
   }
 
   onAmountChange = ({ typeOfCost, amount, id, day }) => {
     const { currentYear, currentMonth } = this.state;
     this.props
       .save({ currentYear, currentMonth, typeOfCost, amount, id, day })
-      .then(({ days, month }) => {
-        const currentWeek = month.currentWeek();
-        const average = month.average();
-        const week = currentWeek.weekDays(days);
-        const currentDay = month.currentDay();
-        const weekNumber = currentWeek.weekNumber();
-        this.setState({
-          average,
-          currentDay,
-          days,
-          weekNumber,
-          week
-        });
-      });
+      .then(({ month }) => this.setState({...month}));
   };
 
 
   render() {
-    const { total, average, week, weekNumber, currentDay } = this.state;
+    const { total, average, week, weekNumber, currentDay, currentDayDate, currentDayAmount } = this.state;
     return (
       <Container>
         <Expenses
           typeOfCost="variable"
           day={ currentDay }
+          date={ currentDayDate }
           expenses={ this.props.expenses }
           onAmountChange={ this.onAmountChange }
+          value={ currentDayAmount }
         />
         <LineChart data={ week } weekNumber={ weekNumber }/>
         <Information
@@ -84,7 +63,7 @@ class Home extends Component {
             },
             {
               header:"Om samma takt som nu",
-              text: this.props.totalByAverage
+              text: this.state.totalByAverage
             }
           ]}
         />
@@ -100,12 +79,10 @@ const Container = styled.SafeAreaView`
 `;
 
 const mapStateToProps = ({ reducers }) => {
-  const { spendning, target, category } = reducers;
-  const { categories } = category;
+  const { target, category } = reducers;
   return {
-    totalByAverage: spendning.totalByAverage,
-    targetAverage: target.average,
-    expenses: categories,
+    targetAverage: target.targetAverage,
+    expenses: category.categories,
   }
 }
 
