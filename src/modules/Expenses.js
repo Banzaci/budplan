@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import Category from "../components/Category";
-import Button from "../components/Button";
+import React, { Component } from 'react';
+import Category from '../components/Category';
+import Button from '../components/Button';
 import { Container } from './expenses-style';
 import { boxShadow } from '../style/common';
 
@@ -17,12 +17,11 @@ export default class Expenses extends Component {
     });
   };
 
-  getPlaceHolderText = (day, id, name) => (day && day.variables && day.variables[id]) ? day.variables[id] : name;
+  getPlaceHolderText = (day, id, name) => (day && day.variables && day.variables[id]) ? `${name} / ${day.variables[id]}kr` : name;
 
   renderList = (expense, index) =>  {
-    const [id, name] = Object.entries(expense)[0];
+    const [id, name] = expense;
     const { date, day } = this.props;
-
     return (<Category
       onClick={ this.onAmountChange }
       key={ index }
@@ -42,7 +41,7 @@ export default class Expenses extends Component {
     const { day, value, date } = this.props;
     const icon = isOpen ? 'add' : 'delete';
     const title = isOpen ? 'Stäng' : 'Öppna';
-    const expenses = this.props.expenses.map(this.renderList);
+    const expenses = Object.entries(this.props.expenses).map(this.renderList);
     return (
       <Container
         style={ boxShadow }

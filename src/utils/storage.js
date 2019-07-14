@@ -154,6 +154,7 @@ export const getCategories = async type => {
     const key = 'category';
     const data = await getByKey(key);
     const categories = getByIndex(type, data);
+    console.log('categories')
     return category;
   } catch (error) {
     console.error(error)

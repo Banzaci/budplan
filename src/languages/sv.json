@@ -1,29 +1,18 @@
 {
   "categories": {
-    "variable": [
+    "variable":
       {
-        "food": "Mat"
-      },
-      {
-        "entertainment": "Nöje"
-      },
-      {
-        "cloths":"Kläder"
-      },
-      {
-        "technique": "Teknik"
-      },
-      {
-        "accessories": "Skönhetsprodukter"
-      },
-      {
+        "food": "Mat",
+        "entertainment": "Nöje",
+        "cloths":"Kläder",
+        "technique": "Teknik",
+        "accessories": "Skönhetsprodukter",
         "other": "Övrigt"
       }
-    ],
-    "fixed": [
+    ,
+    "fixed":
       {
         "rent": "Hyra"
       }
-    ]
   }
 }

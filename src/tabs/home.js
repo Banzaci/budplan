@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Information from '../modules/Information';
 import LineChart from '../modules/LineChart';
+import PieChart from '../modules/PieChart';
 import Expenses from '../modules/Expenses';
 import { saveAmount, getThisMonthAmount } from '../redux/actions/spendning';
 
@@ -14,7 +15,8 @@ class Home extends Component {
     expenses: [],
     week: [],
     weekNumber: '0',
-    currentDayAmount: '0'
+    currentDayAmount: '0',
+    spendingByCategories: {}
   }
 
   async componentDidMount() {
@@ -31,7 +33,7 @@ class Home extends Component {
 
 
   render() {
-    const { total, average, week, weekNumber, currentDay, currentDayDate, currentDayAmount } = this.state;
+    const { spendingByCategories, total, average, week, weekNumber, currentDay, currentDayDate, currentDayAmount } = this.state;
     return (
       <Container>
         <Expenses
@@ -67,6 +69,7 @@ class Home extends Component {
             }
           ]}
         />
+        <PieChart data={ spendingByCategories } expenses={ this.props.expenses } />
       </Container>
     );
   }
@@ -82,7 +85,7 @@ const mapStateToProps = ({ reducers }) => {
   const { target, category } = reducers;
   return {
     targetAverage: target.targetAverage,
-    expenses: category.categories,
+    expenses: category.categories.variable,
   }
 }
 

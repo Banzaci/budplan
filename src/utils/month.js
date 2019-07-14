@@ -38,14 +38,17 @@ export default class Month {
     return this.amountSpent;
   }
 
+  daysInMonthWithAmount() {
+    if (!this.inMonthWithAmount) {
+      const days = this.daysInMonth;
+      this.inMonthWithAmount = Object.values(days).filter(({ amountSpent }) => amountSpent )
+    }
+    return this.inMonthWithAmount;
+  }
+
   total() {
-    const days = this.daysInMonth;
     if (!this.monthSpending) {
-      this.monthSpending = Object.keys(days).reduce((acc, current) => {
-        const { amountSpent } = days[current];
-        acc += amountSpent;
-        return acc;
-      }, 0);
+      this.monthSpending = this.daysInMonthWithAmount().reduce(( acc, { amountSpent } ) => acc += amountSpent, 0 )
     }
     return this.monthSpending;
   }
@@ -62,5 +65,21 @@ export default class Month {
       this.totalByAverageSpending = (this.average() * daysInMonth()).toFixed(2);
     }
     return this.totalByAverageSpending;
+  }
+
+  getMonthSpendingByCategory = () => {
+    if (!this.monthSpendingByCategory) {
+      this.monthSpendingByCategory = this.daysInMonthWithAmount().reduce((acc, { variables }) => {
+          const vars = Object.entries(variables);
+          vars.forEach(([key, value]) => {
+            acc[key] = acc[key] || 0;
+            acc[key] += parseInt(value, 10);
+          })
+        return {
+          ...acc,
+        };
+      }, {});
+    }
+    return this.monthSpendingByCategory;
   }
 }

@@ -20,4 +20,9 @@ export default class Day {
     if (!this.dayAmount) return {}
     return this.dayAmount[this.varName];
   }
+
+  dayCostByVariableName(name) {
+    if (!this.dayVariables()) return {}
+    return this.dayVariables()[name];
+  }
 }

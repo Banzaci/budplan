@@ -3,7 +3,9 @@ import SV from '../../languages/sv';
 import { SAVE_CATEGORY, FETCH_CATEGORY_SUCCESS } from '../actions/category';
 
 const INITIAL_STATE = {
-  categories: [ ...SV.categories.variable ],
+  categories: {
+    ...SV.categories
+  },
 };
 
 export default function reducer(state = INITIAL_STATE, action) {

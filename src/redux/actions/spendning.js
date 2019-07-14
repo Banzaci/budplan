@@ -36,6 +36,7 @@ const generateProps = (month) => {
   const totalByAverage = month.totalByAverage();
   const currentDayAmount = month.currentDayAmount(days);
   const currentDayDate = month.currentDayDate();
+  const spendingByCategories = month.getMonthSpendingByCategory();
 
   return {
     currentWeek,
@@ -48,6 +49,7 @@ const generateProps = (month) => {
     totalByAverage,
     currentDayAmount,
     currentDayDate,
+    spendingByCategories
   }
 }
 
