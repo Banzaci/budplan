@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { ScrollView } from 'react-native';
+
 import styled from 'styled-components';
 import Information from '../modules/Information';
 import LineChart from '../modules/LineChart';
@@ -35,42 +37,44 @@ class Home extends Component {
   render() {
     const { spendingByCategories, total, average, week, weekNumber, currentDay, currentDayDate, currentDayAmount } = this.state;
     return (
-      <Container>
-        <Expenses
-          typeOfCost="variable"
-          day={ currentDay }
-          date={ currentDayDate }
-          expenses={ this.props.expenses }
-          onAmountChange={ this.onAmountChange }
-          value={ currentDayAmount }
-        />
-        <LineChart data={ week } weekNumber={ weekNumber }/>
-        <Information
-          list={[
-            {
-              header:"Genomsnitt per day",
-              text: average,
-            },
-            {
-              header:"Målättning per day",
-              text: this.props.targetAverage,
-            }
-          ]}
-        />
-        <Information
-          list={[
-            {
-              header:"Spenderat hittills",
-              text: total,
-            },
-            {
-              header:"Om samma takt som nu",
-              text: this.state.totalByAverage
-            }
-          ]}
-        />
-        <PieChart data={ spendingByCategories } expenses={ this.props.expenses } />
-      </Container>
+      <ScrollView>
+        <Container>
+          <Expenses
+            typeOfCost="variable"
+            day={ currentDay }
+            date={ currentDayDate }
+            expenses={ this.props.expenses }
+            onAmountChange={ this.onAmountChange }
+            value={ currentDayAmount }
+          />
+          <LineChart data={ week } weekNumber={ weekNumber }/>
+          <Information
+            list={[
+              {
+                header:"Genomsnitt per day",
+                text: average,
+              },
+              {
+                header:"Målättning per day",
+                text: this.props.targetAverage,
+              }
+            ]}
+          />
+          <Information
+            list={[
+              {
+                header:"Spenderat hittills",
+                text: total,
+              },
+              {
+                header:"Om samma takt som nu",
+                text: this.state.totalByAverage
+              }
+            ]}
+          />
+          <PieChart data={ spendingByCategories } expenses={ this.props.expenses } />
+        </Container>
+      </ScrollView>
     );
   }
 }
