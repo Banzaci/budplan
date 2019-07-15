@@ -11,15 +11,15 @@ export const weekNumber = () => moment().isoWeek()
 
 export const getCurrentDate = () => {
     const [
-        currentYear,
-        currentMonth,
-        currentDay
+        currentYearDate,
+        currentMonthDate,
+        currentDayDate
     ] = now.split('-')
     
     return {
-        currentYear,
-        currentMonth,
-        currentDay
+        currentYearDate,
+        currentMonthDate,
+        currentDayDate
     }
 }
 

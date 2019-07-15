@@ -1,15 +1,6 @@
 import { AsyncStorage } from 'react-native';
 import mergeDeep from './deep-merge';
 
-const objectBuilderNoValue = input => {
-  const arr = input.split('.').reverse()
-  return arr.reduce((acc, current, index) => {
-    return {
-      [current] : { ...acc }
-    }
-  } , {})
-}
-
 const objectBuilder = input => {
   const [namespace, value] = input.split(':');
   const arr = namespace.split('.').reverse()
@@ -42,11 +33,11 @@ const saveByKey = async ( key, data ) => {
 
 //---------------- Spending
 
-export const saveSpending = async ({ currentYear, currentMonth, typeOfCost, amount, id, day }) => {
+export const saveSpending = async ({ currentYearDate, currentMonthDate, typeOfCost, amount, id, day }) => {
   try {
-    const key = currentYear;
-    const index = currentMonth;
-    const namespace = `${currentYear}.${currentMonth}.${day}.${typeOfCost}.${id}:${amount}`;
+    const key = currentYearDate;
+    const index = currentMonthDate;
+    const namespace = `${currentYearDate}.${currentMonthDate}.${day}.${typeOfCost}.${id}:${amount}`;
     const query = objectBuilder(namespace);
     const year = await getByKey(key);
     const newData = mergeDeep(year, query);
@@ -64,10 +55,10 @@ export const saveSpending = async ({ currentYear, currentMonth, typeOfCost, amou
   }
 }
 
-export const getSpending = async ({ currentYear, currentMonth }) => {
+export const getSpending = async ({ currentYearDate, currentMonthDate }) => {
   try {
-    const key = currentYear;
-    const index = currentMonth;
+    const key = currentYearDate;
+    const index = currentMonthDate;
     const year = await getByKey(key);
     const months = getByIndex(key, year);
     const month = getByIndex(index, months);
@@ -88,17 +79,17 @@ export const getSpending = async ({ currentYear, currentMonth }) => {
 // Spending ----------------
 //---------------- Target
 
-export const saveTarget = async ({ amount, id, currentYear, currentMonth }) => {
+export const saveTarget = async ({ amount, id, currentYearDate, currentMonthDate }) => {
   try {
     const key = 'target';
-    const namespace = `${key}.${currentYear}.${currentMonth}.${id}:${amount}`;
+    const namespace = `${key}.${currentYearDate}.${currentMonthDate}.${id}:${amount}`;
     const query = objectBuilder(namespace);
     const data = await getByKey(key);
     const newData = mergeDeep(data, query);
     await saveByKey(key, newData);
     const target = getByIndex(key, newData);
-    const year = getByIndex(currentYear, target);
-    const month = getByIndex(currentMonth, year);
+    const year = getByIndex(currentYearDate, target);
+    const month = getByIndex(currentMonthDate, year);
     return month;
   } catch (error) {
     console.error(error)
@@ -109,13 +100,13 @@ export const saveTarget = async ({ amount, id, currentYear, currentMonth }) => {
   }
 }
 
-export const getTarget = async ({ currentYear, currentMonth }) => {
+export const getTarget = async ({ currentYearDate, currentMonthDate }) => {
   try {
     const key = 'target';
     const data = await getByKey(key);
     const target = getByIndex(key, data);
-    const year = getByIndex(currentYear, target);
-    const month = getByIndex(currentMonth, year);
+    const year = getByIndex(currentYearDate, target);
+    const month = getByIndex(currentMonthDate, year);
     return month;
   } catch (error) {
     console.error(error)

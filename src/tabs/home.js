@@ -15,7 +15,7 @@ class Home extends Component {
     total: 0,
     average: 0,
     expenses: [],
-    week: [],
+    weekDays: [],
     weekNumber: '0',
     currentDayAmount: '0',
     spendingByCategories: {}
@@ -23,6 +23,7 @@ class Home extends Component {
 
   async componentDidMount() {
     const { month } = await this.props.dispatch(getThisMonthAmount());
+    console.log(month)
     this.setState({ ...month });
   }
 
@@ -35,7 +36,7 @@ class Home extends Component {
 
 
   render() {
-    const { spendingByCategories, total, average, week, weekNumber, currentDay, currentDayDate, currentDayAmount } = this.state;
+    const { spendingByCategories, total, average, weekDays, weekNumber, currentDay, currentDayDate, currentDayAmount } = this.state;
     return (
       <ScrollView>
         <Container>
@@ -47,7 +48,7 @@ class Home extends Component {
             onAmountChange={ this.onAmountChange }
             value={ currentDayAmount }
           />
-          <LineChart data={ week } weekNumber={ weekNumber }/>
+          <LineChart data={ weekDays } weekNumber={ weekNumber }/>
           <Information
             list={[
               {

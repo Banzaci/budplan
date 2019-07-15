@@ -2,6 +2,7 @@ import { daysInMonth, getCurrentDate } from '../../utils/dates';
 import { saveSpending, getSpending } from '../../utils/storage';
 import Month from '../../utils/month';
 import Day from '../../utils/day';
+import Week from '../../utils/week';
 
 export const SAVE_AMOUNT = 'spending/SAVE_AMOUNT';
 export const GET_MONTH = 'spending/GET_MONTH';
@@ -26,33 +27,34 @@ const range = length =>
   Array.from({ length }, (_, day) => addZeroIfNeeded(day + 1));
 
 const generateProps = (month) => {
-  const currentYear = month.currentYear;
-  const currentMonth = month.currentMonth;
+  //Month
+  const currentYearDate = month.currentYearDate;
+  const currentMonthDate = month.currentMonthDate;
+  const currentDayDate = month.currentDayDate;
   const days = month.days()
-  const currentWeek = month.currentWeek(days);
-  const average = month.average();
-  const week = currentWeek.weekDays();
   const currentDay = month.currentDay();
-  const weekNumber = currentWeek.weekNumber();
+  const average = month.average();
   const total = month.total();
   const totalByAverage = month.totalByAverage();
-  const currentDayAmount = month.currentDayAmount(days);
-  const currentDayDate = month.currentDayDate();
+  const currentDayAmount = month.currentDayAmount();
   const spendingByCategories = month.getMonthSpendingByCategory();
+  // Week
+  const currentWeek = new Week();
+  const weekNumber = currentWeek.weekNumber();
+  const weekDays = currentWeek.weekDays(days);
 
   return {
-    currentWeek,
-    currentMonth,
-    currentYear,
-    average,
+    currentDayDate,
+    currentMonthDate,
+    currentYearDate,
     currentDay,
-    days,
     weekNumber,
-    week,
+    weekDays,
+    average,
+    days,
     total,
     totalByAverage,
     currentDayAmount,
-    currentDayDate,
     spendingByCategories
   }
 }
@@ -83,11 +85,11 @@ const fetchMonthSuccess = (monthData) => {
 export function saveAmount(data) {
   return function(dispatch) {
     dispatch({ type: SAVING_AMOUNT });
-    const { currentYear, currentMonth, currentDay } = getCurrentDate();
-    const request = saveSpending({ ...data, currentYear, currentMonth });
+    const { currentYearDate, currentMonthDate, currentDayDate } = getCurrentDate();
+    const request = saveSpending({ ...data, currentYearDate, currentMonthDate, currentDayDate });
     return request.then(
       response => dispatch(fetchMonthSuccess(
-        new Month({ ...response, currentYear, currentMonth, currentDay })
+        new Month({ ...response, currentYearDate, currentMonthDate, currentDayDate })
       )),
       err => dispatch(fetchMonthError(err))
     );
@@ -97,12 +99,12 @@ export function saveAmount(data) {
 export function getThisMonthAmount() {
   return function(dispatch) {
     dispatch({ type: FETCH_AMOUNT });
-    const { currentYear, currentMonth, currentDay } = getCurrentDate();
-    const request = getSpending({ currentYear, currentMonth, currentDay });
+    const { currentYearDate, currentMonthDate, currentDayDate } = getCurrentDate();
+    const request = getSpending({ currentYearDate, currentMonthDate, currentDayDate });
     return request.then(
       response => {
         return dispatch(fetchMonthSuccess(
-          new Month({ ...response, currentYear, currentMonth, currentDay })
+          new Month({ ...response, currentYearDate, currentMonthDate, currentDayDate })
         ));
       },
       err => dispatch(fetchMonthError(err))

@@ -2,10 +2,11 @@ import { daysInMonth, getCurrentDate } from './dates';
 import Week from './week';
 
 export default class Month {
-  constructor({ month, currentMonth, currentYear }) {
+  constructor({ month, currentMonthDate, currentYearDate, currentDayDate }) {
     this.month = month;
-    this.currentMonth = currentMonth;
-    this.currentYear = currentYear;
+    this.currentMonthDate = currentMonthDate;
+    this.currentYearDate = currentYearDate;
+    this.currentDayDate = currentDayDate;
   }
 
   days(days) {
@@ -15,22 +16,11 @@ export default class Month {
     return this.daysInMonth;
   }
 
-  currentWeek(){
-    return new Week(this.days());// days är 2ggr
-  }
-
   currentDay(){
     if (!this.currentDayInMonth) {
-      this.currentDayInMonth = this.daysInMonth[this.currentDayDate()];
+      this.currentDayInMonth = this.daysInMonth[this.currentDayDate];
     }
     return this.currentDayInMonth;
-  }
-
-  currentDayDate(){
-    if (!this.currentDayInMonthDate) {
-      this.currentDayInMonthDate = getCurrentDate().currentDay;
-    }
-    return this.currentDayInMonthDate;
   }
 
   currentDayAmount() {
@@ -57,7 +47,7 @@ export default class Month {
 
   average() {
     if (!this.averageSpending) {
-      this.averageSpending = (this.total() / this.currentDayDate()).toFixed(2);
+      this.averageSpending = (this.total() / this.currentDayDate).toFixed(2);
     }
     return this.averageSpending;
   }
