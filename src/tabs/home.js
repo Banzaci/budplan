@@ -86,10 +86,10 @@ const Container = styled.SafeAreaView`
 `;
 
 const mapStateToProps = ({ reducers }) => {
-  const { target, category } = reducers;
+  const { target, categories } = reducers;
   return {
     targetAverage: target.targetAverage,
-    expenses: category.categories.variable,
+    expenses: categories.categories.variable,
   }
 }
 

@@ -70,9 +70,9 @@ const Container = styled.SafeAreaView`
 `;
 
 const mapStateToProps = ({ reducers }) => {
-  const { category } = reducers;
+  const { categories } = reducers;
   return {
-    expenses: category.categories,
+    expenses: categories.categories,
   }
 }
 

@@ -2,20 +2,15 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import Input from '../components/Input';
-import { saveCategoryData, getCategoryData } from '../redux/actions/categories';
+import Button from '../components/Button';
+import Label from '../components/Label';
+import { saveCategoryData } from '../redux/actions/categories';
 
 class Category extends Component {
 
   state = {
-    monthlyBudget: 0
-  }
-
-  async componentDidMount(){
-    const props = await this.props.dispatch(getCategoryData());
-    console.log(props)
-    // this.setState({
-    //   monthlyBudget
-    // });
+    fixed: {},
+    variables: {},
   }
 
   onPress = (e) => {
@@ -37,14 +32,30 @@ class Category extends Component {
   onDeleteCategory = () => {}
   onAddategory = () => {}
 
+  renderCategories = ({ categories }) => {
+    return(
+      <Label
+        label="Name"
+      ></Label>
+    )
+  }
+
   render() {
     return (
       <Container>
         <Input
+          border
           id="category"
           value=""
+          placeholder="Lägg till ny utgift"
           onChange={ this.onChange }
         />
+        <Button
+          text="Lägg till"
+          onPress={ this.onPress }
+        />
+        { this.renderCategories(this.props.variables) }
+        { this.renderCategories(this.props.fixed) }
       </Container>
     );
   }
@@ -58,9 +69,11 @@ const Container = styled.SafeAreaView`
 `;
 
 const mapStateToProps = ({ reducers }) => {
-  const { category } = reducers;
+  const { categories } = reducers;
+  console.log(categories)
   return {
-    categories: [],
+    fixed: categories.categories.fixed,
+    variables: categories.categories.variables,
   }
 }
 

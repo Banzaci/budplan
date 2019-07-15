@@ -1,4 +1,5 @@
 import Category from '../../utils/category';
+import { saveCategory, getCategories } from '../../utils/storage';
 
 export const FETCH_CATEGORY_ERROR = 'category/FETCH_CATEGORY_ERROR';
 export const FETCH_SUCCESS = 'category/FETCH_SUCCESS';
@@ -24,10 +25,7 @@ export function getCategoryData() {
     dispatch({ type: FETCH_CATEGORY });
     return getCategories()
       .then(
-        response => dispatch(fetchCategorySuccess(
-          new Category(response)
-            .average()
-        )),
+        response => dispatch(fetchCategorySuccess(response)),
         err => dispatch(fetchCategoryError(err))
       );
   };
@@ -38,10 +36,7 @@ export function saveCategoryData(category) {
     dispatch({ type: SAVING_CATEGORY });
     const request = saveCategory(category);
     return request.then(
-      response => dispatch(fetchCategorySuccess(
-        new Category(response)
-          .average()
-      )),
+      response => dispatch(fetchCategorySuccess(response)),
       err => dispatch(fetchCategoryError(err))
     );
   };

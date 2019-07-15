@@ -1,20 +1,23 @@
 import React from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { Container, ActionButton, Label } from './button-style';
+import { TouchableOpacity, Text, View, } from 'react-native';
+import { Container, Label, ActionButton } from './button-style';
 
-export default function Button({ title, type, onPress, text }) {
+export default function Button({ title, onPress, text }) {
   return (
     <Container>
       <ActionButton
-        style={ {} }
-        title={ title }
-        onPress={ onPress }
-        type="clear"
-      />
+         onPress={this.onPress}
+       >
+         <Text> Touch Here </Text>
+       </ActionButton>
       <Label>
         { text }
       </Label>
     </Container>
   )
 }
+// style={styles.button}
+//https://facebook.github.io/react-native/docs/button.html
+
+// https://facebook.github.io/react-native/docs/touchableopacity
 

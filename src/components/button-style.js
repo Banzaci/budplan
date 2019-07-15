@@ -14,6 +14,6 @@ export const Label = styled.Text`
   color: black;
 `;
 
-export const ActionButton = styled.Button`
+export const ActionButton = styled.TouchableOpacity`
   padding: 16px 0;
 `;
