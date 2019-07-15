@@ -12,7 +12,12 @@
     ,
     "fixed":
       {
-        "rent": "Hyra"
+        "rent": "Hyra",
+        "csn": "CSN",
+        "phone": "Telefon",
+        "car-insurance": "Bilförsäkring",
+        "house-insurance": "Hemförsäkring",
+        "entertainment": "Netflix/HBO/Spotify mm."
       }
   }
 }

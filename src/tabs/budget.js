@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { saveTargetData, getTargetData } from '../redux/actions/target';
+import console = require('console');
 
 class Budget extends Component {
 
@@ -18,7 +19,7 @@ class Budget extends Component {
     });
   }
 
-  onPress = (e) => {
+  onPress = () => {
     const { amount, id } = this.state;
     this.props.save({ amount, id })
       .then(({ monthlyBudget }) => {
@@ -34,27 +35,36 @@ class Budget extends Component {
     });
   }
 
+  renderFixedCosts = () => {
+    const { fixed } = this.props;
+    console.log(fixed) 
+  }
+
   render() {
     return (
       <Container>
-        <Header>Månadsbudget</Header>
-        <TextView>
-          <Input
-            keyboardType='numeric'
-            border
-            placeholder="Månads budget"
-            labelLeft="Månads budget"
-            id="monthlyBudget"
-            value={ this.state.monthlyBudget }
-            onChange={ this.onChange }
-          />
-          <Button
-            title="+"
-            type="add"
-            onPress={ this.onPress }
-          />
-        </TextView>
-      
+        <Row>
+          <Header>Månadsbudget</Header>
+          <TextView>
+            <Input
+              keyboardType='numeric'
+              border
+              placeholder="Månads budget"
+              labelLeft="Månads budget"
+              id="monthlyBudget"
+              value={ this.state.monthlyBudget }
+              onChange={ this.onChange }
+            />
+            <Button
+              title="+"
+              type="add"
+              onPress={ this.onPress }
+            />
+          </TextView>
+        </Row>
+        <Row>
+          { this.renderFixedCosts() }
+        </Row>
       </Container>
     );
   }
@@ -79,8 +89,9 @@ export const Header = styled.Text`
 `;
 
 const mapStateToProps = ({ reducers }) => {
-  const { target } = reducers;
+  const { target, categories } = reducers;
   return {
+    fixed: categories.categories.fixed,
     monthlyBudget: target.monthlyBudget
   }
 }

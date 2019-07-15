@@ -29,10 +29,10 @@ export default function Navigation() {
   const [ state, setState ] = useState({
     index: 0,
     routes: [
-      { key: 'categories', title: 'Kategorier' },
+      // { key: 'categories', title: 'Kategorier' },
+      { key: 'budget', title: 'Budget' },
       { key: 'month', title: 'Month' },
       { key: 'home', title: 'Home' },
-      { key: 'budget', title: 'Budget' },
     ],
   });
   return (

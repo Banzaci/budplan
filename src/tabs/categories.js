@@ -70,7 +70,6 @@ const Container = styled.SafeAreaView`
 
 const mapStateToProps = ({ reducers }) => {
   const { categories } = reducers;
-  console.log(categories)
   return {
     fixed: categories.categories.fixed,
     variables: categories.categories.variables,
