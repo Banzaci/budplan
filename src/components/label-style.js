@@ -5,7 +5,7 @@ export const Container = styled.View`
   margin: 0 auto;
 `;
 
-export const Label = styled.Text`
+export const Text = styled.Text`
   font-size: 18px;
   padding: 6px 12px;
 `;

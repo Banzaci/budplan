@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import Input from '../components/Input';
 import Button from '../components/Button';
+import Expenses from '../modules/Expenses';
 import { saveTargetData, getTargetData } from '../redux/actions/target';
-import console = require('console');
+import { saveFixedData, getFixedData } from '../redux/actions/fixed';
 
 class Budget extends Component {
 
@@ -37,10 +38,17 @@ class Budget extends Component {
 
   renderFixedCosts = () => {
     const { fixed } = this.props;
-    console.log(fixed) 
+    return (<View>
+      <Expenses
+        typeOfCost="fixed"
+        expenses={ fixed }
+        onAmountChange={ this.onAmountChange }
+      />
+    </View> );
   }
 
   render() {
+    
     return (
       <Container>
         <Row>
@@ -76,9 +84,17 @@ const Container = styled.SafeAreaView`
   flex-direction: column;
 `;
 
+export const View = styled.View`
+flex-direction: row;
+`;
+
 export const TextView = styled.View`
   width: 80%;
   flex-direction: row;
+`;
+
+export const Row = styled.View`
+  flex-direction: column;
 `;
 export const Header = styled.Text`
   font-size: 18px;
@@ -89,7 +105,8 @@ export const Header = styled.Text`
 `;
 
 const mapStateToProps = ({ reducers }) => {
-  const { target, categories } = reducers;
+  const { target, categories, fixed } = reducers;
+  console.log(fixed)
   return {
     fixed: categories.categories.fixed,
     monthlyBudget: target.monthlyBudget

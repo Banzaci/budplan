@@ -6,9 +6,9 @@ export default function Button({ title, onPress, text }) {
   return (
     <Container>
       <ActionButton
-         onPress={this.onPress}
+         onPress={ onPress }
        >
-         <Text> Touch Here </Text>
+         <Text> Touch Here</Text>
        </ActionButton>
       <Label>
         { text }
