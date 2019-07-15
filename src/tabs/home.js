@@ -23,7 +23,6 @@ class Home extends Component {
 
   async componentDidMount() {
     const { month } = await this.props.dispatch(getThisMonthAmount());
-    console.log(month)
     this.setState({ ...month });
   }
 

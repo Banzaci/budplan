@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import Input from '../components/Input';
 import Button from '../components/Button';
-import Categories from '../modules/Categories';
 import { saveTargetData, getTargetData } from '../redux/actions/target';
 
 class Budget extends Component {

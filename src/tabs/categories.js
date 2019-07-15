@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import Input from '../components/Input';
-import Categories from '../modules/Categories';
-import { saveTargetData, getTargetData } from '../redux/actions/target';
+import { saveCategoryData, getCategoryData } from '../redux/actions/categories';
 
 class Category extends Component {
 
@@ -12,19 +11,27 @@ class Category extends Component {
   }
 
   async componentDidMount(){
-    const { monthlyBudget } = await this.props.dispatch(getTargetData());
-    this.setState({
-      monthlyBudget
-    });
+    const props = await this.props.dispatch(getCategoryData());
+    console.log(props)
+    // this.setState({
+    //   monthlyBudget
+    // });
   }
 
-  onChange = ({ amount, id }) => {
+  onPress = (e) => {
+    const { amount, id } = this.state;
     this.props.save({ amount, id })
-      .then(({ monthlyBudget }) => {
-        this.setState({
-          monthlyBudget
-        });
+      .then((props) => {
+        // this.setState({
+        //   ...props
+        // });
       });
+  }
+
+  onChange = (amount) => {
+    this.setState({
+      ...amount
+    });
   }
 
   onDeleteCategory = () => {}
@@ -34,16 +41,9 @@ class Category extends Component {
     return (
       <Container>
         <Input
-          id="monthlyBudget"
-          label="Monthly budget"
-          value={ this.state.monthlyBudget }
-          keyboardType='numeric'
+          id="category"
+          value=""
           onChange={ this.onChange }
-        />
-        <Categories
-          list={ this.props.categories }
-          onDelete={ this.onDeleteCategory }
-          onClick={ this.onAddCategory }
         />
       </Container>
     );
@@ -68,7 +68,7 @@ const mapDispatchToProps = dispatch => {
   return {
     dispatch,
     save: data => {
-      return dispatch(saveTargetData(data))
+      return dispatch(saveCategoryData(data))
     }
   }
 }

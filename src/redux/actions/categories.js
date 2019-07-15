@@ -1,7 +1,7 @@
 import Category from '../../utils/category';
 
 export const FETCH_CATEGORY_ERROR = 'category/FETCH_CATEGORY_ERROR';
-export const FETCH_CATEGORY_SUCCESS = 'category/FETCH_CATEGORY_SUCCESS';
+export const FETCH_SUCCESS = 'category/FETCH_SUCCESS';
 export const FETCH_CATEGORY = 'category/FETCH_CATEGORY';
 export const SAVING_CATEGORY = 'category/SAVING_CATEGORY';
 
@@ -15,7 +15,7 @@ function fetchCategoryError(error) {
 const fetchCategorySuccess = categories => {
   return {
     ...categories,
-    type: FETCH_CATEGORY_SUCCESS
+    type: FETCH_SUCCESS
   };
 };
 
