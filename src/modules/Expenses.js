@@ -52,6 +52,7 @@ export default class Expenses extends Component {
             paddingLeft: 12,
             paddingRight: 12,
             backgroundColor: '#FFF',
+            marginBottom: 12,
             ...style,
           } }
           title={ `${title}` }
