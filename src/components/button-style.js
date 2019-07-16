@@ -3,17 +3,9 @@ import styled from 'styled-components';
 export const Container = styled.View`
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  flex-direction: row;
+  justify-content: center;
   color: black;
-`;
-
-export const Label = styled.Text`
-  text-align: left;
-  padding: 16px 0;
-  color: black;
-`;
-
-export const ActionButton = styled.TouchableOpacity`
-  padding: 16px 0;
+  background: #eee;
+  padding: 12px 12px;
+  border-radius: 12px;
 `;

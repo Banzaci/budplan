@@ -24,8 +24,8 @@ export default function Category({ id, name, onClick, border }) {
       </TextView>
       <ButtonView>
         <Button
+          style={ { marginLeft: 12 } }
           title="+"
-          type="add"
           onPress={ onPress }
         />
       </ButtonView>

@@ -37,21 +37,22 @@ class Home extends Component {
   };
 
   renderMonthlySpending = () => {
-    const { days, currentDay } = this.state;
+    const { days } = this.state;
     const sortedDays = Object.keys(days).sort();
     return sortedDays.map((date, index) => {
       const value = this.printAmount(days[date]);
       const title = `${value} / ${date}`;
       return (<View key={ index }>
         <Expenses
-            typeOfCost="variable"
-            day={ days[date] }
-            date={ date }
-            title={ title }
-            expenses={ this.props.expenses.variable }
-            onAmountChange={ this.onAmountChange }
-            value={ value }
-          />
+          style={ { marginBottom: 1 } }
+          typeOfCost="variable"
+          day={ days[date] }
+          date={ date }
+          title={ title }
+          expenses={ this.props.expenses.variable }
+          onAmountChange={ this.onAmountChange }
+          value={ value }
+        />
       </View> )});
   }
   render() {

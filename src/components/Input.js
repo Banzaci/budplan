@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { boxShadow } from '../style/common';
+import { boxShadow, clearBoxShadow } from '../style/common';
 import { Container, TextInput } from './input-style';
 
 export default function Input({ placeholder, onChange, value, id, keyboardType, error, border }) {
@@ -31,6 +31,7 @@ export default function Input({ placeholder, onChange, value, id, keyboardType, 
   return (
     <Container
       {...(border && { style: { ...boxShadow } } )}
+      {...(focus && { style: { ...clearBoxShadow } } )}
     >
       <TextInput
         { ...(value && { value: text.toString() })}

@@ -47,8 +47,8 @@ class Budget extends Component {
     const { fixed } = this.props;
     return (
       <Container>
+        <Header>Månadsbudget</Header>
         <Row>
-          <Header>Månadsbudget</Header>
           <TextView>
             <Input
               keyboardType='numeric'
@@ -59,21 +59,21 @@ class Budget extends Component {
               value={ this.state.monthlyBudget }
               onChange={ this.onChange }
             />
+          </TextView>
+          <ButtonView>
             <Button
+              style={ { marginLeft: 12 }}
               title="+"
-              type="add"
               onPress={ this.onPress }
             />
-          </TextView>
+          </ButtonView>
         </Row>
-        <Row>
-          <Expenses
-            title="Fasta kostnader"
-            typeOfCost="fixed"
-            expenses={ fixed }
-            onAmountChange={ this.onFixedPress }
-          />
-        </Row>
+        <Expenses
+          title="Fasta kostnader"
+          typeOfCost="fixed"
+          expenses={ fixed }
+          onAmountChange={ this.onFixedPress }
+        />
       </Container>
     );
   }
@@ -84,19 +84,25 @@ const Container = styled.SafeAreaView`
   margin: 12px;
 `;
 
-export const TextView = styled.View`
-  flex-direction: row;
-`;
-
 export const Row = styled.View`
-  flex-direction: column;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
 `;
 export const Header = styled.Text`
   font-size: 18px;
   font-weight: bold;
   padding: 20px 0;
   text-align: center;
+`;
+
+export const TextView = styled.View`
+  flex: 2;
+`;
+
+export const ButtonView = styled.View`
+flex: 1;
 `;
 
 const mapStateToProps = ({ reducers }) => {

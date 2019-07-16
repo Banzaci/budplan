@@ -1,24 +1,22 @@
 import React from 'react';
-import { Text } from 'react-native';
-import { Container, Label, ActionButton } from './button-style';
+import { Text, TouchableOpacity } from 'react-native';
+import { Container } from './button-style';
 
-export default function Button({ title, onPress, text }) {
+export default function Button({ title, onPress, style }) {
   return (
-    <Container>
-      <ActionButton
+    <Container
+      style={ style }
+    >
+      <TouchableOpacity
          onPress={ onPress }
        >
          <Text>
            { title }
          </Text>
-       </ActionButton>
-      <Label>
-        { text }
-      </Label>
+       </TouchableOpacity>
     </Container>
   )
 }
-// style={styles.button}
 //https://facebook.github.io/react-native/docs/button.html
 
 // https://facebook.github.io/react-native/docs/touchableopacity

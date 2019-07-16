@@ -39,18 +39,23 @@ export default class Expenses extends Component {
 
   render() {
     const { isOpen } = this.state;
-    const { title } = this.props;
+    const { title, style } = this.props;
     const icon = isOpen ? 'add' : 'delete';
-    // const title = isOpen ? 'Stäng' : 'Öppna';
     const expenses = Object.entries(this.props.expenses).map(this.renderList);
     return (
-      <Container
-        style={ boxShadow }
-      >
+      <Container>
         <Button
-          // text={ `${date} / ${value}kr` }
+          style={ {
+            ...boxShadow, 
+            paddingTop: 12,
+            paddingBottom: 12,
+            paddingLeft: 12,
+            paddingRight: 12,
+            backgroundColor: '#FFF',
+            ...style,
+          } }
           title={ `${title}` }
-          type={ icon }
+          icon={ icon }
           onPress={ this.onToggle }
         />
         { isOpen &&  expenses }
