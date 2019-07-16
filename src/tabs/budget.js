@@ -15,8 +15,10 @@ class Budget extends Component {
 
   async componentDidMount(){
     const { monthlyBudget } = await this.props.dispatch(getTargetData());
+    const props = await this.props.dispatch(getFixedData());
     this.setState({
-      monthlyBudget
+      monthlyBudget,
+      monthlyFixed: props
     });
   }
 
@@ -39,7 +41,7 @@ class Budget extends Component {
   onFixedPress = ({ amount, id, typeOfCost }) => {
     this.props.saveFixed({ amount, id, typeOfCost })
       .then((result) => {
-        console.log(result)
+        console.log('result', result)
       });
   }
 
@@ -54,7 +56,6 @@ class Budget extends Component {
               keyboardType='numeric'
               border
               placeholder="Månadsbudget"
-              labelLeft="Månads budget"
               id="monthlyBudget"
               value={ this.state.monthlyBudget }
               onChange={ this.onChange }
@@ -62,7 +63,27 @@ class Budget extends Component {
           </TextView>
           <ButtonView>
             <Button
-              style={ { marginLeft: 12 }}
+              container={
+                {
+                  marginBottom: 6,
+                  marginLeft: 6,
+                  marginRight: 6,
+                }
+              }
+              text={
+                {
+                  textAlign: 'center',
+                }
+              }
+              style={
+                {
+                  paddingTop: 12,
+                  paddingBottom: 12,
+                  paddingLeft: 12,
+                  paddingRight: 12,
+                  backgroundColor: '#eee',
+                }
+              }
               title="+"
               onPress={ this.onPress }
             />
@@ -106,8 +127,7 @@ flex: 1;
 `;
 
 const mapStateToProps = ({ reducers }) => {
-  const { target, categories, fixed } = reducers;
-  // console.log(fixed)
+  const { target, categories } = reducers;
   return {
     fixed: categories.categories.fixed,
     monthlyBudget: target.monthlyBudget
