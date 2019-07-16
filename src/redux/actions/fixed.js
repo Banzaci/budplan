@@ -23,8 +23,8 @@ const fetchFixedSuccess = fixed => {
 export function getFixedData() {
   return function (dispatch) {
     dispatch({ type: FETCH_FIXED });
-    const { currentYear, currentMonth } = getCurrentDate();
-    return getFixed({ currentYear, currentMonth })
+    const { currentYearDate, currentMonthDate } = getCurrentDate();
+    return getFixed({ currentYearDate, currentMonthDate })
       .then(
         response => dispatch(fetchFixedSuccess(response)),
         err => dispatch(fetchFixedError(err))
@@ -35,8 +35,8 @@ export function getFixedData() {
 export function saveFixedData(fixed) {
   return function (dispatch) {
     dispatch({ type: SAVING_FIXED });
-    const { currentYear, currentMonth } = getCurrentDate();
-    const request = saveFixed({ ...fixed, currentYear, currentMonth });
+    const { currentYearDate, currentMonthDate } = getCurrentDate();
+    const request = saveFixed({ ...fixed, currentYearDate, currentMonthDate });
     return request.then(
       response => dispatch(fetchFixedSuccess(response)),
       err => dispatch(fetchFixedError(err))

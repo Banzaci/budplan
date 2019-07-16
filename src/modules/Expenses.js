@@ -45,17 +45,31 @@ export default class Expenses extends Component {
     return (
       <Container>
         <Button
-          style={ {
-            ...boxShadow, 
-            paddingTop: 12,
-            paddingBottom: 12,
-            paddingLeft: 12,
-            paddingRight: 12,
-            backgroundColor: '#FFF',
-            marginBottom: 12,
-            ...style,
-          } }
-          title={ `${title}` }
+          container={
+            {
+              marginBottom: 6,
+              marginLeft: 6,
+              marginRight: 6,
+            }
+          }
+          text={
+            {
+              textAlign: 'left',
+              marginLeft: 20,
+            }
+          }
+          style={
+            {
+              paddingTop: 12,
+              paddingBottom: 12,
+              paddingLeft: 12,
+              paddingRight: 12,
+              backgroundColor: '#FFF',
+              ...boxShadow,
+              ...style,
+            }
+          }
+          title={ title }
           icon={ icon }
           onPress={ this.onToggle }
         />
