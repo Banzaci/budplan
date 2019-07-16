@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { boxShadow, clearBoxShadow } from '../style/common';
-import { Container, TextInput } from './input-style';
+import { Container, TextInput, Text } from './input-style';
 
 export default function Input({ placeholder, onChange, value, id, keyboardType, error, border }) {
   
@@ -42,6 +42,7 @@ export default function Input({ placeholder, onChange, value, id, keyboardType, 
         onFocus={ onFocus }
         onChangeText={ onChangeHandler }
       />
+      
     </Container>
   );
 }

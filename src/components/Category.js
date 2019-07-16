@@ -24,7 +24,26 @@ export default function Category({ id, name, onClick, border }) {
       </TextView>
       <ButtonView>
         <Button
-          style={ { marginLeft: 12 } }
+          container={
+            {
+              marginLeft: 6,
+              marginRight: 6,
+            }
+          }
+          text={
+            {
+              textAlign: 'center',
+            }
+          }
+          style={
+            {
+              paddingTop: 12,
+              paddingBottom: 12,
+              paddingLeft: 12,
+              paddingRight: 12,
+              backgroundColor: '#eee',
+            }
+          }
           title="+"
           onPress={ onPress }
         />

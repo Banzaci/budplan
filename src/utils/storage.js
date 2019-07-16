@@ -154,8 +154,51 @@ export const getCategories = async type => {
     }
   }
 }
+// Category ----------------
 
-// Category ---------------- 
+//---------------- Fixed
+
+export const saveFixed = async ({ amount, id, currentYearDate, currentMonthDate }) => {
+  try {
+    const key = 'fixed';
+    const namespace = `${key}.${currentYearDate}.${currentMonthDate}.${id}:${amount}`;
+    const query = objectBuilder(namespace);
+    const data = await getByKey(key);
+    const newData = mergeDeep(data, query);
+    await saveByKey(key, newData);
+    const fixed = getByIndex(key, newData);
+    const year = getByIndex(currentYearDate, fixed);
+    const month = getByIndex(currentMonthDate, year);
+    console.log('save month', month)
+    return month;
+  } catch (error) {
+    console.error(error)
+    return {
+      fixed: [],
+      error
+    }
+  }
+}
+
+export const getFixed = async ({ currentYearDate, currentMonthDate }) => {
+  try {
+    const key = 'fixed';
+    const data = await getByKey(key);
+    const fixed = getByIndex(key, data);
+    const year = getByIndex(currentYearDate, fixed);
+    const month = getByIndex(currentMonthDate, year);
+    console.log('get month', month)
+    return month;
+  } catch (error) {
+    console.error(error)
+    return {
+      fixed: [],
+      error
+    }
+  }
+}
+
+// Fixed ---------------- 
 
 const removeItemValue = async (key) => { //removeItemValue(key)
   try {

@@ -15,3 +15,8 @@ export const TextInput = styled.TextInput`
   flex: 1;
   font-size: 16px;
 `;
+
+export const Text = styled.Text`
+width: 100%;
+color: black;
+`;

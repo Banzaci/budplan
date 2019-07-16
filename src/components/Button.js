@@ -1,19 +1,22 @@
 import React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
-import { Container } from './button-style';
+import { TouchableOpacity } from 'react-native';
+import { Container, Text, ActionButton } from './button-style';
 
-export default function Button({ title, onPress, style }) {
+export default function Button({ title, onPress, style, container={}, text={} }) {
   return (
     <Container
-      style={ style }
+      style={ container }
     >
-      <TouchableOpacity
+      <ActionButton
          onPress={ onPress }
+         style={ style }
        >
-         <Text>
+         <Text
+          style={ text }
+         >
            { title }
          </Text>
-       </TouchableOpacity>
+       </ActionButton>
     </Container>
   )
 }
