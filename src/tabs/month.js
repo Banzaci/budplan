@@ -41,11 +41,13 @@ class Home extends Component {
     const sortedDays = Object.keys(days).sort();
     return sortedDays.map((date, index) => {
       const value = this.printAmount(days[date]);
+      const title = `${value} / ${date}`;
       return (<View key={ index }>
         <Expenses
             typeOfCost="variable"
             day={ days[date] }
             date={ date }
+            title={ title }
             expenses={ this.props.expenses.variable }
             onAmountChange={ this.onAmountChange }
             value={ value }

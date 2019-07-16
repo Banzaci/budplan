@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text, View, } from 'react-native';
+import { Text } from 'react-native';
 import { Container, Label, ActionButton } from './button-style';
 
 export default function Button({ title, onPress, text }) {
@@ -8,7 +8,9 @@ export default function Button({ title, onPress, text }) {
       <ActionButton
          onPress={ onPress }
        >
-         <Text> Touch Here</Text>
+         <Text>
+           { title }
+         </Text>
        </ActionButton>
       <Label>
         { text }

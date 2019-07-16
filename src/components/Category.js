@@ -3,7 +3,7 @@ import Button from './Button';
 import Input from './Input';
 import { Container, TextView, ButtonView } from './category-style';
 
-export default function Category({ id, name, onClick }) {
+export default function Category({ id, name, onClick, border }) {
 
   const [amount, setAmount] = useState({});
 
@@ -14,7 +14,7 @@ export default function Category({ id, name, onClick }) {
       <TextView>
         <Input
           keyboardType='numeric'
-          border
+          border={ border }
           placeholder={ name }
           label={ name }
           id={ id }

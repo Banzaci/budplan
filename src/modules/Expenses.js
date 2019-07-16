@@ -21,8 +21,9 @@ export default class Expenses extends Component {
 
   renderList = (expense, index) =>  {
     const [id, name] = expense;
-    const { date, day } = this.props;
+    const { day, border } = this.props;
     return (<Category
+      border={ border }
       onClick={ this.onAmountChange }
       key={ index }
       id={ id }
@@ -38,16 +39,16 @@ export default class Expenses extends Component {
 
   render() {
     const { isOpen } = this.state;
-    const { day, value, date } = this.props;
+    const { title } = this.props;
     const icon = isOpen ? 'add' : 'delete';
-    const title = isOpen ? 'Stäng' : 'Öppna';
+    // const title = isOpen ? 'Stäng' : 'Öppna';
     const expenses = Object.entries(this.props.expenses).map(this.renderList);
     return (
       <Container
         style={ boxShadow }
       >
         <Button
-          text={ `${date} / ${value}kr` }
+          // text={ `${date} / ${value}kr` }
           title={ `${title}` }
           type={ icon }
           onPress={ this.onToggle }

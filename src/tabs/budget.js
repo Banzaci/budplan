@@ -36,19 +36,15 @@ class Budget extends Component {
     });
   }
 
-  renderFixedCosts = () => {
-    const { fixed } = this.props;
-    return (<View>
-      <Expenses
-        typeOfCost="fixed"
-        expenses={ fixed }
-        onAmountChange={ this.onAmountChange }
-      />
-    </View> );
+  onFixedPress = ({ amount, id, typeOfCost }) => {
+    this.props.saveFixed({ amount, id, typeOfCost })
+      .then((result) => {
+        console.log(result)
+      });
   }
 
   render() {
-    
+    const { fixed } = this.props;
     return (
       <Container>
         <Row>
@@ -57,7 +53,7 @@ class Budget extends Component {
             <Input
               keyboardType='numeric'
               border
-              placeholder="Månads budget"
+              placeholder="Månadsbudget"
               labelLeft="Månads budget"
               id="monthlyBudget"
               value={ this.state.monthlyBudget }
@@ -71,7 +67,12 @@ class Budget extends Component {
           </TextView>
         </Row>
         <Row>
-          { this.renderFixedCosts() }
+          <Expenses
+            title="Fasta kostnader"
+            typeOfCost="fixed"
+            expenses={ fixed }
+            onAmountChange={ this.onFixedPress }
+          />
         </Row>
       </Container>
     );
@@ -79,34 +80,28 @@ class Budget extends Component {
 }
 
 const Container = styled.SafeAreaView`
-  margin: 6px 12px;
-  margin-top: 30px;
   flex-direction: column;
-`;
-
-export const View = styled.View`
-flex-direction: row;
+  margin: 12px;
 `;
 
 export const TextView = styled.View`
-  width: 80%;
   flex-direction: row;
 `;
 
 export const Row = styled.View`
   flex-direction: column;
+  margin-bottom: 20px;
 `;
 export const Header = styled.Text`
   font-size: 18px;
   font-weight: bold;
-  width: 100%;
   padding: 20px 0;
   text-align: center;
 `;
 
 const mapStateToProps = ({ reducers }) => {
   const { target, categories, fixed } = reducers;
-  console.log(fixed)
+  // console.log(fixed)
   return {
     fixed: categories.categories.fixed,
     monthlyBudget: target.monthlyBudget
@@ -118,6 +113,9 @@ const mapDispatchToProps = dispatch => {
     dispatch,
     save: data => {
       return dispatch(saveTargetData(data))
+    },
+    saveFixed: data => {
+      return dispatch(saveFixedData(data))
     }
   }
 }

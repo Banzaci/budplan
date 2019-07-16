@@ -13,11 +13,6 @@ function fetchFixedError(error) {
   };
 }
 
-function getFixedAverage( fixed ) {
-  if (!fixed || !fixed.monthlyBudget) return 0;
-  return Math.round((fixed.monthlyBudget / daysInMonth())).toFixed(2);
-}
-
 const fetchFixedSuccess = fixed => {
   return {
     ...fixed,
