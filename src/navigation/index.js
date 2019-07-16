@@ -30,8 +30,8 @@ export default function Navigation() {
     index: 0,
     routes: [
       // { key: 'categories', title: 'Kategorier' },
-      { key: 'budget', title: 'Budget' },
       { key: 'month', title: 'Month' },
+      { key: 'budget', title: 'Budget' },
       { key: 'home', title: 'Home' },
     ],
   });

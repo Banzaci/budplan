@@ -44,7 +44,7 @@ class Home extends Component {
       const title = `${value} / ${date}`;
       return (<View key={ index }>
         <Expenses
-          style={ { marginBottom: 1 } }
+          style={ { marginBottom: 1, marginLeft: 12, marginRight: 12 } }
           typeOfCost="variable"
           day={ days[date] }
           date={ date }
@@ -59,6 +59,7 @@ class Home extends Component {
     return (
       <Container>
         <ScrollView>
+          <Header>Dagliga månadskostnader</Header>
           { this.renderMonthlySpending() }
         </ScrollView>
       </Container>
@@ -70,6 +71,13 @@ const Container = styled.SafeAreaView`
   margin-top: 6px;
   height: 100%;
   width: 100%;
+`;
+
+export const Header = styled.Text`
+  font-size: 18px;
+  font-weight: bold;
+  padding: 20px 0;
+  text-align: center;
 `;
 
 const mapStateToProps = ({ reducers }) => {
