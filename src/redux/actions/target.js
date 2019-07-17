@@ -1,9 +1,8 @@
 import { saveTarget, getTarget } from '../../utils/storage';
-import { getCurrentDate } from '../../utils/dates';
-import Target from '../../utils/target';
+import { getCurrentDate, daysInMonth } from '../../utils/dates';
 
 export const FETCH_TARGET_ERROR = 'target/FETCH_TARGET_ERROR';
-export const FETCH_TARGET_SUCCESS = 'target/FETCH_TARGET_SUCCESS';
+export const FETCH_SUCCESS = 'target/FETCH_SUCCESS';
 export const FETCH_TARGET = 'target/FETCH_TARGET';
 export const SAVING_TARGET = 'target/SAVING_TARGET';
 
@@ -14,23 +13,26 @@ function fetchTargetError(error) {
   };
 }
 
+function getTargetAverage( target ) {
+  if (!target || !target.monthlyBudget) return 0;
+  return Math.round((target.monthlyBudget / daysInMonth())).toFixed(2);
+}
+
 const fetchTargetSuccess = target => {
   return {
     ...target,
-    type: FETCH_TARGET_SUCCESS
+    ...{ targetAverage:  getTargetAverage(target) },
+    type: FETCH_SUCCESS
   };
 };
 
 export function getTargetData() {
   return function (dispatch) {
     dispatch({ type: FETCH_TARGET });
-    const { currentMonth } = getCurrentDate();
-    return getTarget(currentMonth)
+    const { currentYear, currentMonth } = getCurrentDate();
+    return getTarget({ currentYear, currentMonth })
       .then(
-        response => dispatch(fetchTargetSuccess(
-          new Target(response)
-            .average()
-        )),
+        response => dispatch(fetchTargetSuccess(response)),
         err => dispatch(fetchTargetError(err))
       );
   };
@@ -39,13 +41,10 @@ export function getTargetData() {
 export function saveTargetData(target) {
   return function (dispatch) {
     dispatch({ type: SAVING_TARGET });
-    const { currentMonth } = getCurrentDate();
-    const request = saveTarget({ ...target, currentMonth });
+    const { currentYear, currentMonth } = getCurrentDate();
+    const request = saveTarget({ ...target, currentYear, currentMonth });
     return request.then(
-      response => dispatch(fetchTargetSuccess(
-        new Target(response)
-          .average()
-      )),
+      response => dispatch(fetchTargetSuccess(response)),
       err => dispatch(fetchTargetError(err))
     );
   };

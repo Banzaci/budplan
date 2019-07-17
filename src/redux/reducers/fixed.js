@@ -1,8 +1,7 @@
-import { SAVE_AMOUNT, FETCH_SUCCESS } from "../actions/spendning";
+import { SAVE_FIXED, FETCH_SUCCESS } from '../actions/target';
 
 const INITIAL_STATE = {
-  currentMonth: {},
-  amount: 0
+  fixed: [],
 };
 
 export default function reducer(state = INITIAL_STATE, action) {
@@ -12,8 +11,9 @@ export default function reducer(state = INITIAL_STATE, action) {
         ...state,
         ...action.data,
       };
-    case SAVE_AMOUNT:
-      console.log('Spending reducer, ever here?');
+    case SAVE_FIXED:
+      console.log('Fixed reducer, ever here?');
+      
       return { ...state, amount: action.amount };
     default:
       return state;

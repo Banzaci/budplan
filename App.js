@@ -14,5 +14,8 @@ export default function App() {
     </Provider>
   );
 }
-
+// Client Secret Norwegian: da67a39aa1e749019389feb4a88c5d18
+// Client ID 8e89a7cf69914346968314d446798475
 // <Loader />
+// https://ml5js.org/
+// https://www.tensorflow.org/js/tutorials

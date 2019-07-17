@@ -1,4 +1,4 @@
-import { daysInMonth, getCurrentDate, getCurrentWeek, getCurrentWeekNumber } from './dates';
+import { daysInMonth, getCurrentDate, getWeekByDate, getWeekByDateNumber } from './dates';
 
 export default class Category {
   constructor({ data }) {
@@ -7,7 +7,7 @@ export default class Category {
   }
 
   week(){
-    const temp = getCurrentWeek();
+    const temp = getWeekByDate();
     const items = this.items;
     this.week = temp.reduce((acc, current) => {
       const dayDate = current.format('DD');
@@ -21,7 +21,7 @@ export default class Category {
   }
 
   weekNumber() {
-    this.weekNumber = getCurrentWeekNumber();
+    this.weekNumber = getWeekByDateNumber();
     return this; 
   }
 

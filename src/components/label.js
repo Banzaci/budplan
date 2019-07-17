@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Label } from './label-style';
+import { Container, Text } from './label-style';
 
 export default function Label({ label, warning, error }) {
   return (
@@ -7,9 +7,9 @@ export default function Label({ label, warning, error }) {
       {...(warning && { style: { fontSize: 18 }} )}
       {...(error && { style: { fontSize: 18 }} )}
     >
-      <Label>
+      <Text>
         { label }
-      </Label>
+      </Text>
     </Container>
   )
 }

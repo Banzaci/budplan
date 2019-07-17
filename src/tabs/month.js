@@ -3,29 +3,25 @@ import React, { Component } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import InputDayBalance from '../modules/InputDayBalance';
-import Information from '../modules/Information';
+import Expenses from '../modules/Expenses';
 import { saveAmount, getThisMonthAmount } from '../redux/actions/spendning';
 
 class Home extends Component {
 
   state = {
-    monthWithAmount: {},
-    total: 0,
-    average: 0,
-    lastMonthSpending: 0,
+    days: {}
   }
 
   async componentDidMount(){
-    const props = await this.props.dispatch(getThisMonthAmount())
+    const { data } = await this.props.dispatch(getThisMonthAmount());
     this.setState({
-      ...props
+      ...data,
     })
   }
  
-  onAmountChange = ({ day, amount }) => {
+  onAmountChange = ({ day, amount, id, typeOfCost }) => {
     const { currentYear, currentMonth } = this.state;
-    this.props.save({ currentYear, currentMonth, day, amount })
+    this.props.save({ currentYear, currentMonth, day, amount, id, typeOfCost })
       .then( ({ total, average }) => {
         this.setState({
           total,
@@ -34,24 +30,29 @@ class Home extends Component {
       })
   };
 
-  printAmount = (monthWithAmount, day) => monthWithAmount[day].amountSpent.toString();
-
   renderMonthlySpending = () => {
-    const { monthWithAmount, currentDay } = this.state;
-    const days = Object.keys(monthWithAmount).sort();
-    return days.map( (day, index) => <View key={ index }>
-      <InputDayBalance
-        average={ this.state.average }
-        onAmountChange={ this.onAmountChange }
-        currentDay={ currentDay }
-        day={ day.toString() }
-        amount={ this.printAmount(monthWithAmount, day) }
-      />  
-    </View> )
+    const { days } = this.state;
+    const sortedDays = Object.keys(days).sort();
+    return sortedDays.map((date, index) => {
+      const currentDay = days[date];
+      const { amountSpent, variables } = currentDay;
+      const output = `${date} / ${amountSpent}kr`;
+      return (<View key={ index }>
+        <Expenses
+          style={ { marginBottom: 1, marginLeft: 12, marginRight: 12 } }
+          typeOfCost="variable"
+          amountSpent={ output }// Title name?
+          keyNames={ variables }
+          date={ date }
+          expenses={ this.props.expenses.variable }
+          onAmountChange={ this.onAmountChange }
+        />
+      </View> )});
   }
   render() {
     return (
       <Container>
+        <Header>Dagliga månadskostnader</Header>
         <ScrollView>
           { this.renderMonthlySpending() }
         </ScrollView>
@@ -66,13 +67,17 @@ const Container = styled.SafeAreaView`
   width: 100%;
 `;
 
+export const Header = styled.Text`
+  font-size: 18px;
+  font-weight: bold;
+  padding: 20px 0;
+  text-align: center;
+`;
+
 const mapStateToProps = ({ reducers }) => {
-  const { spendning, target } = reducers;
+  const { categories } = reducers;
   return {
-    totalByAverage: spendning.totalByAverage,
-    targetAverage: target.average,
-    monthlyBudget: target.monthlyBudget,
-    amount: spendning.amount
+    expenses: categories.categories,
   }
 }
 

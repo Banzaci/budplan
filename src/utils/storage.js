@@ -1,21 +1,28 @@
 import { AsyncStorage } from 'react-native';
+import mergeDeep from './deep-merge';
 
-const getDataByIndex = (index, data) => {
+const objectBuilder = input => {
+  const [namespace, value] = input.split(':');
+  const arr = namespace.split('.').reverse()
+  return arr.reduce((acc, current, index) => (index === 0) ? { [current]: value } : { [current]:{...acc } }, {})
+}
+
+const getByIndex = (index, data) => {
   const result = data[index]
   if (!result) return {}
   return result;
 }
 
-const getDataByKey = async key => {
+const getByKey = async key => {
   try {
     const data = await AsyncStorage.getItem(key);
-    return data ? JSON.parse(data) : {}
+    return data ? JSON.parse(data) : { [key]: {} }
   } catch (error) {
     return error;
   }
 };
 
-const saveDataByKey = async ( key, data ) => {
+const saveByKey = async ( key, data ) => {
   try {
     return await AsyncStorage.setItem(key, JSON.stringify(data))
   } catch (error) {
@@ -24,58 +31,20 @@ const saveDataByKey = async ( key, data ) => {
   }
 };
 
-export const saveTarget = async ({ amount, id, currentMonth }) => {
+//---------------- Spending
+
+export const saveSpending = async ({ currentYearDate, currentMonthDate, typeOfCost, amount, id, day }) => {
   try {
-    const key = 'target';
-    const index = currentMonth;
-    const data = await getDataByKey(key);
-    const indexData = getDataByIndex(index, data);
-    const newIndexData = {
-      ...indexData,
-      [id]: amount
-    }
-    const newData =  { ...data, ...{
-        [index]: newIndexData
-      }
-    };
-    await saveDataByKey(key, newData);
-
-    return {
-      data: newIndexData
-    };
-
-  } catch (error) {
-    console.error(error)
-    return {
-      target: [],
-      error
-    }
-  }
-}
-
-export const saveSpending = async ({ currentYear, currentMonth, day, amount }) => {
-  try {
-    const key = currentYear;
-    const index = currentMonth;
-    const data = await getDataByKey(key);
-    const indexData = getDataByIndex(index, data);
-    const newData = { ...data, ...{
-      [index]: {
-        ...indexData,
-        [day]: amount
-      }
-    } };
-    // const rm = Object.keys(newData[index]).reduce((acc, a) => {
-    //   if (a !== 'undefined') {
-    //     acc = { ...acc, [a]: newData[index][a]}
-    //   }
-    //   return acc;
-    // }, {})
-    const result = await saveDataByKey(key, newData);
+    const key = 'spending';
+    const namespace = `${key}.${currentYearDate}.${currentMonthDate}.${day}.${typeOfCost}.${id}:${amount}`;
+    const query = objectBuilder(namespace);
+    const keyData = await getByKey(key);
+    const year = getByIndex(key, keyData);
+    const newData = mergeDeep(year, query);
+    await saveByKey(currentYearDate, newData);
     return {
       success: true,
-      data: newData[index], // Kolla om 'indexData'
-      ...{ currentYear: key, currentMonth: index }
+      month: newData[currentYearDate][currentMonthDate]
     };
   } catch (error) {
     console.error(error)
@@ -86,15 +55,17 @@ export const saveSpending = async ({ currentYear, currentMonth, day, amount }) =
   }
 }
 
-export const getSpending = async ({ currentYear, currentMonth, currentDay }) => {
+export const getSpending = async ({ currentYearDate, currentMonthDate }) => {
   try {
-    const key = currentYear;
-    const index = currentMonth;
-    const data = await getDataByKey(key);
-    const indexData = getDataByIndex(index, data);
+    const key = 'spendings';
+    // removeItemValue(key)
+    const keyData = await getByKey(key);
+    const year = getByIndex(key, keyData);
+    const months = getByIndex(currentYearDate, year);
+    const month = getByIndex(currentMonthDate, months);
     return {
-      data: indexData,
-      ...{ currentYear, currentMonth, currentDay }
+      success: true,
+      month
     };
 
   } catch (error) {
@@ -106,16 +77,21 @@ export const getSpending = async ({ currentYear, currentMonth, currentDay }) => 
   }
 }
 
-export const getTarget = async currentMonth => {
+// Spending ----------------
+//---------------- Target
+
+export const saveTarget = async ({ amount, id, currentYearDate, currentMonthDate }) => {
   try {
     const key = 'target';
-    const index = currentMonth;
-    const data = await getDataByKey(key);
-    const indexData = getDataByIndex(index, data);
-    // removeItemValue(key)
-    return {
-      data: indexData
-    };
+    const namespace = `${key}.${currentYearDate}.${currentMonthDate}.${id}:${amount}`;
+    const query = objectBuilder(namespace);
+    const data = await getByKey(key);
+    const newData = mergeDeep(data, query);
+    await saveByKey(key, newData);
+    const target = getByIndex(key, newData);
+    const year = getByIndex(currentYearDate, target);
+    const month = getByIndex(currentMonthDate, year);
+    return month;
   } catch (error) {
     console.error(error)
     return {
@@ -124,6 +100,104 @@ export const getTarget = async currentMonth => {
     }
   }
 }
+
+export const getTarget = async ({ currentYearDate, currentMonthDate }) => {
+  try {
+    const key = 'target';
+    const data = await getByKey(key);
+    const target = getByIndex(key, data);
+    const year = getByIndex(currentYearDate, target);
+    const month = getByIndex(currentMonthDate, year);
+    return month;
+  } catch (error) {
+    console.error(error)
+    return {
+      target: [],
+      error
+    }
+  }
+}
+
+// Target ---------------- 
+//---------------- Category
+
+export const saveCategory = async ({ name, type }) => {
+  try {
+    const key = 'category';    
+    const namespace = `${type}:${name}`;
+    const query = objectBuilder(namespace);
+    const data = await getByKey(key);
+    const newData = mergeDeep(data, query);
+
+    await saveByKey(key, newData);
+
+    return getByKey(key);
+  } catch (error) {
+    console.error(error)
+    return {
+      target: [],
+      error
+    }
+  }
+}
+
+export const getCategories = async type => {
+  try {
+    const key = 'category';
+    const data = await getByKey(key);
+    const categories = getByIndex(type, data);
+    return categories;
+  } catch (error) {
+    console.error(error)
+    return {
+      target: [],
+      error
+    }
+  }
+}
+// Category ----------------
+
+//---------------- Fixed
+
+export const saveFixed = async ({ amount, id, currentYearDate, currentMonthDate }) => {
+  try {
+    const key = 'fixed';
+    const namespace = `${key}.${currentYearDate}.${currentMonthDate}.${id}:${amount}`;
+    const query = objectBuilder(namespace);
+    const data = await getByKey(key);
+    const newData = mergeDeep(data, query);
+    await saveByKey(key, newData);
+    const fixed = getByIndex(key, newData);
+    const year = getByIndex(currentYearDate, fixed);
+    const month = getByIndex(currentMonthDate, year);
+    return month;
+  } catch (error) {
+    console.error(error)
+    return {
+      fixed: [],
+      error
+    }
+  }
+}
+
+export const getFixed = async ({ currentYearDate, currentMonthDate }) => {
+  try {
+    const key = 'fixed';
+    const data = await getByKey(key);
+    const fixed = getByIndex(key, data);
+    const year = getByIndex(currentYearDate, fixed);
+    const month = getByIndex(currentMonthDate, year);
+    return month;
+  } catch (error) {
+    console.error(error)
+    return {
+      fixed: [],
+      error
+    }
+  }
+}
+
+// Fixed ---------------- 
 
 const removeItemValue = async (key) => { //removeItemValue(key)
   try {
@@ -134,5 +208,3 @@ const removeItemValue = async (key) => { //removeItemValue(key)
     return false;
   }
 }
-
-//https://medium.com/@richardzhanguw/storing-and-retrieving-objects-using-asyncstorage-in-react-native-6bb1745fdcdd

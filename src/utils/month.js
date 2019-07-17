@@ -1,47 +1,77 @@
-import { daysInMonth, getCurrentDate, getCurrentWeek, getCurrentWeekNumber } from './dates';
+import { daysInMonth, getCurrentDate } from './dates';
+import Week from './week';
 
 export default class Month {
-  constructor({ data }) {
-    this.items = data
-    this.currentDay = getCurrentDate().currentDay
+  constructor({ month, currentMonthDate, currentYearDate, currentDayDate }) {
+    this.month = month;
+    this.currentMonthDate = currentMonthDate;
+    this.currentYearDate = currentYearDate;
+    this.currentDayDate = currentDayDate;
   }
 
-  week(){
-    const temp = getCurrentWeek();
-    const items = this.items;
-    this.week = temp.reduce((acc, current) => {
-      const dayDate = current.format('DD');
-      const dayName = current.format('dd');
-      const amount = items[dayDate];
-      return [...acc, 
-        [dayName, amount ? amount : 0]
-      ];
-    }, []);
-    return this;
+  days(days) {
+    if (!this.daysInMonth) {
+      this.daysInMonth = days;
+    }
+    return this.daysInMonth;
   }
 
-  weekNumber() {
-    this.weekNumber = getCurrentWeekNumber();
-    return this; 
+  currentDay(){
+    if (!this.currentDayInMonth) {
+      this.currentDayInMonth = this.daysInMonth[this.currentDayDate];
+    }
+    return this.currentDayInMonth;
   }
 
-  today(){
-    this.todayAmount = (this.items[this.currentDay] || 0).toString()
-    return this;
+  currentDayAmount() {
+    if (!this.amountSpent) {
+      this.amountSpent = this.currentDay().amountSpent;
+    }
+    return this.amountSpent;
+  }
+
+  daysInMonthWithAmount() {
+    if (!this.inMonthWithAmount) {
+      const days = this.daysInMonth;
+      this.inMonthWithAmount = Object.values(days).filter(({ amountSpent }) => amountSpent )
+    }
+    return this.inMonthWithAmount;
   }
 
   total() {
-    this.total = Object.keys(this.items).reduce((acc, key) => acc + parseInt(this.items[key]), 0)
-    return this;
+    if (!this.monthSpending) {
+      this.monthSpending = this.daysInMonthWithAmount().reduce(( acc, { amountSpent } ) => acc += amountSpent, 0 )
+    }
+    return this.monthSpending;
   }
 
   average() {
-    this.average = (this.total / this.currentDay).toFixed(2)
-    return this;
+    if (!this.averageSpending) {
+      this.averageSpending = (this.total() / this.currentDayDate).toFixed(2);
+    }
+    return this.averageSpending;
   }
 
   totalByAverage() {
-    this.totalByAverage = (this.average * daysInMonth()).toFixed(2)
-    return this;
+    if (!this.totalByAverageSpending) {
+      this.totalByAverageSpending = (this.average() * daysInMonth()).toFixed(2);
+    }
+    return this.totalByAverageSpending;
+  }
+
+  getMonthSpendingByCategory = () => {
+    if (!this.monthSpendingByCategory) {
+      this.monthSpendingByCategory = this.daysInMonthWithAmount().reduce((acc, { variables }) => {
+          const vars = Object.entries(variables);
+          vars.forEach(([key, value]) => {
+            acc[key] = acc[key] || 0;
+            acc[key] += parseInt(value, 10);
+          })
+        return {
+          ...acc,
+        };
+      }, {});
+    }
+    return this.monthSpendingByCategory;
   }
 }

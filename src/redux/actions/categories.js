@@ -1,7 +1,8 @@
 import Category from '../../utils/category';
+import { saveCategory, getCategories } from '../../utils/storage';
 
 export const FETCH_CATEGORY_ERROR = 'category/FETCH_CATEGORY_ERROR';
-export const FETCH_CATEGORY_SUCCESS = 'category/FETCH_CATEGORY_SUCCESS';
+export const FETCH_SUCCESS = 'category/FETCH_SUCCESS';
 export const FETCH_CATEGORY = 'category/FETCH_CATEGORY';
 export const SAVING_CATEGORY = 'category/SAVING_CATEGORY';
 
@@ -15,7 +16,7 @@ function fetchCategoryError(error) {
 const fetchCategorySuccess = categories => {
   return {
     ...categories,
-    type: FETCH_CATEGORY_SUCCESS
+    type: FETCH_SUCCESS
   };
 };
 
@@ -24,10 +25,7 @@ export function getCategoryData() {
     dispatch({ type: FETCH_CATEGORY });
     return getCategories()
       .then(
-        response => dispatch(fetchCategorySuccess(
-          new Category(response)
-            .average()
-        )),
+        response => dispatch(fetchCategorySuccess(response)),
         err => dispatch(fetchCategoryError(err))
       );
   };
@@ -36,13 +34,9 @@ export function getCategoryData() {
 export function saveCategoryData(category) {
   return function (dispatch) {
     dispatch({ type: SAVING_CATEGORY });
-    const { currentMonth } = getCurrentDate();
     const request = saveCategory(category);
     return request.then(
-      response => dispatch(fetchCategorySuccess(
-        new Category(response)
-          .average()
-      )),
+      response => dispatch(fetchCategorySuccess(response)),
       err => dispatch(fetchCategoryError(err))
     );
   };

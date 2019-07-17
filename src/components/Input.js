@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { boxShadow } from '../style/common';
-import Button from './Button';
-import { Container, TextInput, Text, Label } from './input-style';
+import styled from 'styled-components';
+import { boxShadow, clearBoxShadow } from '../style/common';
 
-export default function Input({ placeholder, button, onChange, value, id, labelRight, labelLeft, keyboardType, error, border }) {
+export default function Input({ placeholder, onChange, value, id, keyboardType, error, border }) {
   
   const [focus, setFocus] = useState(false);
   const [firstRender, setFirstRender] = useState(false);
   const [text, setText] = useState(value);
-
-  const borderFocusStyle = focus ? { borderColor: 'blue' } : {};
 
   const onFocus = () => {
     setFocus(true)
@@ -34,13 +31,8 @@ export default function Input({ placeholder, button, onChange, value, id, labelR
   return (
     <Container
       {...(border && { style: { ...boxShadow } } )}
+      {...(focus && { style: { ...clearBoxShadow } } )}
     >
-      { labelLeft && <Label
-          {...(focus && { style: { fontSize: 18 }} )}
-        >
-          { labelLeft }
-        </Label>
-      }
       <TextInput
         { ...(value && { value: text.toString() })}
         { ...(placeholder && { placeholder })}
@@ -50,17 +42,28 @@ export default function Input({ placeholder, button, onChange, value, id, labelR
         onFocus={ onFocus }
         onChangeText={ onChangeHandler }
       />
-    { labelRight && <Label
-        {...(focus && { style: { fontSize: 18 }} )}
-      >
-        { labelRight }
-      </Label>
-      }
-      { button && <Button
-        title="add"
-        onPress={ onChangeHandler }
-        { ...button }
-      />}
+      
     </Container>
   );
 }
+
+export const Container = styled.View`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  background-color: white;
+  border-radius: 12px;
+  margin: 0;
+  padding: 6px 12px;
+`;
+
+export const TextInput = styled.TextInput`
+  padding: 6px 12px;
+  flex: 1;
+  font-size: 16px;
+`;
+
+export const Text = styled.Text`
+  width: 100%;
+  color: black;
+`;

@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
 import target from './target';
 import spendning from './spendning';
-import category from './category';
+import categories from './categories';
+import fixed from './fixed';
 
 export default combineReducers({
     spendning,
     target,
-    category,
+    categories,
+    fixed,
   });

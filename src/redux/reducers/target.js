@@ -1,16 +1,16 @@
-import { SAVE_TARGET, FETCH_TARGET_SUCCESS } from "../actions/target";
+import { SAVE_TARGET, FETCH_SUCCESS } from '../actions/target';
 
 const INITIAL_STATE = {
-  monthlyBudget: 10,
-  amountTarget: 10000,
+  monthlyBudget: 0,
+  targetAverage: 0,
 };
 
 export default function reducer(state = INITIAL_STATE, action) {
   switch (action.type) {
-    case FETCH_TARGET_SUCCESS:
+    case FETCH_SUCCESS:
       return {
         ...state,
-        ...action.data
+        ...action,
       };
     case SAVE_TARGET:
       return { ...state, amount: action.amount };

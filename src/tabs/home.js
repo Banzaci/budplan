@@ -1,58 +1,81 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { ScrollView } from 'react-native';
+
 import styled from 'styled-components';
 import Information from '../modules/Information';
 import LineChart from '../modules/LineChart';
-import Toggle from '../modules/Toggle';
-import { getThisMonthAmount } from '../redux/actions/spendning';
+import PieChart from '../modules/PieChart';
+import Expenses from '../modules/Expenses';
+import { saveAmount, getThisMonthAmount } from '../redux/actions/spendning';
 
 class Home extends Component {
 
   state = {
     total: 0,
     average: 0,
-    week: [],
-    weekNumber: '0'
+    expenses: [],
+    weekDays: [],
+    weekNumber: '0',
+    currentDayAmount: '0',
+    spendingByCategories: {},
+    currentDay: {},
   }
 
   async componentDidMount() {
-    const props = await this.props.dispatch(getThisMonthAmount());
-    this.setState({
-      ...props
-    });
+    const { data } = await this.props.dispatch(getThisMonthAmount());
+    this.setState({ ...data });
   }
 
+  onAmountChange = ({ typeOfCost, amount, id, day }) => {
+    const { currentYear, currentMonth } = this.state;
+    this.props
+      .save({ currentYear, currentMonth, typeOfCost, amount, id, day })
+      .then(({ month }) => this.setState({...month}));
+  };
+
+
   render() {
-    const { total, average, week, weekNumber } = this.state;
+    const { spendingByCategories, total, average, weekDays, weekNumber, currentDay, currentDayDate, currentDayAmount } = this.state;
     return (
-      <Container>
-        <Toggle />
-        <LineChart data={ week } weekNumber={ weekNumber }/>
-        <Information
-          list={[
-            {
-              header:"Genomsnitt per day",
-              text: average,
-            },
-            {
-              header:"Målättning per day",
-              text: this.props.targetAverage,
-            }
-          ]}
-        />
-        <Information
-          list={[
-            {
-              header:"Spenderat hittills",
-              text: total,
-            },
-            {
-              header:"Om samma takt som nu",
-              text: this.props.totalByAverage
-            }
-          ]}
-        />
-      </Container>
+      <ScrollView>
+        <Container>
+          <Expenses
+            typeOfCost="variable"
+            amountSpent={ currentDay.amountSpent }
+            keyNames={ currentDay.variables }
+            date={ currentDayDate }
+            expenses={ this.props.expenses }
+            onAmountChange={ this.onAmountChange }
+          />
+          <LineChart data={ weekDays } weekNumber={ weekNumber }/>
+          <Information
+            list={[
+              {
+                header:"Genomsnitt per day",
+                text: average,
+              },
+              {
+                header:"Målättning per day",
+                text: this.props.targetAverage,
+              }
+            ]}
+          />
+          <Information
+            list={[
+              {
+                header:"Spenderat hittills",
+                text: total,
+              },
+              {
+                header:"Om samma takt som nu",
+                text: this.state.totalByAverage
+              }
+            ]}
+          />
+          <PieChart data={ spendingByCategories } expenses={ this.props.expenses } />
+        </Container>
+      </ScrollView>
     );
   }
 }
@@ -64,11 +87,20 @@ const Container = styled.SafeAreaView`
 `;
 
 const mapStateToProps = ({ reducers }) => {
-  const { spendning, target } = reducers;
+  const { target, categories } = reducers;
   return {
-    totalByAverage: spendning.totalByAverage,
-    targetAverage: target.average,
+    targetAverage: target.targetAverage,
+    expenses: categories.categories.variable,
   }
 }
 
-export default connect(mapStateToProps)(Home)
+const mapDispatchToProps = dispatch => {
+  return {
+    dispatch,
+    save: data => {
+      return dispatch(saveAmount(data))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
