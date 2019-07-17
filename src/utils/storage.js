@@ -128,7 +128,8 @@ export const saveCategory = async ({ value, id }) => {
     const query = objectBuilder(namespace);
     const data = await getByKey(key);
     const newData = mergeDeep(data, query);
-    await saveByKey(key, newData);
+    // Function to save value as key.
+    // await saveByKey(key, newData);
 
     return getByKey(key);
   } catch (error) {
