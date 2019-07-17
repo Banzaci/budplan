@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Text } from './label-style';
+import styled from 'styled-components';
 
 export default function Label({ text, style={} }) {
   return (
@@ -12,3 +12,12 @@ export default function Label({ text, style={} }) {
     </Container>
   )
 }
+
+const Container = styled.View`
+  flex: 1;
+`;
+
+const Text = styled.Text`
+  font-size: 18px;
+  padding: 6px 12px;
+`;

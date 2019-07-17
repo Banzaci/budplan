@@ -1,25 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
+import styled from 'styled-components';
 import Button from './Button';
 import Input from './Input';
-import { Container, TextView, ButtonView } from './category-style';
 
-export default function Category({ id, name, onClick, border }) {
-
-  const [amount, setAmount] = useState({});
-
-  const onPress = () => onClick(amount);
-
+export default function Label(props) {
+  const { backgroundColor, keyboardType, shadow, placeholder, id, onChange, onPress, style={} } = props;
   return (
     <Container>
       <TextView>
         <Input
-          keyboardType='numeric'
-          border={ border }
-          placeholder={ name }
-          label={ name }
+          keyboardType={ keyboardType }
+          shadow={ shadow }
+          placeholder={ placeholder }
           id={ id }
-          value=''
-          onChange={ setAmount }
+          onChange={ onChange }
         />
       </TextView>
       <ButtonView>
@@ -41,7 +35,7 @@ export default function Category({ id, name, onClick, border }) {
               paddingBottom: 12,
               paddingLeft: 12,
               paddingRight: 12,
-              backgroundColor: '#eee',
+              backgroundColor,
             }
           }
           title="+"
@@ -49,5 +43,20 @@ export default function Category({ id, name, onClick, border }) {
         />
       </ButtonView>
     </Container>
-  );
+  )
 }
+
+const Container = styled.View`
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+`;
+
+const TextView = styled.View`
+  flex: 2;
+`;
+
+const ButtonView = styled.View`
+  flex: 1;
+`;

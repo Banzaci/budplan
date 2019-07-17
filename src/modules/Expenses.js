@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import Category from '../components/Category';
+import InputButton from '../components/Input-button';
 import Button from '../components/Button';
-import { Container } from './expenses-style';
 import { boxShadow } from '../style/common';
+import styled from 'styled-components';
+
 export default class Expenses extends Component {
 
   state = {
@@ -20,18 +21,20 @@ export default class Expenses extends Component {
   renderList = (expense, index) =>  {
     const [ id, name ] = expense;
     const { keyNames, border } = this.props;
-    const keyName = this.getKeyName(keyNames[id], name)
-    return (<Category
-      border={ border }
-      onClick={ this.onAmountChange }
+    const keyName = this.getKeyName(keyNames[id], name);
+
+    return (<InputButton
       key={ index }
+      onPress={ this.onChange }
+      placeholder={ keyName }
+      keyboardType="numeric"
       id={ id }
-      name={ keyName }
-      />
-    )
+      backgroundColor="#eee"
+      shadow
+    />)
   }
 
-  onAmountChange = ({ amount, id }) => {
+  onChange = ({ amount, id }) => {
     const { typeOfCost, date } = this.props;
     this.props.onAmountChange({ typeOfCost, amount, id, day: date })
   };
@@ -77,3 +80,7 @@ export default class Expenses extends Component {
     );
   }
 }
+
+const Container = styled.View`
+  margin-bottom: 6px;
+`;

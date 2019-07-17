@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { boxShadow, clearBoxShadow } from '../style/common';
 
-export default function Input({ placeholder, onChange, value, id, keyboardType, error, border }) {
+export default function Input({ placeholder, onChange, value, id, keyboardType, error, shadow }) {
   
   const [focus, setFocus] = useState(false);
   const [firstRender, setFirstRender] = useState(false);
@@ -16,9 +16,9 @@ export default function Input({ placeholder, onChange, value, id, keyboardType, 
     setFocus(false)
   }
   
-  const onChangeHandler = amount => {
-    onChange({ amount, id })
-    setText(amount);
+  const onChangeHandler = str => {
+    onChange({ value: str, id })
+    setText(str);
   }
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function Input({ placeholder, onChange, value, id, keyboardType, 
 
   return (
     <Container
-      {...(border && { style: { ...boxShadow } } )}
+      {...(shadow && { style: { ...boxShadow } } )}
       {...(focus && { style: { ...clearBoxShadow } } )}
     >
       <TextInput
@@ -47,7 +47,7 @@ export default function Input({ placeholder, onChange, value, id, keyboardType, 
   );
 }
 
-export const Container = styled.View`
+const Container = styled.View`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -57,13 +57,13 @@ export const Container = styled.View`
   padding: 6px 12px;
 `;
 
-export const TextInput = styled.TextInput`
+const TextInput = styled.TextInput`
   padding: 6px 12px;
   flex: 1;
   font-size: 16px;
 `;
 
-export const Text = styled.Text`
+const Text = styled.Text`
   width: 100%;
   color: black;
 `;

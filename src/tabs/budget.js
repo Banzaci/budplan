@@ -32,9 +32,10 @@ class Budget extends Component {
       });
   }
 
-  onChange = (amount) => {
+  onChange = ({ value, id }) => {
     this.setState({
-      ...amount
+      amount: value,
+      id
     });
   }
 

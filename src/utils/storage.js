@@ -121,14 +121,13 @@ export const getTarget = async ({ currentYearDate, currentMonthDate }) => {
 // Target ---------------- 
 //---------------- Category
 
-export const saveCategory = async ({ name, type }) => {
+export const saveCategory = async ({ value, id }) => {
   try {
     const key = 'category';    
-    const namespace = `${type}:${name}`;
+    const namespace = `${key}.${id}:${value}`;
     const query = objectBuilder(namespace);
     const data = await getByKey(key);
     const newData = mergeDeep(data, query);
-
     await saveByKey(key, newData);
 
     return getByKey(key);

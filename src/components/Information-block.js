@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Header, Paragraph } from './information-block-style'
+import styled from 'styled-components';
 
 export default function InformationBlock({ header, text, index }) {
   return (
@@ -15,3 +15,22 @@ export default function InformationBlock({ header, text, index }) {
     </Container>
   )
 }
+
+const Container = styled.View`
+  flex-direction: column;
+`;
+
+const Header = styled.Text`
+  text-align: left;
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 6px;
+  padding: 0;
+`;
+
+const Paragraph = styled.Text`
+  text-align: left;
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+`;
