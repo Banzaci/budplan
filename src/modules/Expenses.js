@@ -21,7 +21,7 @@ export default class Expenses extends Component {
   renderList = (expense, index) =>  {
     const [ id, name ] = expense;
     const { keyNames, border } = this.props;
-    const keyName = this.getKeyName(keyNames[id], name);
+    const keyName = this.getKeyName(keyNames[id], name);// ERROR
 
     return (<InputButton
       key={ index }
