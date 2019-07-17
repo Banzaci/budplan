@@ -30,11 +30,6 @@ class Home extends Component {
       })
   };
 
-  printAmount = ({ amountSpent }) => {
-    if (!amountSpent) return 0;
-    return amountSpent;
-  };
-
   renderMonthlySpending = () => {
     const { days } = this.state;
     const sortedDays = Object.keys(days).sort();
@@ -46,7 +41,7 @@ class Home extends Component {
         <Expenses
           style={ { marginBottom: 1, marginLeft: 12, marginRight: 12 } }
           typeOfCost="variable"
-          amountSpent={ output }
+          amountSpent={ output }// Title name?
           keyNames={ variables }
           date={ date }
           expenses={ this.props.expenses.variable }

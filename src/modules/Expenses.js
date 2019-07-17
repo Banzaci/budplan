@@ -10,19 +10,17 @@ export default class Expenses extends Component {
   };
 
   onToggle = () => {
-    const { isOpen } = this.state;
     this.setState({
-      isOpen: !isOpen
+      isOpen: !this.state.isOpen
     });
   };
 
-  getLegazy = (day, id, name) => (day && day.variables && day.variables[id]) ? `${name} / ${day.variables[id]}kr` : name;
-  getKeyName = (keyNames, id, name) => (keyNames[id]) ? `${name} / ${keyNames[id]}kr` : name;
+  getKeyName = (keyName, name) => (keyName) ? `${name} / ${keyName}kr` : name;
 
   renderList = (expense, index) =>  {
     const [ id, name ] = expense;
-    const { keyNames, day, border } = this.props;
-    const tempName = keyNames ? this.getKeyName(keyNames, id, name) : this.getLegazy(day, id, name);
+    const { keyNames, border } = this.props;
+    const tempName = this.getKeyName(keyNames[id], name)
     return (<Category
       border={ border }
       onClick={ this.onAmountChange }
