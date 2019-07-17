@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import Input from '../components/Input';
-import Button from '../components/Button';
 import Label from '../components/Label';
+import Button from '../components/Button';
 import { saveCategoryData } from '../redux/actions/categories';
 
 class Category extends Component {
@@ -32,30 +31,20 @@ class Category extends Component {
   onDeleteCategory = () => {}
   onAddategory = () => {}
 
-  renderCategories = ({ categories }) => {
-    return(
-      <Label
-        label="Name"
-      ></Label>
-    )
+  renderList = ([_, value]) => {
+    return (<Label
+        text={ value }
+      />
+    );
   }
 
   render() {
+    const fixed = Object.entries(this.props.fixed).map(this.renderList);
+    const variables = Object.entries(this.props.fixed).map(this.renderList);
     return (
       <Container>
-        <Input
-          border
-          id="category"
-          value=""
-          placeholder="Lägg till ny utgift"
-          onChange={ this.onChange }
-        />
-        <Button
-          text="Lägg till"
-          onPress={ this.onPress }
-        />
-        { this.renderCategories(this.props.variables) }
-        { this.renderCategories(this.props.fixed) }
+        { this.props.fixed && fixed }
+        { this.props.variables && variables }
       </Container>
     );
   }

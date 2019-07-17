@@ -20,13 +20,13 @@ export default class Expenses extends Component {
   renderList = (expense, index) =>  {
     const [ id, name ] = expense;
     const { keyNames, border } = this.props;
-    const tempName = this.getKeyName(keyNames[id], name)
+    const keyName = this.getKeyName(keyNames[id], name)
     return (<Category
       border={ border }
       onClick={ this.onAmountChange }
       key={ index }
       id={ id }
-      name={ tempName }
+      name={ keyName }
       />
     )
   }
