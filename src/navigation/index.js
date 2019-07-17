@@ -31,8 +31,8 @@ export default function Navigation() {
     routes: [
       // { key: 'categories', title: 'Kategorier' },
       { key: 'month', title: 'Month' },
-      { key: 'budget', title: 'Budget' },
       { key: 'home', title: 'Home' },
+      { key: 'budget', title: 'Budget' },
     ],
   });
   return (

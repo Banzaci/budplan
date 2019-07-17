@@ -15,10 +15,10 @@ class Budget extends Component {
 
   async componentDidMount(){
     const { monthlyBudget } = await this.props.dispatch(getTargetData());
-    const props = await this.props.dispatch(getFixedData());
+    const { data } = await this.props.dispatch(getFixedData());
     this.setState({
       monthlyBudget,
-      monthlyFixed: props
+      monthlyFixed: data
     });
   }
 
@@ -92,6 +92,8 @@ class Budget extends Component {
         <Expenses
           title="Fasta kostnader"
           typeOfCost="fixed"
+          keyNames={ this.state.monthlyFixed }
+          amountSpent={ 0 }
           expenses={ fixed }
           onAmountChange={ this.onFixedPress }
         />

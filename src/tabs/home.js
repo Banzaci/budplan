@@ -18,12 +18,13 @@ class Home extends Component {
     weekDays: [],
     weekNumber: '0',
     currentDayAmount: '0',
-    spendingByCategories: {}
+    spendingByCategories: {},
+    currentDay: {},
   }
 
   async componentDidMount() {
-    const { month } = await this.props.dispatch(getThisMonthAmount());
-    this.setState({ ...month });
+    const { data } = await this.props.dispatch(getThisMonthAmount());
+    this.setState({ ...data });
   }
 
   onAmountChange = ({ typeOfCost, amount, id, day }) => {
@@ -41,11 +42,11 @@ class Home extends Component {
         <Container>
           <Expenses
             typeOfCost="variable"
-            day={ currentDay }
+            amountSpent={ currentDay.amountSpent }
+            keyNames={ currentDay.variables }
             date={ currentDayDate }
             expenses={ this.props.expenses }
             onAmountChange={ this.onAmountChange }
-            value={ currentDayAmount }
           />
           <LineChart data={ weekDays } weekNumber={ weekNumber }/>
           <Information

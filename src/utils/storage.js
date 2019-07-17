@@ -187,7 +187,6 @@ export const getFixed = async ({ currentYearDate, currentMonthDate }) => {
     const fixed = getByIndex(key, data);
     const year = getByIndex(currentYearDate, fixed);
     const month = getByIndex(currentMonthDate, year);
-    console.log('get month', month)
     return month;
   } catch (error) {
     console.error(error)

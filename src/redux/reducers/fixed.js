@@ -9,9 +9,11 @@ export default function reducer(state = INITIAL_STATE, action) {
     case FETCH_SUCCESS:
       return {
         ...state,
-        ...action,
+        ...action.data,
       };
     case SAVE_FIXED:
+      console.log('Fixed reducer, ever here?');
+      
       return { ...state, amount: action.amount };
     default:
       return state;

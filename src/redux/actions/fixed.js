@@ -15,7 +15,9 @@ function fetchFixedError(error) {
 
 const fetchFixedSuccess = fixed => {
   return {
-    ...fixed,
+    data: {
+      ...fixed,
+    },
     type: FETCH_SUCCESS
   };
 };

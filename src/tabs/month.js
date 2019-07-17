@@ -13,10 +13,9 @@ class Home extends Component {
   }
 
   async componentDidMount(){
-    const { month } = await this.props.dispatch(getThisMonthAmount());
-    const { days } = month;
+    const { data } = await this.props.dispatch(getThisMonthAmount());
     this.setState({
-      ...month,
+      ...data,
     })
   }
  
@@ -40,26 +39,26 @@ class Home extends Component {
     const { days } = this.state;
     const sortedDays = Object.keys(days).sort();
     return sortedDays.map((date, index) => {
-      const value = this.printAmount(days[date]);
-      const title = `${value} / ${date}`;
+      const currentDay = days[date];
+      const { amountSpent, variables } = currentDay;
+      const output = `${date} / ${amountSpent}kr`;
       return (<View key={ index }>
         <Expenses
           style={ { marginBottom: 1, marginLeft: 12, marginRight: 12 } }
           typeOfCost="variable"
-          day={ days[date] }
+          amountSpent={ output }
+          keyNames={ variables }
           date={ date }
-          title={ title }
           expenses={ this.props.expenses.variable }
           onAmountChange={ this.onAmountChange }
-          value={ value }
         />
       </View> )});
   }
   render() {
     return (
       <Container>
+        <Header>Dagliga månadskostnader</Header>
         <ScrollView>
-          <Header>Dagliga månadskostnader</Header>
           { this.renderMonthlySpending() }
         </ScrollView>
       </Container>

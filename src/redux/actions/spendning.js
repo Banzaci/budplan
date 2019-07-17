@@ -77,7 +77,7 @@ const fetchMonthSuccess = (monthData) => {
   }, []));
   
   return {
-    month: generateProps(monthData),
+    data: generateProps(monthData),
     type: FETCH_SUCCESS
   };
 };
