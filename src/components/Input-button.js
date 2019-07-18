@@ -18,13 +18,13 @@ export default function Label(props) {
       </TextView>
       <ButtonView>
         <Button
-          container={
+          containerStyle={
             {
               marginLeft: 6,
               marginRight: 6,
             }
           }
-          text={
+          textStyle={
             {
               textAlign: 'center',
             }

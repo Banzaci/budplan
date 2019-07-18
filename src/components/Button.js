@@ -1,18 +1,17 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
 
-export default function Button({ title, onPress, style, container={}, text={} }) {
+export default function Button({ title, onPress, style, disabled = false, containerStyle = {}, textStyle = {} }) {
   return (
     <Container
-      style={ container }
+      style={ containerStyle }
     >
       <ActionButton
-         onPress={ onPress }
-         style={ style }
+        onPress={ onPress }
+        style={ { ...style, ...(disabled && { opacity: .6 } ) } }
        >
          <Text
-          style={ text }
+          style={ textStyle }
          >
            { title }
          </Text>

@@ -64,14 +64,14 @@ class Budget extends Component {
           </TextView>
           <ButtonView>
             <Button
-              container={
+              containerStyle={
                 {
                   marginBottom: 6,
                   marginLeft: 6,
                   marginRight: 6,
                 }
               }
-              text={
+              textStyle={
                 {
                   textAlign: 'center',
                 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { allLetters } from '../utils/check-if-valid';
 import Label from '../components/Label';
 import Button from '../components/Button';
 import InputButton from '../components/Input-button';
@@ -10,12 +11,13 @@ class Category extends Component {
 
   state = {
     fetching: false,
+    error: false,
     value: '',
     id: 0,
   }
   onPress = e => {
-    const { value, id, exist } = this.state;
-    if (exist) return;
+    const { value, id, exist, error } = this.state;
+    if (exist || error) return;
 
     this.setState({
       fetching: true
@@ -29,16 +31,28 @@ class Category extends Component {
   }
 
   onChange = ({ value, id }) => {
-    const temp = this.props[id];
-    if (temp) {
-      const exist = Object.entries(temp).some(([_, name]) => value.toLowerCase() === name.toLowerCase());
+    const validValue = allLetters(value);
+    if (!validValue) {
       this.setState({
-        exist,
-        value,
-        id
+        error: 'unvalidstring'
       })
+    } else {
+      const temp = this.props[id];
+      this.setState({
+        error: false
+      });
+      if (temp) {
+        const exist = Object.entries(temp).some(([_, name]) => validValue.toLowerCase() === name.toLowerCase());
+        this.setState({
+          error: exist ? 'stringexist' : false,
+          value: validValue,
+          id
+        })
+      }
     }
   }
+
+  isActive = () => !this.state.fetching && !this.state.error && this.state.value.length > 0
 
   renderList = ([_, value], index) => {
     return (
@@ -55,14 +69,15 @@ class Category extends Component {
           text={ value }
         />
         <Button
-          container={
+          disabled={ this.isActive() }
+          containerStyle={
             {
               marginBottom: 6,
               marginLeft: 6,
               marginRight: 6,
             }
           }
-          text={
+          textStyle={
             {
               textAlign: 'center',
             }

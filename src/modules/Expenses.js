@@ -47,14 +47,14 @@ export default class Expenses extends Component {
     return (
       <Container>
         <Button
-          container={
+          containerStyle={
             {
               marginBottom: 6,
               marginLeft: 6,
               marginRight: 6,
             }
           }
-          text={
+          textStyle={
             {
               textAlign: 'left',
               marginLeft: 20,
