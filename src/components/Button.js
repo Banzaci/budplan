@@ -8,7 +8,7 @@ export default function Button({ title, onPress, style, disabled = false, contai
     >
       <ActionButton
         onPress={ onPress }
-        style={ { ...style, ...(disabled && { opacity: .6 } ) } }
+        style={ { ...style, ...(disabled && { opacity: .2, background: 'red' } ) } }
        >
          <Text
           style={ textStyle }
