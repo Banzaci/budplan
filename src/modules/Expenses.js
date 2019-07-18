@@ -16,12 +16,12 @@ export default class Expenses extends Component {
     });
   };
 
-  getKeyName = (keyName, name) => (keyName) ? `${name} / ${keyName}kr` : name;
+  getKeyName = (keyNames, id, name) => keyNames && keyNames[id] ? `${name} / ${keyNames[id]}kr` : name;
 
   renderList = (expense, index) =>  {
     const [ id, name ] = expense;
-    const { keyNames, border } = this.props;
-    const keyName = this.getKeyName(keyNames[id], name);// ERROR
+    const { keyNames } = this.props;
+    const keyName = this.getKeyName(keyNames, id, name);
 
     return (<InputButton
       key={ index }
