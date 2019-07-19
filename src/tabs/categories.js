@@ -42,7 +42,9 @@ class Category extends Component {
         error: false
       });
       if (temp) {
-        const exist = Object.entries(temp).some(([_, name]) => validValue.toLowerCase() === name.toLowerCase());
+        console.log(value)
+        const exist = Object.entries(temp).some(([_, name]) => value.toLowerCase() === name.toLowerCase());
+        console.log(exist)
         this.setState({
           error: exist ? 'stringexist' : false,
           value: validValue,
@@ -52,24 +54,23 @@ class Category extends Component {
     }
   }
 
-  isActive = () => !this.state.fetching && !this.state.error && this.state.value.length > 0
+  isDisabled = () => this.state.fetching || this.state.error || this.state.value.length < 1
 
   renderList = ([_, value], index) => {
     return (
-      <Wrapper
+      <Row
         key={ index }
       >
         <Label
           style={
             {
               textAlign: 'left',
-              fontSize: 16,
+              fontSize: 14,
             }
           }
           text={ value }
         />
         <Button
-          disabled={ this.isActive() }
           containerStyle={
             {
               marginBottom: 6,
@@ -88,31 +89,45 @@ class Category extends Component {
               paddingBottom: 6,
               paddingLeft: 12,
               paddingRight: 12,
-              backgroundColor: 'red',
             }
           }
           title="-"
           onPress={ this.onDelete }
         />
-      </Wrapper>
+      </Row>
     );
   }
 
   render() {
     const fixed = Object.entries(this.props.fixed).map(this.renderList);
-    // const variables = Object.entries(this.props.variables).map(this.renderList);
+    const variable = Object.entries(this.props.variable).map(this.renderList);
     return (
       <Container>
         <Header>Kostnader</Header>
+        <SubHeader>Fasta kostnader</SubHeader>
         { this.props.fixed && fixed }
-        {/* { this.props.variables && variables } */}
         <InputButton
+          style={ { marginTop: 20 }}
           onChange={ this.onChange }
           onPress={ this.onPress }
           placeholder="Lägg till kostnadstyp"
           keyboardType="numeric"
           id="fixed"
           backgroundColor="#eee"
+          disabled={ this.isDisabled() }
+          shadow
+        />
+        <SubHeader>Rörliga kostnader</SubHeader>
+        { this.props.variable && variable }
+        <InputButton
+          style={ { marginTop: 20 }}
+          onChange={ this.onChange }
+          onPress={ this.onPress }
+          placeholder="Lägg till kostnadstyp"
+          keyboardType="numeric"
+          id="variable"
+          backgroundColor="#eee"
+          disabled={ this.isDisabled() }
           shadow
         />
       </Container>
@@ -123,11 +138,11 @@ class Category extends Component {
 const Container = styled.SafeAreaView`
   padding-top: 20px;
   display: flex;
-  margin: 12px 0;
+  margin: 12px;
   flex-direction: column;
 `;
 
-const Wrapper = styled.View`
+const Row = styled.View`
   flex-direction: row;
   justify-content: center;
 `;
@@ -139,11 +154,18 @@ const Header = styled.Text`
   text-align: center;
 `;
 
+const SubHeader = styled.Text`
+  font-size: 14px;
+  font-weight: bold;
+  padding: 20px 0 10px;
+  text-align: left;
+`;
+
 const mapStateToProps = ({ reducers }) => {
   const { categories } = reducers;
   return {
     fixed: categories.categories.fixed,
-    variables: categories.categories.variables,
+    variable: categories.categories.variable,
   }
 }
 

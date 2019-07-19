@@ -4,9 +4,11 @@ import Button from './Button';
 import Input from './Input';
 
 export default function Label(props) {
-  const { backgroundColor, keyboardType, shadow, placeholder, id, onChange, onPress, style={} } = props;
+  const { btnId, disabled, backgroundColor, keyboardType, shadow, placeholder, id, onChange, onPress, style={} } = props;
   return (
-    <Container>
+    <Container
+      style={ style }
+    >
       <TextView>
         <Input
           keyboardType={ keyboardType }
@@ -18,10 +20,10 @@ export default function Label(props) {
       </TextView>
       <ButtonView>
         <Button
+          disabled={ disabled }
           containerStyle={
             {
-              marginLeft: 6,
-              marginRight: 6,
+              marginLeft: 12,
             }
           }
           textStyle={

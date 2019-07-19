@@ -18,6 +18,6 @@ const Container = styled.View`
 `;
 
 const Text = styled.Text`
-  font-size: 18px;
-  padding: 6px 12px;
+  font-size: 16px;
+  padding: 6px 0;
 `;

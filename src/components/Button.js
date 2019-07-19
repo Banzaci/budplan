@@ -2,13 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 
 export default function Button({ title, onPress, style, disabled = false, containerStyle = {}, textStyle = {} }) {
+  const containerStyleWithOpacity = { ...containerStyle, ...(disabled && { opacity: .5 } ) };
+
   return (
     <Container
-      style={ containerStyle }
+      style={ containerStyleWithOpacity }
     >
       <ActionButton
         onPress={ onPress }
-        style={ { ...style, ...(disabled && { opacity: .2, background: 'red' } ) } }
+        style={ style }
        >
          <Text
           style={ textStyle }
@@ -32,10 +34,8 @@ const Text = styled.Text`
 `;
 const ActionButton = styled.TouchableOpacity`
   width: 100%;
-  background: #eee;
   align-items: center;
   justify-content: center;
-  padding: 12px 12px;
   border-radius: 12px;
 `;
 //https://facebook.github.io/react-native/docs/button.html
