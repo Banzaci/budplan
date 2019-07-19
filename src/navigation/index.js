@@ -52,7 +52,7 @@ export default function Navigation() {
               return (
                 <View>
                   <Animated.View pointerEvents="none" style={[styles.indicatorContainer]}>
-                    <Text>Hey</Text>
+                    <Text></Text>
                   </Animated.View>
                 </View>
               );

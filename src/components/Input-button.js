@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Button from './Button';
 import Input from './Input';
 
 export default function Label(props) {
-  const { btnId, disabled, backgroundColor, keyboardType, shadow, placeholder, id, onChange, onPress, style={} } = props;
+  const { disabled, backgroundColor, keyboardType, shadow, placeholder, id, onPress, style={} } = props;
+  
+  const [text, setText] = useState('');
+  
+  const onClick = e => {
+    onPress(text)
+  }
   return (
     <Container
       style={ style }
@@ -15,7 +21,7 @@ export default function Label(props) {
           shadow={ shadow }
           placeholder={ placeholder }
           id={ id }
-          onChange={ onChange }
+          onChange={ setText }
         />
       </TextView>
       <ButtonView>
@@ -41,7 +47,7 @@ export default function Label(props) {
             }
           }
           title="+"
-          onPress={ onPress }
+          onPress={ onClick }
         />
       </ButtonView>
     </Container>

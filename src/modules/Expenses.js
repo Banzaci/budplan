@@ -25,7 +25,7 @@ export default class Expenses extends Component {
 
     return (<InputButton
       key={ index }
-      onPress={ this.onChange }
+      onPress={ this.onPress }
       placeholder={ keyName }
       keyboardType="numeric"
       id={ id }
@@ -34,9 +34,9 @@ export default class Expenses extends Component {
     />)
   }
 
-  onChange = ({ amount, id }) => {
+  onPress = ({ value, id }) => {
     const { typeOfCost, date } = this.props;
-    this.props.onAmountChange({ typeOfCost, amount, id, day: date })
+    this.props.onAmountChange({ typeOfCost, amount: value, id, day: date })
   };
 
   render() {

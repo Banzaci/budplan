@@ -43,11 +43,9 @@ export const saveSpending = async ({ currentYearDate, currentMonthDate, typeOfCo
     const keyData = await getByKey(key);
     const year = getByIndex(key, keyData);
     const newData = mergeDeep(year, query);
-    await saveByKey(currentYearDate, newData);
-    return {
-      success: true,
-      month: newData[currentYearDate][currentMonthDate]
-    };
+    console.log(newData)
+    await saveByKey(key, newData);
+    return await getSpending({ currentYearDate, currentMonthDate })
   } catch (error) {
     console.error(error)
     return {
@@ -59,12 +57,12 @@ export const saveSpending = async ({ currentYearDate, currentMonthDate, typeOfCo
 
 export const getSpending = async ({ currentYearDate, currentMonthDate }) => {
   try {
-    const key = 'spendings';
-    // removeItemValue(key)
+    const key = 'spending';
     const keyData = await getByKey(key);
     const year = getByIndex(key, keyData);
     const months = getByIndex(currentYearDate, year);
     const month = getByIndex(currentMonthDate, months);
+    console.log(month)
     return {
       success: true,
       month
