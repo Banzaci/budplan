@@ -60,7 +60,7 @@ export const saveSpending = async ({ currentYearDate, currentMonthDate, typeOfCo
 export const getSpending = async ({ currentYearDate, currentMonthDate }) => {
   try {
     const key = 'spendings';
-    removeItemValue(key)
+    // removeItemValue(key)
     const keyData = await getByKey(key);
     const year = getByIndex(key, keyData);
     const months = getByIndex(currentYearDate, year);
