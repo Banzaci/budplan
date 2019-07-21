@@ -13,8 +13,7 @@ export default function reducer(state = INITIAL_STATE, action) {
     case FETCH_SUCCESS:
       return {
         ...state,
-        ...action,
-        apa : 1
+        ...action.data,
       };
     case SAVE_CATEGORY:
       return { ...state, category: action.category };

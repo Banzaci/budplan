@@ -41,9 +41,7 @@ export const saveSpending = async ({ currentYearDate, currentMonthDate, typeOfCo
     const namespace = `${key}.${currentYearDate}.${currentMonthDate}.${day}.${typeOfCost}.${id}:${amount}`;
     const query = objectBuilder(namespace);
     const keyData = await getByKey(key);
-    const year = getByIndex(key, keyData);
-    const newData = mergeDeep(year, query);
-    console.log(newData)
+    const newData = mergeDeep(keyData, query);
     await saveByKey(key, newData);
     return await getSpending({ currentYearDate, currentMonthDate })
   } catch (error) {
@@ -62,7 +60,6 @@ export const getSpending = async ({ currentYearDate, currentMonthDate }) => {
     const year = getByIndex(key, keyData);
     const months = getByIndex(currentYearDate, year);
     const month = getByIndex(currentMonthDate, months);
-    console.log(month)
     return {
       success: true,
       month
@@ -126,14 +123,11 @@ export const saveCategory = async ({ value, id }) => {
     const key = 'category';
     const idKey = generateKey(value);
     const namespace = `${key}.${id}.${idKey}:${value}`;
-    console.log(idKey)
     const query = objectBuilder(namespace);
     const data = await getByKey(key);
     const newData = mergeDeep(data, query);
-    // Function to save value as key.
-    // await saveByKey(key, newData);
-    console.log(newData)
-    return getByKey(key);
+    await saveByKey(key, newData);
+    return await getCategories(key);
   } catch (error) {
     console.error(error)
     return {
@@ -147,7 +141,7 @@ export const getCategories = async type => {
   try {
     const key = 'category';
     const data = await getByKey(key);
-    const categories = getByIndex(type, data);
+    const categories = getByIndex(key, data);
     return categories;
   } catch (error) {
     console.error(error)
@@ -158,48 +152,6 @@ export const getCategories = async type => {
   }
 }
 // Category ----------------
-
-//---------------- Fixed
-
-export const saveFixed = async ({ amount, id, currentYearDate, currentMonthDate }) => {
-  try {
-    const key = 'fixed';
-    const namespace = `${key}.${currentYearDate}.${currentMonthDate}.${id}:${amount}`;
-    const query = objectBuilder(namespace);
-    const data = await getByKey(key);
-    const newData = mergeDeep(data, query);
-    await saveByKey(key, newData);
-    const fixed = getByIndex(key, newData);
-    const year = getByIndex(currentYearDate, fixed);
-    const month = getByIndex(currentMonthDate, year);
-    return month;
-  } catch (error) {
-    console.error(error)
-    return {
-      fixed: [],
-      error
-    }
-  }
-}
-
-export const getFixed = async ({ currentYearDate, currentMonthDate }) => {
-  try {
-    const key = 'fixed';
-    const data = await getByKey(key);
-    const fixed = getByIndex(key, data);
-    const year = getByIndex(currentYearDate, fixed);
-    const month = getByIndex(currentMonthDate, year);
-    return month;
-  } catch (error) {
-    console.error(error)
-    return {
-      fixed: [],
-      error
-    }
-  }
-}
-
-// Fixed ---------------- 
 
 const removeItemValue = async (key) => { //removeItemValue(key)
   try {

@@ -31,7 +31,9 @@ class Home extends Component {
     const { currentYear, currentMonth } = this.state;
     this.props
       .save({ currentYear, currentMonth, typeOfCost, amount, id, day })
-      .then(({ month }) => this.setState({...month}));
+      .then(({ data }) => {
+        this.setState({ ...data });
+      });
   };
 
 
@@ -42,7 +44,7 @@ class Home extends Component {
         <Container>
           <Expenses
             typeOfCost="variable"
-            amountSpent={ currentDay.amountSpent }
+            title={ `${currentDayDate} / ${currentDay.amountSpent}kr` }
             keyNames={ currentDay.variables }
             date={ currentDayDate }
             expenses={ this.props.expenses }

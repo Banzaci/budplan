@@ -5,7 +5,6 @@ import Input from '../components/Input';
 import Button from '../components/Button';
 import Expenses from '../modules/Expenses';
 import { saveTargetData, getTargetData } from '../redux/actions/target';
-import { saveFixedData, getFixedData } from '../redux/actions/fixed';
 
 class Budget extends Component {
 
@@ -15,10 +14,8 @@ class Budget extends Component {
 
   async componentDidMount(){
     const { monthlyBudget } = await this.props.dispatch(getTargetData());
-    const { data } = await this.props.dispatch(getFixedData());
     this.setState({
-      monthlyBudget,
-      monthlyFixed: data
+      monthlyBudget
     });
   }
 
@@ -37,13 +34,6 @@ class Budget extends Component {
       amount: value,
       id
     });
-  }
-
-  onFixedPress = ({ amount, id, typeOfCost }) => {
-    this.props.saveFixed({ amount, id, typeOfCost })
-      .then((result) => {
-        console.log('result', result)
-      });
   }
 
   render() {
@@ -90,14 +80,6 @@ class Budget extends Component {
             />
           </ButtonView>
         </Row>
-        <Expenses
-          title="Fasta kostnader"
-          typeOfCost="fixed"
-          keyNames={ this.state.monthlyFixed }
-          amountSpent={ 0 }
-          expenses={ fixed }
-          onAmountChange={ this.onFixedPress }
-        />
       </Container>
     );
   }
@@ -130,9 +112,8 @@ flex: 1;
 `;
 
 const mapStateToProps = ({ reducers }) => {
-  const { target, categories } = reducers;
+  const { target } = reducers;
   return {
-    fixed: categories.categories.fixed,
     monthlyBudget: target.monthlyBudget
   }
 }
@@ -142,9 +123,6 @@ const mapDispatchToProps = dispatch => {
     dispatch,
     save: data => {
       return dispatch(saveTargetData(data))
-    },
-    saveFixed: data => {
-      return dispatch(saveFixedData(data))
     }
   }
 }

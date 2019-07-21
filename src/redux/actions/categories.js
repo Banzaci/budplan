@@ -15,7 +15,7 @@ function fetchCategoryError(error) {
 
 const fetchCategorySuccess = categories => {
   return {
-    ...categories,
+    data: categories,
     type: FETCH_SUCCESS
   };
 };

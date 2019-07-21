@@ -41,7 +41,7 @@ export default class Expenses extends Component {
 
   render() {
     const { isOpen } = this.state;
-    const { amountSpent, style } = this.props;
+    const { title, style } = this.props;
     const icon = isOpen ? 'add' : 'delete';
     const expenses = Object.entries(this.props.expenses).map(this.renderList);
     return (
@@ -71,7 +71,7 @@ export default class Expenses extends Component {
               ...style,
             }
           }
-          title={ amountSpent }
+          title={ title }
           icon={ icon }
           onPress={ this.onToggle }
         />

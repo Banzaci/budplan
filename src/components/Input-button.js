@@ -6,10 +6,10 @@ import Input from './Input';
 export default function Label(props) {
   const { disabled, backgroundColor, keyboardType, shadow, placeholder, id, onPress, style={} } = props;
   
-  const [text, setText] = useState('');
+  const [data, setData] = useState({});
   
   const onClick = e => {
-    onPress(text)
+    onPress(data)
   }
   return (
     <Container
@@ -21,7 +21,7 @@ export default function Label(props) {
           shadow={ shadow }
           placeholder={ placeholder }
           id={ id }
-          onChange={ setText }
+          onChange={ setData }
         />
       </TextView>
       <ButtonView>

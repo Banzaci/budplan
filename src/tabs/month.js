@@ -22,10 +22,9 @@ class Home extends Component {
   onAmountChange = ({ day, amount, id, typeOfCost }) => {
     const { currentYear, currentMonth } = this.state;
     this.props.save({ currentYear, currentMonth, day, amount, id, typeOfCost })
-      .then( ({ total, average }) => {
+      .then( ({ data }) => {
         this.setState({
-          total,
-          average
+          ...data,
         })
       })
   };
@@ -41,7 +40,7 @@ class Home extends Component {
         <Expenses
           style={ { marginBottom: 1, marginLeft: 12, marginRight: 12 } }
           typeOfCost="variable"
-          amountSpent={ output }// Title name?
+          title={ output }
           keyNames={ variables }
           date={ date }
           expenses={ this.props.expenses.variable }

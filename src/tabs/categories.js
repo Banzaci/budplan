@@ -5,32 +5,26 @@ import { allLetters } from '../utils/check-if-valid';
 import Label from '../components/Label';
 import Button from '../components/Button';
 import InputButton from '../components/Input-button';
-import { saveCategoryData } from '../redux/actions/categories';
+import { saveCategoryData, getCategoryData } from '../redux/actions/categories';
 
 class Category extends Component {
 
   state = {
+    variable: {},
+    fixed: {},
     fetching: false,
     error: false,
-    value: '',
-    id: 0,
   }
-  onPress = e => {
-    const { value, id, exist, error } = this.state;
-    if (exist || error) return;
 
+  async componentDidMount(){
+    const { data } = await this.props.dispatch(getCategoryData());
     this.setState({
-      fetching: true
-    });
-    this.props.save({ value, id })
-      .then((props) => {
-        this.setState({
-          fetching: false
-        });
-      });
+      ...data,
+    })
   }
 
-  onChange = ({ value, id }) => {
+  onPress = ({ value, id }) => {
+    
     const validValue = allLetters(value);
     if (!validValue) {
       this.setState({
@@ -38,23 +32,29 @@ class Category extends Component {
       })
     } else {
       const temp = this.props[id];
-      this.setState({
-        error: false
-      });
-      if (temp) {
-        console.log(value)
-        const exist = Object.entries(temp).some(([_, name]) => value.toLowerCase() === name.toLowerCase());
-        console.log(exist)
+      const exist = temp && Object.entries(temp).some(([_, name]) => value.toLowerCase() === name.toLowerCase());
+      if (exist) {
         this.setState({
-          error: exist ? 'stringexist' : false,
-          value: validValue,
-          id
+          error: 'stringexist'
+        });
+      } else {
+        this.setState({
+          error: false,
+          fetching: true
         })
-      }
+        this.props.save({ value, id })
+          .then(({ data }) => {
+            console.log(data)
+            this.setState({
+              ...data,
+              fetching: false
+            });
+          });
+      }    
     }
   }
 
-  isDisabled = () => this.state.fetching || this.state.error || this.state.value.length < 1
+  isDisabled = () => this.state.fetching || this.state.error
 
   renderList = ([_, value], index) => {
     return (
@@ -99,32 +99,30 @@ class Category extends Component {
   }
 
   render() {
-    const fixed = Object.entries(this.props.fixed).map(this.renderList);
-    const variable = Object.entries(this.props.variable).map(this.renderList);
+    const fixed = Object.entries(this.state.fixed).map(this.renderList);
+    const variable = Object.entries(this.state.variable).map(this.renderList);
     return (
       <Container>
         <Header>Kostnader</Header>
         <SubHeader>Fasta kostnader</SubHeader>
-        { this.props.fixed && fixed }
+        { this.state.fixed && fixed }
         <InputButton
           style={ { marginTop: 20 }}
-          onChange={ this.onChange }
           onPress={ this.onPress }
           placeholder="Lägg till kostnadstyp"
-          keyboardType="numeric"
+          keyboardType="default"
           id="fixed"
           backgroundColor="#eee"
           disabled={ this.isDisabled() }
           shadow
         />
         <SubHeader>Rörliga kostnader</SubHeader>
-        { this.props.variable && variable }
+        { this.state.variable && variable }
         <InputButton
           style={ { marginTop: 20 }}
-          onChange={ this.onChange }
           onPress={ this.onPress }
           placeholder="Lägg till kostnadstyp"
-          keyboardType="numeric"
+          keyboardType="default"
           id="variable"
           backgroundColor="#eee"
           disabled={ this.isDisabled() }
@@ -162,11 +160,7 @@ const SubHeader = styled.Text`
 `;
 
 const mapStateToProps = ({ reducers }) => {
-  const { categories } = reducers;
-  return {
-    fixed: categories.categories.fixed,
-    variable: categories.categories.variable,
-  }
+  return {}
 }
 
 const mapDispatchToProps = dispatch => {
