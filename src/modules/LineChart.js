@@ -3,7 +3,7 @@ import { Dimensions } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import styled from 'styled-components';
 
-const screenWidth = Dimensions.get('window').width - 20;
+const screenWidth = Dimensions.get('window').width - 24;
 
 export default function Chart({ data, weekNumber }) {
   
@@ -45,11 +45,9 @@ export default function Chart({ data, weekNumber }) {
 
 const Container = styled.View`
   margin-bottom: 6px;
-  margin: 0 10px;
 `;
 
 const Week = styled.Text`
   font-size: 14px;
   font-weight: bold;
-  margin: 10px 0 5px;
 `;

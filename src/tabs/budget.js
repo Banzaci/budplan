@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import Expenses from '../modules/Expenses';
+import InputButton from '../components/Input-button';
+
 import { saveTargetData, getTargetData } from '../redux/actions/target';
 
 class Budget extends Component {
@@ -13,9 +15,9 @@ class Budget extends Component {
   }
 
   async componentDidMount(){
-    const { monthlyBudget } = await this.props.dispatch(getTargetData());
+    const { data } = await this.props.dispatch(getTargetData());
     this.setState({
-      monthlyBudget
+      ...data
     });
   }
 
@@ -29,57 +31,34 @@ class Budget extends Component {
       });
   }
 
-  onChange = ({ value, id }) => {
-    this.setState({
-      amount: value,
-      id
-    });
-  }
+  onAmountChange = ({ typeOfCost, amount, id }) => {
+    const { currentMonthDate, currentYearDate } = this.state;
+    this.props
+      .save({ currentYear, currentMonth, typeOfCost, amount, id, day })
+      .then(({ data }) => {
+        this.setState({ ...data });
+      });
+  };
 
   render() {
     const { fixed } = this.props;
     return (
       <Container>
         <Header>Månadsbudget</Header>
-        <Row>
-          <TextView>
-            <Input
-              keyboardType='numeric'
-              border
-              placeholder="Månadsbudget"
-              id="monthlyBudget"
-              value={ this.state.monthlyBudget }
-              onChange={ this.onChange }
-            />
-          </TextView>
-          <ButtonView>
-            <Button
-              containerStyle={
-                {
-                  marginBottom: 6,
-                  marginLeft: 6,
-                  marginRight: 6,
-                }
-              }
-              textStyle={
-                {
-                  textAlign: 'center',
-                }
-              }
-              style={
-                {
-                  paddingTop: 12,
-                  paddingBottom: 12,
-                  paddingLeft: 12,
-                  paddingRight: 12,
-                  backgroundColor: '#eee',
-                }
-              }
-              title="+"
-              onPress={ this.onPress }
-            />
-          </ButtonView>
-        </Row>
+        <InputButton
+          onPress={ this.onPress }
+          placeholder={ `${this.state.monthlyBudget}kr`}
+          keyboardType="numeric"
+          id="fixed"
+          backgroundColor="#eee"
+          shadow
+        />
+        <Expenses
+          typeOfCost="fixed"
+          title={ `Lägg till fasta kostnader` }
+          expenses={ this.props.fixed }
+          onAmountChange={ this.onAmountChange }
+        />
       </Container>
     );
   }
@@ -112,9 +91,10 @@ flex: 1;
 `;
 
 const mapStateToProps = ({ reducers }) => {
-  const { target } = reducers;
+  const { target, categories } = reducers;
   return {
-    monthlyBudget: target.monthlyBudget
+    monthlyBudget: target.monthlyBudget,
+    fixed: categories.fixed,
   }
 }
 

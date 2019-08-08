@@ -1,7 +1,7 @@
 import { AsyncStorage } from 'react-native';
 import mergeDeep from './deep-merge';
 
-const generateKey = value => value.replace(/\s/g, '')
+const generateKey = value => value.replace(/\s/g, '').toLowerCase();
 
 const objectBuilder = input => {
   const [namespace, value] = input.split(':');
@@ -69,6 +69,7 @@ export const getSpending = async ({ currentYearDate, currentMonthDate }) => {
     console.error(error)
     return {
       data: [],
+      success: false,
       error
     }
   }
@@ -140,6 +141,7 @@ export const saveCategory = async ({ value, id }) => {
 export const getCategories = async type => {
   try {
     const key = 'category';
+    // removeItemValue(key)
     const data = await getByKey(key);
     const categories = getByIndex(key, data);
     return categories;

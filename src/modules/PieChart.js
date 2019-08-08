@@ -43,7 +43,6 @@ export default function Chart({ data, expenses }) {
 }
 
 const Container = styled.View`
-  margin: 12px;
   justify-content: center;
-
+  margin: 6px 0;
 `;

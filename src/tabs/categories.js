@@ -44,7 +44,6 @@ class Category extends Component {
         })
         this.props.save({ value, id })
           .then(({ data }) => {
-            console.log(data)
             this.setState({
               ...data,
               fetching: false

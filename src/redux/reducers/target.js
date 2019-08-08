@@ -10,7 +10,7 @@ export default function reducer(state = INITIAL_STATE, action) {
     case FETCH_SUCCESS:
       return {
         ...state,
-        ...action,
+        ...action.data,
       };
     case SAVE_TARGET:
       return { ...state, amount: action.amount };

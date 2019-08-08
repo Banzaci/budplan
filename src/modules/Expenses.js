@@ -49,9 +49,7 @@ export default class Expenses extends Component {
         <Button
           containerStyle={
             {
-              marginBottom: 6,
-              marginLeft: 6,
-              marginRight: 6,
+              marginBottom: 12,
             }
           }
           textStyle={

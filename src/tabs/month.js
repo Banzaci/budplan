@@ -36,14 +36,14 @@ class Home extends Component {
       const currentDay = days[date];
       const { amountSpent, variables } = currentDay;
       const output = `${date} / ${amountSpent}kr`;
-      return (<View key={ index }>
+      return (<View key={ index } style={ { marginLeft: 12, marginRight: 12 } }>
         <Expenses
           style={ { marginBottom: 1, marginLeft: 12, marginRight: 12 } }
           typeOfCost="variable"
           title={ output }
           keyNames={ variables }
           date={ date }
-          expenses={ this.props.expenses.variable }
+          expenses={ this.props.categories.variable }
           onAmountChange={ this.onAmountChange }
         />
       </View> )});
@@ -61,9 +61,8 @@ class Home extends Component {
 }
 
 const Container = styled.SafeAreaView`
-  margin-top: 6px;
   height: 100%;
-  width: 100%;
+  padding: 12px;
 `;
 
 export const Header = styled.Text`
@@ -76,7 +75,7 @@ export const Header = styled.Text`
 const mapStateToProps = ({ reducers }) => {
   const { categories } = reducers;
   return {
-    expenses: categories.categories,
+    categories,
   }
 }
 

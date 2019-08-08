@@ -47,7 +47,7 @@ class Home extends Component {
             title={ `${currentDayDate} / ${currentDay.amountSpent}kr` }
             keyNames={ currentDay.variables }
             date={ currentDayDate }
-            expenses={ this.props.expenses }
+            expenses={ this.props.variable }
             onAmountChange={ this.onAmountChange }
           />
           <LineChart data={ weekDays } weekNumber={ weekNumber }/>
@@ -75,7 +75,7 @@ class Home extends Component {
               }
             ]}
           />
-          <PieChart data={ spendingByCategories } expenses={ this.props.expenses } />
+          <PieChart data={ spendingByCategories } expenses={ this.props.variable } />
         </Container>
       </ScrollView>
     );
@@ -83,16 +83,15 @@ class Home extends Component {
 }
 
 const Container = styled.SafeAreaView`
-  margin-top: 6px;
+  margin: 12px;
   height: 100%;
-  width: 100%;
 `;
 
 const mapStateToProps = ({ reducers }) => {
   const { target, categories } = reducers;
   return {
     targetAverage: target.targetAverage,
-    expenses: categories.categories.variable,
+    variable: categories.variable,
   }
 }
 

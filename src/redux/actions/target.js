@@ -20,8 +20,10 @@ function getTargetAverage( target ) {
 
 const fetchTargetSuccess = target => {
   return {
-    ...target,
-    ...{ targetAverage:  getTargetAverage(target) },
+    data: {
+      ...target,
+      ...{ targetAverage:  getTargetAverage(target) },
+    },
     type: FETCH_SUCCESS
   };
 };
@@ -29,10 +31,10 @@ const fetchTargetSuccess = target => {
 export function getTargetData() {
   return function (dispatch) {
     dispatch({ type: FETCH_TARGET });
-    const { currentYear, currentMonth } = getCurrentDate();
-    return getTarget({ currentYear, currentMonth })
+    const { currentYearDate, currentMonthDate } = getCurrentDate();
+    return getTarget({ currentYearDate, currentMonthDate })
       .then(
-        response => dispatch(fetchTargetSuccess(response)),
+        response => dispatch(fetchTargetSuccess({ ...response, currentYearDate, currentMonthDate })),
         err => dispatch(fetchTargetError(err))
       );
   };
@@ -41,10 +43,10 @@ export function getTargetData() {
 export function saveTargetData(target) {
   return function (dispatch) {
     dispatch({ type: SAVING_TARGET });
-    const { currentYear, currentMonth } = getCurrentDate();
-    const request = saveTarget({ ...target, currentYear, currentMonth });
+    const { currentYearDate, currentMonthDate } = getCurrentDate();
+    const request = saveTarget({ ...target, currentYearDate, currentMonthDate });
     return request.then(
-      response => dispatch(fetchTargetSuccess(response)),
+      response => dispatch(fetchTargetSuccess({ response, currentYearDate, currentMonthDate })),
       err => dispatch(fetchTargetError(err))
     );
   };

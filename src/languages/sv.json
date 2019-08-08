@@ -1,23 +1,20 @@
 {
-  "categories": {
-    "variable":
-      {
-        "food": "Mat",
-        "entertainment": "Nöje",
-        "cloths":"Kläder",
-        "technique": "Teknik",
-        "accessories": "Hudvårdsprodukter",
-        "other": "Övrigt"
-      }
-    ,
-    "fixed":
-      {
-        "rent": "Hyra",
-        "csn": "CSN",
-        "phone": "Telefon",
-        "car-insurance": "Bilförsäkring",
-        "house-insurance": "Hemförsäkring",
-        "entertainment": "Netflix/HBO/Spotify mm."
-      }
-  }
+  "variable":
+    {
+      "food": "Mat",
+      "entertainment": "Nöje",
+      "cloths":"Kläder",
+      "technique": "Teknik",
+      "accessories": "Hudvårdsprodukter",
+      "other": "Övrigt"
+    }
+  ,
+  "fixed":
+    {
+      "rent": "Hyra",
+      "phone": "Telefon",
+      "car-insurance": "Bilförsäkring",
+      "house-insurance": "Hemförsäkring",
+      "entertainment": "Netflix/HBO/Spotify mm."
+    }
 }

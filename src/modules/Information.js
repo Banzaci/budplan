@@ -27,6 +27,6 @@ const Container = styled.View`
   display: flex;
   padding: 10px;
   flex-direction: column;
-  margin: 10px 10px 0;
+  margin: 6px 0;
   background-color: white;
 `;
